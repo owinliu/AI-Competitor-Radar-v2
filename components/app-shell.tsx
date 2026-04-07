@@ -13,15 +13,6 @@ const mainNav = [
   { href: "/settings", label: "配置", icon: Settings },
 ];
 
-const secondNav = [
-  { href: "/reports", label: "全部周报" },
-  { href: "/reports?dimension=APP", label: "APP专题" },
-  { href: "/reports?dimension=风控", label: "风控专题" },
-  { href: "/reports?dimension=客服", label: "客服专题" },
-  { href: "/reports?dimension=消金", label: "消金专题" },
-  { href: "/reports?dimension=留存促活运营", label: "运营专题" },
-];
-
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -57,10 +48,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[220px_220px_1fr]">
-        <aside className="hidden border-r bg-background md:block p-3">
+      <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[220px_1fr]">
+        <aside className="hidden border-r bg-background p-3 md:block">
           <NavigationMenu className="w-full max-w-none justify-start">
-            <NavigationMenuList className="flex-col items-stretch gap-1 w-full">
+            <NavigationMenuList className="flex w-full flex-col items-stretch gap-1">
               {mainNav.map((item) => {
                 const Icon = item.icon;
                 const active = pathname.startsWith(item.href);
@@ -78,17 +69,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               })}
             </NavigationMenuList>
           </NavigationMenu>
-        </aside>
-
-        <aside className="hidden border-r bg-muted/30 md:block p-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">二级导航</p>
-          <div className="mt-3 space-y-1">
-            {secondNav.map((item) => (
-              <Link key={item.href} href={item.href} className="block rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
-                {item.label}
-              </Link>
-            ))}
-          </div>
         </aside>
 
         <main className="min-w-0 p-4 md:p-6">{children}</main>
