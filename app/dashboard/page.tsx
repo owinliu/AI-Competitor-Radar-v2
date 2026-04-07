@@ -22,16 +22,7 @@ export default function DashboardPage() {
         ))}
       </section>
 
-      {latest && (
-        <section className="rounded-xl border bg-card p-6 space-y-4">
-          <div>
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">最新报告（统一入口）</p>
-            <h2 className="mt-2 text-xl font-semibold">{latest.title}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{latest.summary}</p>
-          </div>
-          <ReportInsightPanel insights={latest.insights} />
-        </section>
-      )}
+      {latest && <ReportInsightPanel insights={latest.insights} />}
     </div>
   );
 }
