@@ -31,6 +31,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
   const [p2, setP2] = useState(periods[0] || "");
 
   const [reviewed, setReviewed] = useState<Record<string, "已复核" | "已修正" | undefined>>({});
+  const [overrides, setOverrides] = useState<Record<string, { conclusion?: string; impact?: string }>>({});
 
   const reportP1 = reports.find((r) => r.period === p1);
   const reportP2 = reports.find((r) => r.period === p2);
@@ -53,6 +54,15 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
   }, [reportP1, reportP2]);
 
   const latest = reports[0];
+
+  const applyManualFix = (key: string, item: Insight) => {
+    const nextConclusion = window.prompt("人工修正-结论", overrides[key]?.conclusion || item.conclusion);
+    if (nextConclusion === null) return;
+    const nextImpact = window.prompt("人工修正-影响等级（高/中/低）", overrides[key]?.impact || item.impact);
+    if (nextImpact === null) return;
+    setOverrides((s) => ({ ...s, [key]: { conclusion: nextConclusion, impact: nextImpact } }));
+    setReviewed((s) => ({ ...s, [key]: "已修正" }));
+  };
   const quality = useMemo(() => {
     if (!latest) return { evidence: 0, comparable: 0, risk: 0 };
     const all = latest.insights;
@@ -130,20 +140,23 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[1000px] border-collapse text-sm">
             <thead><tr className="bg-slate-50"><th className="border-b px-3 py-2">类型</th><th className="border-b px-3 py-2">竞品</th><th className="border-b px-3 py-2">维度</th><th className="border-b px-3 py-2">位点</th><th className="border-b px-3 py-2">结论</th><th className="border-b px-3 py-2">复核</th></tr></thead>
-            <tbody>{changes.map((c) => (
-              <tr key={c.key}>
-                <td className="border-b px-3 py-2">{c.type}</td>
-                <td className="border-b px-3 py-2">{c.item.competitor}</td>
-                <td className="border-b px-3 py-2">{c.item.dimension}</td>
-                <td className="border-b px-3 py-2">{c.item.page}</td>
-                <td className="border-b px-3 py-2">{c.item.conclusion}</td>
-                <td className="border-b px-3 py-2">
-                  <button className="mr-2 rounded border px-2 py-1 text-xs" onClick={() => setReviewed((s) => ({ ...s, [c.key]: "已复核" }))}>标记已复核</button>
-                  <button className="rounded border px-2 py-1 text-xs" onClick={() => setReviewed((s) => ({ ...s, [c.key]: "已修正" }))}>标记已修正</button>
-                  {reviewed[c.key] && <span className="ml-2 text-xs text-emerald-700">{reviewed[c.key]}</span>}
-                </td>
-              </tr>
-            ))}</tbody>
+            <tbody>{changes.map((c) => {
+              const ov = overrides[c.key] || {};
+              return (
+                <tr key={c.key}>
+                  <td className="border-b px-3 py-2">{c.type}</td>
+                  <td className="border-b px-3 py-2">{c.item.competitor}</td>
+                  <td className="border-b px-3 py-2">{c.item.dimension}</td>
+                  <td className="border-b px-3 py-2">{c.item.page}</td>
+                  <td className="border-b px-3 py-2">{ov.conclusion || c.item.conclusion} {ov.impact ? <span className="ml-2 text-xs text-blue-700">({ov.impact})</span> : null}</td>
+                  <td className="border-b px-3 py-2">
+                    <button className="mr-2 rounded border px-2 py-1 text-xs" onClick={() => setReviewed((s) => ({ ...s, [c.key]: "已复核" }))}>标记已复核</button>
+                    <button className="mr-2 rounded border px-2 py-1 text-xs" onClick={() => applyManualFix(c.key, c.item)}>人工修正</button>
+                    {reviewed[c.key] && <span className="ml-1 text-xs text-emerald-700">{reviewed[c.key]}</span>}
+                  </td>
+                </tr>
+              );
+            })}</tbody>
           </table>
         </div>
 
