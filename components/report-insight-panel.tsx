@@ -50,13 +50,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     return true;
   }), [insights, competitor, dimension, period, changeScope]);
 
-  const layeredConclusion = useMemo(() => {
-    if (competitor === "全部" && dimension === "全部" && period === "全部") {
-      return `全局结论：当前报告共 ${filtered.length} 条有效洞察。`;
-    }
-    return `交叉结论（${competitor}/${dimension}/${period}/${changeScope}）：命中 ${filtered.length} 条洞察。`;
-  }, [competitor, dimension, period, changeScope, filtered.length]);
-
   const dimensionSummaries = useMemo(() => {
     const byDim = new Map<string, typeof filtered>();
     for (const d of dimensionOrder) byDim.set(d, [] as any);
@@ -68,13 +61,17 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     return dimensionOrder.map((d) => {
       const arr = (byDim.get(d) || []) as typeof filtered;
       if (!arr.length) {
-        return { dim: d, text: `${d}：暂无可用数据（当前筛选下为空）。` };
+        return { dim: d, text: `${d}：暂无数据，当前无法判断该维度变化。` };
       }
-      const high = arr.filter((x) => x.impact === "高").length;
-      const review = arr.filter((x) => `${x.confidence}`.includes("是")).length;
+      const keyIssues = arr
+        .slice(0, 2)
+        .map((x) => x.conclusion.replace(/。$/, ""))
+        .join("；");
+      const hasReview = arr.some((x) => `${x.confidence}`.includes("是"));
+      const reviewText = hasReview ? "；其中部分结论建议人工复核。" : "。";
       return {
         dim: d,
-        text: `${d}：${arr.length} 条洞察${high ? `，其中高影响 ${high} 条` : ""}${review ? `，建议人工复核 ${review} 条` : ""}。`,
+        text: `${d}：${keyIssues}${reviewText}`,
       };
     });
   }, [filtered]);
@@ -100,16 +97,12 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       </div>
 
       <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
-        <p className="font-medium">{layeredConclusion}</p>
-        <p className="text-muted-foreground">补充说明：当前视图优先显示“显著变化”条目；若需查看完整明细，可切换到“全部”。</p>
-        <div className="rounded-md border bg-white p-3">
-          <p className="mb-2 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 留存促活运营 / 风控）</p>
-          <ul className="list-disc space-y-1 pl-5 text-sm">
-            {dimensionSummaries.map((s) => (
-              <li key={s.dim}>{s.text}</li>
-            ))}
-          </ul>
-        </div>
+        <p className="mb-1 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 留存促活运营 / 风控）</p>
+        <ul className="list-disc space-y-1 pl-5 text-sm">
+          {dimensionSummaries.map((s) => (
+            <li key={s.dim}>{s.text}</li>
+          ))}
+        </ul>
       </div>
 
       <div className="overflow-x-auto rounded-lg border">
