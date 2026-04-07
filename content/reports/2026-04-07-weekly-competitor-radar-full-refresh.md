@@ -1,7 +1,7 @@
 ---
 title: "竞品追踪雷达（分期乐 vs 度小满）全量复盘"
 date: "2026-04-07"
-summary: "基于 /Users/owinliu/Desktop/竞品分析 全量重读后刷新：覆盖APP/客服/消金/运营/风控缺口。"
+summary: "已全量读取56张截图并重建台账：覆盖APP/客服/消金/运营，明确风控与客服缺口优先级。"
 tags:
   - 竞品追踪
   - 周报
@@ -169,6 +169,14 @@ insights:
     evidence:
       - /evidence/dxm-cs-0323.jpg
 ---
+
+## 全量读取范围与底稿
+
+- 全量读取图片：56 张（分期乐 29，度小满金融 27）
+- 逐图台账：`/Users/owinliu/Desktop/竞品分析/outputs/image-ledger-20260407-1642.md`
+- 对比映射：`/Users/owinliu/Desktop/竞品分析/outputs/comparison-map-20260407-1642.md`
+- 缺口优先级：`/Users/owinliu/Desktop/竞品分析/outputs/gap-priority-20260407-1642.md`
+- 高优先缺口：两家风控（0323/0402均缺）、度小满客服0402缺失
 
 ## 结构化主表（按固定表头）
 
