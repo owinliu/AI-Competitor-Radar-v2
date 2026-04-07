@@ -64,7 +64,9 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       return arr[0].conclusion.replace(/。$/, "");
     };
 
-    return dimensionOrder.map((d) => {
+    const targetDims = dimension === "全部" ? dimensionOrder : [dimension];
+
+    return targetDims.map((d) => {
       const arr = (byDim.get(d) || []) as typeof filtered;
       if (!arr.length) {
         return { dim: d, text: `${d}：暂无数据，当前无法判断该维度变化。` };
@@ -92,7 +94,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         text: `${d}：${keyIssues}${reviewText}`,
       };
     });
-  }, [filtered, competitor]);
+  }, [filtered, competitor, dimension]);
 
   const openViewer = (images: ViewerImage[], idx: number) => {
     if (images.length === 0) return;
