@@ -64,6 +64,41 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
           </div>
         ))}
       </div>
+
+      <div className="overflow-x-auto rounded-lg border">
+        <table className="w-full min-w-[980px] border-collapse text-sm">
+          <thead>
+            <tr className="bg-slate-50 text-left text-slate-600">
+              <th className="border-b border-slate-200 px-3 py-2">竞品</th>
+              <th className="border-b border-slate-200 px-3 py-2">维度</th>
+              <th className="border-b border-slate-200 px-3 py-2">周期</th>
+              <th className="border-b border-slate-200 px-3 py-2">结论</th>
+              <th className="border-b border-slate-200 px-3 py-2">截图证据</th>
+              <th className="border-b border-slate-200 px-3 py-2">影响/置信度</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((x) => (
+              <tr key={`${x.id}-row`}>
+                <td className="border-b border-slate-100 px-3 py-3">{x.competitor}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.dimension}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.period}</td>
+                <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{x.conclusion}</td>
+                <td className="border-b border-slate-100 px-3 py-3">
+                  <div className="flex flex-wrap gap-2 min-w-[180px]">
+                    {x.evidence.length > 0 ? x.evidence.map((src) => (
+                      <img key={src} src={src} alt={src} className="h-14 w-20 rounded border object-cover" />
+                    )) : <span className="text-xs text-muted-foreground">无</span>}
+                  </div>
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.impact} / {x.confidence}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {filtered.length === 0 && <p className="text-sm text-muted-foreground">当前筛选条件下暂无匹配数据。</p>}
     </section>
   );
 }
