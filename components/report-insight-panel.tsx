@@ -2,7 +2,6 @@
 import { useMemo, useState } from "react";
 import type { Insight } from "@/lib/reports";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 function group(title: string, arr: string[], value: string, onChange: (v: string) => void) {
   return (
@@ -10,7 +9,9 @@ function group(title: string, arr: string[], value: string, onChange: (v: string
       <p className="mb-2 text-xs text-muted-foreground">{title}</p>
       <div className="flex flex-wrap gap-2">
         {arr.map((x) => (
-          <Button key={x} size="sm" variant={x === value ? "default" : "outline"} onClick={() => onChange(x)}>{x}</Button>
+          <Button key={x} size="sm" variant={x === value ? "default" : "outline"} onClick={() => onChange(x)}>
+            {x}
+          </Button>
         ))}
       </div>
     </div>
@@ -26,12 +27,16 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const dimensions = ["全部", ...Array.from(new Set(insights.map((x) => x.dimension)))];
   const periods = ["全部", ...Array.from(new Set(insights.map((x) => x.period)))];
 
-  const filtered = useMemo(() => insights.filter((x) => {
-    if (competitor !== "全部" && x.competitor !== competitor) return false;
-    if (dimension !== "全部" && x.dimension !== dimension) return false;
-    if (period !== "全部" && x.period !== period) return false;
-    return true;
-  }), [insights, competitor, dimension, period]);
+  const filtered = useMemo(
+    () =>
+      insights.filter((x) => {
+        if (competitor !== "全部" && x.competitor !== competitor) return false;
+        if (dimension !== "全部" && x.dimension !== dimension) return false;
+        if (period !== "全部" && x.period !== period) return false;
+        return true;
+      }),
+    [insights, competitor, dimension, period]
+  );
 
   const layeredConclusion = useMemo(() => {
     if (competitor === "全部" && dimension === "全部" && period === "全部") {
@@ -56,47 +61,53 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         <p className="font-medium">{layeredConclusion}</p>
       </div>
 
-      <div className="rounded-lg border overflow-x-auto">
-        <Table className="min-w-[760px]">
-          <TableHeader>
-            <TableRow>
-              <TableHead>竞品</TableHead>
-              <TableHead>维度</TableHead>
-              <TableHead>周期</TableHead>
-              <TableHead>截图证据</TableHead>
-              <TableHead>分析结论</TableHead>
-              <TableHead>动作建议</TableHead>
-              <TableHead>影响/置信度</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[980px] border-collapse text-sm">
+          <thead>
+            <tr className="bg-slate-50 text-left text-slate-600">
+              <th className="border-b border-slate-200 px-3 py-2">竞品</th>
+              <th className="border-b border-slate-200 px-3 py-2">维度</th>
+              <th className="border-b border-slate-200 px-3 py-2">周期</th>
+              <th className="border-b border-slate-200 px-3 py-2">截图证据</th>
+              <th className="border-b border-slate-200 px-3 py-2">分析结论</th>
+              <th className="border-b border-slate-200 px-3 py-2">动作建议</th>
+              <th className="border-b border-slate-200 px-3 py-2">影响/置信度</th>
+            </tr>
+          </thead>
+          <tbody>
             {filtered.map((x) => (
-              <TableRow key={x.id}>
-                <TableCell>{x.competitor}</TableCell>
-                <TableCell>{x.dimension}</TableCell>
-                <TableCell>{x.period}</TableCell>
-                <TableCell>
+              <tr key={x.id}>
+                <td className="border-b border-slate-100 px-3 py-3">{x.competitor}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.dimension}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.period}</td>
+                <td className="border-b border-slate-100 px-3 py-3">
                   <div className="flex flex-wrap gap-2 min-w-[180px]">
-                    {x.evidence.length > 0 ? x.evidence.slice(0, 3).map((src) => (
-                      <img key={src} src={src} alt={src} className="h-16 w-24 rounded border object-cover" />
-                    )) : <span className="text-xs text-muted-foreground">无证据图</span>}
+                    {x.evidence.length > 0 ? (
+                      x.evidence.slice(0, 3).map((src) => (
+                        <img key={src} src={src} alt={src} className="h-16 w-24 rounded border object-cover" />
+                      ))
+                    ) : (
+                      <span className="text-xs text-muted-foreground">无证据图</span>
+                    )}
                   </div>
-                </TableCell>
-                <TableCell className="max-w-[320px]">{x.conclusion}</TableCell>
-                <TableCell className="max-w-[320px]">
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{x.conclusion}</td>
+                <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">
                   {x.actions.length > 0 ? (
                     <ul className="list-disc pl-4 text-sm">
-                      {x.actions.map((a) => <li key={a}>{a}</li>)}
+                      {x.actions.map((a) => (
+                        <li key={a}>{a}</li>
+                      ))}
                     </ul>
                   ) : (
                     <span className="text-xs text-muted-foreground">暂无</span>
                   )}
-                </TableCell>
-                <TableCell>{x.impact} / {x.confidence}</TableCell>
-              </TableRow>
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.impact} / {x.confidence}</td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
 
       {filtered.length === 0 && (
