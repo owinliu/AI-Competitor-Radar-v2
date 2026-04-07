@@ -4,13 +4,17 @@ import { createPortal } from "react-dom";
 import type { Insight } from "@/lib/reports";
 import { Button } from "@/components/ui/button";
 
+function displayLabel(x: string) {
+  return x === "留存促活运营" ? "运营" : x;
+}
+
 function group(title: string, arr: string[], value: string, onChange: (v: string) => void) {
   return (
     <div>
       <p className="mb-2 text-xs text-muted-foreground">{title}</p>
       <div className="flex flex-wrap gap-2">
         {arr.map((x) => (
-          <Button key={x} size="sm" variant={x === value ? "default" : "outline"} onClick={() => onChange(x)}>{x}</Button>
+          <Button key={x} size="sm" variant={x === value ? "default" : "outline"} onClick={() => onChange(x)}>{displayLabel(x)}</Button>
         ))}
       </div>
     </div>
@@ -69,7 +73,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     return targetDims.map((d) => {
       const arr = (byDim.get(d) || []) as typeof filtered;
       if (!arr.length) {
-        return { dim: d, text: `${d}：暂无数据，当前无法判断该维度变化。` };
+        return { dim: d, text: `${displayLabel(d)}：暂无数据，当前无法判断该维度变化。` };
       }
 
       if (competitor === "全部") {
@@ -79,7 +83,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         const dxmTxt = pickIssue(dxm);
         return {
           dim: d,
-          text: `${d}：分期乐（${fqlTxt}）；度小满（${dxmTxt}）。`,
+          text: `${displayLabel(d)}：分期乐（${fqlTxt}）；度小满（${dxmTxt}）。`,
         };
       }
 
@@ -91,7 +95,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       const reviewText = hasReview ? "；其中部分结论建议人工复核。" : "。";
       return {
         dim: d,
-        text: `${d}：${keyIssues}${reviewText}`,
+        text: `${displayLabel(d)}：${keyIssues}${reviewText}`,
       };
     });
   }, [filtered, competitor, dimension]);
@@ -119,7 +123,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       </div>
 
       <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
-        <p className="mb-1 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 留存促活运营 / 风控）</p>
+        <p className="mb-1 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 运营 / 风控）</p>
         <ul className="list-disc space-y-1 pl-5 text-sm">
           {dimensionSummaries.map((s) => (
             <li key={s.dim}>{s.text}</li>
@@ -152,7 +156,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
               return (
                 <tr key={x.id}>
                   <td className="border-b border-slate-100 px-3 py-3">{x.competitor}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">{x.dimension}</td>
+                  <td className="border-b border-slate-100 px-3 py-3">{displayLabel(x.dimension)}</td>
                   <td className="border-b border-slate-100 px-3 py-3">{x.page || "-"}</td>
                   <td className="border-b border-slate-100 px-3 py-3 max-w-[280px]">{x.conclusion}</td>
                   <td className="border-b border-slate-100 px-3 py-3">
