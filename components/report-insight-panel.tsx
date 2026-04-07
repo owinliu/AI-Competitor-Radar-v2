@@ -107,11 +107,13 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   return (
     <section className="rounded-xl border bg-card p-5 space-y-4">
       <h2 className="text-lg font-semibold">动态结论面板（按筛选联动）</h2>
-      <div className="grid gap-3 md:grid-cols-4">
+      <div className="grid gap-3 md:grid-cols-[1fr_2fr_1fr_1fr]">
         {group("竞品", competitors, competitor, setCompetitor)}
         {group("维度", dimensions, dimension, setDimension)}
         {group("周期", periods, period, setPeriod)}
-        {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
+        <div className="md:text-right md:justify-self-end md:max-w-[220px]">
+          {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
+        </div>
       </div>
 
       <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
