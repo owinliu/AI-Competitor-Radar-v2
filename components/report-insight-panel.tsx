@@ -58,11 +58,29 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       arr.push(item as any);
       byDim.set(item.dimension, arr as any);
     }
+
+    const pickIssue = (arr: typeof filtered) => {
+      if (!arr.length) return "暂无数据";
+      return arr[0].conclusion.replace(/。$/, "");
+    };
+
     return dimensionOrder.map((d) => {
       const arr = (byDim.get(d) || []) as typeof filtered;
       if (!arr.length) {
         return { dim: d, text: `${d}：暂无数据，当前无法判断该维度变化。` };
       }
+
+      if (competitor === "全部") {
+        const fql = arr.filter((x) => x.competitor === "分期乐");
+        const dxm = arr.filter((x) => x.competitor === "度小满");
+        const fqlTxt = pickIssue(fql);
+        const dxmTxt = pickIssue(dxm);
+        return {
+          dim: d,
+          text: `${d}：分期乐（${fqlTxt}）；度小满（${dxmTxt}）。`,
+        };
+      }
+
       const keyIssues = arr
         .slice(0, 2)
         .map((x) => x.conclusion.replace(/。$/, ""))
@@ -74,7 +92,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         text: `${d}：${keyIssues}${reviewText}`,
       };
     });
-  }, [filtered]);
+  }, [filtered, competitor]);
 
   const openViewer = (images: ViewerImage[], idx: number) => {
     if (images.length === 0) return;
