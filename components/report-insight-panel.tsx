@@ -91,8 +91,8 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
           </thead>
           <tbody>
             {filtered.map((x) => {
-              const prevImgs = (x.prevEvidence || []).map((src) => ({ src, label: "上期" }));
-              const currImgs = (x.currEvidence || []).map((src) => ({ src, label: "本期" }));
+              const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
+              const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
               const allImgs = [...prevImgs, ...currImgs];
               const smallChange = /稳定|变化不大|未见明显变化|基本一致/.test(`${x.conclusion}${x.compare || ""}`);
               const needReview = `${x.confidence}`.includes("是");
