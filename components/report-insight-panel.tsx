@@ -2,7 +2,6 @@
 import { useMemo, useState } from "react";
 import type { Insight } from "@/lib/reports";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 function group(title: string, arr: string[], value: string, onChange: (v: string) => void) {
   return (
@@ -56,38 +55,12 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         <p className="font-medium">{layeredConclusion}</p>
       </div>
 
-      <div className="rounded-lg border overflow-x-auto">
-        <Table className="min-w-[760px]">
-          <TableHeader>
-            <TableRow>
-              <TableHead>竞品</TableHead>
-              <TableHead>维度</TableHead>
-              <TableHead>周期</TableHead>
-              <TableHead>结论</TableHead>
-              <TableHead>影响</TableHead>
-              <TableHead>置信度</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.map((x) => (
-              <TableRow key={x.id}>
-                <TableCell>{x.competitor}</TableCell>
-                <TableCell>{x.dimension}</TableCell>
-                <TableCell>{x.period}</TableCell>
-                <TableCell className="max-w-[420px]">{x.conclusion}</TableCell>
-                <TableCell>{x.impact}</TableCell>
-                <TableCell>{x.confidence}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-
       <div className="space-y-3">
         {filtered.map((x) => (
-          <div key={`${x.id}-action`} className="rounded-lg border p-3">
-            <p className="text-sm font-semibold">[{x.competitor} · {x.dimension}] 动作建议</p>
-            {x.actions.length > 0 ? <ul className="mt-2 list-disc pl-5 text-sm">{x.actions.map((a) => <li key={a}>{a}</li>)}</ul> : <p className="mt-2 text-sm text-muted-foreground">暂无动作建议</p>}
+          <div key={x.id} className="rounded-lg border p-3">
+            <p className="text-sm font-semibold">[{x.competitor} · {x.dimension}] {x.conclusion}</p>
+            <p className="mt-1 text-xs text-muted-foreground">影响等级：{x.impact}｜置信度：{x.confidence}</p>
+            {x.actions.length > 0 && <ul className="mt-2 list-disc pl-5 text-sm">{x.actions.map((a) => <li key={a}>{a}</li>)}</ul>}
           </div>
         ))}
       </div>
