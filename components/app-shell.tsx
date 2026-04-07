@@ -39,9 +39,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <div className="mt-3 flex flex-col gap-1 px-4">
                   {mainNav.map((item) => {
                     const Icon = item.icon;
+                    const active = pathname.startsWith(item.href);
                     return (
-                      <Link key={item.href} href={item.href} className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap ${pathname.startsWith(item.href) ? "bg-muted font-medium" : "text-muted-foreground"}`}>
-                        <Icon className="size-4" />
+                      <Link key={item.href} href={item.href} className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}>
+                        <Icon className={`size-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
                         <span>{item.label}</span>
                       </Link>
                     );
@@ -49,7 +50,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
               </SheetContent>
             </Sheet>
-            <div className="h-7 w-7 rounded-md bg-primary" />
+            <div className="h-7 w-7 rounded-md bg-primary shadow-sm" />
             <span className="text-sm font-semibold">AI Competitor Radar</span>
           </div>
           <Link href="/reports" className="text-sm text-muted-foreground">周报中心</Link>
@@ -62,13 +63,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <NavigationMenuList className="flex-col items-stretch gap-1 w-full">
               {mainNav.map((item) => {
                 const Icon = item.icon;
+                const active = pathname.startsWith(item.href);
                 return (
                   <NavigationMenuItem key={item.href}>
                     <NavigationMenuLink
                       render={<Link href={item.href} />}
-                      className={pathname.startsWith(item.href) ? "bg-muted font-medium" : ""}
+                      className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}
                     >
-                      <Icon className="size-4" />
+                      <Icon className={`size-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
                       <span className="whitespace-nowrap">{item.label}</span>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
