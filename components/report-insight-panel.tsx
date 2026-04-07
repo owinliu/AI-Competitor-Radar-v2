@@ -63,9 +63,10 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
               <TableHead>竞品</TableHead>
               <TableHead>维度</TableHead>
               <TableHead>周期</TableHead>
-              <TableHead>结论</TableHead>
-              <TableHead>影响</TableHead>
-              <TableHead>置信度</TableHead>
+              <TableHead>截图证据</TableHead>
+              <TableHead>分析结论</TableHead>
+              <TableHead>动作建议</TableHead>
+              <TableHead>影响/置信度</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -74,23 +75,33 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                 <TableCell>{x.competitor}</TableCell>
                 <TableCell>{x.dimension}</TableCell>
                 <TableCell>{x.period}</TableCell>
-                <TableCell className="max-w-[420px]">{x.conclusion}</TableCell>
-                <TableCell>{x.impact}</TableCell>
-                <TableCell>{x.confidence}</TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-2 min-w-[180px]">
+                    {x.evidence.length > 0 ? x.evidence.slice(0, 3).map((src) => (
+                      <img key={src} src={src} alt={src} className="h-16 w-24 rounded border object-cover" />
+                    )) : <span className="text-xs text-muted-foreground">无证据图</span>}
+                  </div>
+                </TableCell>
+                <TableCell className="max-w-[320px]">{x.conclusion}</TableCell>
+                <TableCell className="max-w-[320px]">
+                  {x.actions.length > 0 ? (
+                    <ul className="list-disc pl-4 text-sm">
+                      {x.actions.map((a) => <li key={a}>{a}</li>)}
+                    </ul>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">暂无</span>
+                  )}
+                </TableCell>
+                <TableCell>{x.impact} / {x.confidence}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
 
-      <div className="space-y-3">
-        {filtered.map((x) => (
-          <div key={`${x.id}-action`} className="rounded-lg border p-3">
-            <p className="text-sm font-semibold">[{x.competitor} · {x.dimension}] 动作建议</p>
-            {x.actions.length > 0 ? <ul className="mt-2 list-disc pl-5 text-sm">{x.actions.map((a) => <li key={a}>{a}</li>)}</ul> : <p className="mt-2 text-sm text-muted-foreground">暂无动作建议</p>}
-          </div>
-        ))}
-      </div>
+      {filtered.length === 0 && (
+        <div className="rounded-lg border p-4 text-sm text-muted-foreground">当前筛选条件下暂无匹配数据，请切换筛选项。</div>
+      )}
     </section>
   );
 }
