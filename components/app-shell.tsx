@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, LayoutDashboard, FileText, ImageIcon, Settings } from "lucide-react";
+import { Menu, LayoutDashboard, FileText, Settings } from "lucide-react";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 const mainNav = [
   { href: "/dashboard", label: "仪表盘", icon: LayoutDashboard },
   { href: "/reports", label: "周报中心", icon: FileText },
-  { href: "/evidence", label: "证据库", icon: ImageIcon },
   { href: "/settings", label: "配置", icon: Settings },
 ];
 
