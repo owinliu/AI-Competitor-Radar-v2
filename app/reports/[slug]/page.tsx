@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getAllReports, getReportBySlug } from "@/lib/reports";
@@ -50,8 +51,8 @@ export default function ReportPage({ params }: { params: { slug: string } }) {
       <Card className="mt-6">
         <CardHeader><CardTitle>详细分析</CardTitle></CardHeader>
         <CardContent>
-          <article className="prose prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground">
-            <ReactMarkdown>{report.content}</ReactMarkdown>
+          <article className="prose prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-table:text-sm">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{report.content}</ReactMarkdown>
           </article>
         </CardContent>
       </Card>
