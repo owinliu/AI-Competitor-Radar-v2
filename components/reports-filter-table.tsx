@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
@@ -51,7 +50,6 @@ function OptionGroup({
 }
 
 export default function ReportsFilterTable({ rows }: { rows: Row[] }) {
-  const [q, setQ] = useState("");
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
@@ -66,21 +64,14 @@ export default function ReportsFilterTable({ rows }: { rows: Row[] }) {
         if (competitor !== "全部" && !r.competitors.includes(competitor)) return false;
         if (dimension !== "全部" && !r.dimensions.includes(dimension)) return false;
         if (period !== "全部" && r.period !== period) return false;
-        if (!q) return true;
-        const text = `${r.title} ${r.tags.join(" ")} ${r.competitors.join(" ")} ${r.dimensions.join(" ")}`.toLowerCase();
-        return text.includes(q.toLowerCase());
+        return true;
       }),
-    [rows, q, competitor, dimension, period]
+    [rows, competitor, dimension, period]
   );
 
   return (
     <div className="grid gap-4 md:grid-cols-[320px_1fr]">
       <aside className="rounded-xl border bg-card p-4 space-y-4">
-        <div>
-          <p className="mb-2 text-sm font-semibold">关键词</p>
-          <Input placeholder="搜索标题/标签/竞品" value={q} onChange={(e) => setQ(e.target.value)} />
-        </div>
-
         <OptionGroup title="竞品" options={competitors} value={competitor} onChange={setCompetitor} />
         <OptionGroup title="维度" options={dimensions} value={dimension} onChange={setDimension} />
         <OptionGroup title="时间周期" options={periods} value={period} onChange={setPeriod} />
