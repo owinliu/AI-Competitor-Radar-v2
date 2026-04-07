@@ -49,7 +49,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[220px_1fr]">
-        <aside className="hidden border-r bg-background p-3 md:block">
+        <aside className="hidden border-r bg-background p-3 md:block md:sticky md:top-14 md:h-[calc(100vh-56px)] md:overflow-y-auto">
           <NavigationMenu className="w-full max-w-none justify-start">
             <NavigationMenuList className="flex w-full flex-col items-stretch gap-1">
               {mainNav.map((item) => {
