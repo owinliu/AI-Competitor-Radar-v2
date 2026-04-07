@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppShell from "@/components/app-shell";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "AI Competitor Radar",
@@ -13,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN" className={cn("font-sans", geist.variable)}>
+    <html lang="zh-CN" className="font-sans">
       <body>
         <AppShell>{children}</AppShell>
       </body>

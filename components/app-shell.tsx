@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavigationMenu } from "@/components/ui/navigation-menu";
-import { Sheet } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const mainNav = [
   { href: "/dashboard", label: "仪表盘" },
@@ -22,34 +24,57 @@ const secondNav = [
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
   return (
-    <div className="min-h-screen bg-[#f5f6fa] text-[#1f2430]">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
         <div className="flex h-14 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-3">
-            <Sheet trigger={<button className="rounded border px-2 py-1 text-xs md:hidden">菜单</button>}>
-              <NavigationMenu items={mainNav} current={pathname} />
+            <Sheet>
+              <SheetTrigger render={<Button variant="outline" size="icon-sm" className="md:hidden" />}>
+                <Menu className="size-4" />
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72">
+                <SheetHeader><SheetTitle>导航</SheetTitle></SheetHeader>
+                <div className="mt-3 flex flex-col gap-1 px-4">
+                  {mainNav.map((item) => (
+                    <Link key={item.href} href={item.href} className={`rounded-md px-3 py-2 text-sm ${pathname.startsWith(item.href) ? "bg-muted font-medium" : "text-muted-foreground"}`}>
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
             </Sheet>
-            <div className="h-7 w-7 rounded-md bg-[#ff642d]" />
+            <div className="h-7 w-7 rounded-md bg-primary" />
             <span className="text-sm font-semibold">AI Competitor Radar</span>
           </div>
-          <Link href="/reports" className="text-sm text-slate-600">周报中心</Link>
+          <Link href="/reports" className="text-sm text-muted-foreground">周报中心</Link>
         </div>
       </header>
 
-      <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[72px_220px_1fr]">
-        <aside className="hidden border-r border-slate-200 bg-white md:block">
-          <NavigationMenu items={mainNav} current={pathname} />
+      <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[220px_220px_1fr]">
+        <aside className="hidden border-r bg-background md:block p-3">
+          <NavigationMenu>
+            <NavigationMenuList className="flex-col items-stretch gap-1">
+              {mainNav.map((item) => (
+                <NavigationMenuItem key={item.href}>
+                  <NavigationMenuLink render={<Link href={item.href} />} className={pathname.startsWith(item.href) ? "bg-muted font-medium" : ""}>
+                    {item.label}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
         </aside>
 
-        <aside className="hidden border-r border-slate-200 bg-[#f8f9fd] md:block">
-          <div className="p-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">二级导航</p>
-            <nav className="mt-3 space-y-1">
-              {secondNav.map((item) => (
-                <Link key={item.href} href={item.href} className="block rounded-md px-2 py-1.5 text-sm text-slate-700 hover:bg-slate-200/70">{item.label}</Link>
-              ))}
-            </nav>
+        <aside className="hidden border-r bg-muted/30 md:block p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">二级导航</p>
+          <div className="mt-3 space-y-1">
+            {secondNav.map((item) => (
+              <Link key={item.href} href={item.href} className="block rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
+                {item.label}
+              </Link>
+            ))}
           </div>
         </aside>
 
