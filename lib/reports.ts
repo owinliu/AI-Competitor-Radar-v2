@@ -4,6 +4,18 @@ import matter from "gray-matter";
 
 const reportsDir = path.join(process.cwd(), "content", "reports");
 
+export type Insight = {
+  id: string;
+  competitor: string;
+  dimension: string;
+  period: string;
+  conclusion: string;
+  impact: "高" | "中" | "低";
+  confidence: string;
+  actions: string[];
+  evidence: string[];
+};
+
 export type ReportMeta = {
   slug: string;
   title: string;
@@ -40,7 +52,22 @@ function extractSections(content: string) {
   return sections;
 }
 
-function parseFile(filename: string): ReportMeta & { content: string; sections: { id: string; title: string }[] } {
+function parseInsights(input: unknown): Insight[] {
+  if (!Array.isArray(input)) return [];
+  return input.map((x: any, i) => ({
+    id: String(x?.id || `insight-${i + 1}`),
+    competitor: String(x?.competitor || ""),
+    dimension: String(x?.dimension || ""),
+    period: String(x?.period || ""),
+    conclusion: String(x?.conclusion || ""),
+    impact: (["高", "中", "低"].includes(x?.impact) ? x.impact : "中") as "高" | "中" | "低",
+    confidence: String(x?.confidence || ""),
+    actions: normalizeStringArray(x?.actions),
+    evidence: normalizeStringArray(x?.evidence),
+  }));
+}
+
+function parseFile(filename: string): ReportMeta & { content: string; sections: { id: string; title: string }[]; insights: Insight[] } {
   const slug = filename.replace(/\.md$/, "");
   const raw = fs.readFileSync(path.join(reportsDir, filename), "utf8");
   const { data, content } = matter(raw);
@@ -56,6 +83,7 @@ function parseFile(filename: string): ReportMeta & { content: string; sections: 
     dimensions: normalizeStringArray(data.dimensions),
     period: data.period as string | undefined,
     sections: extractSections(content),
+    insights: parseInsights((data as any).insights),
     content,
   };
 }
@@ -63,7 +91,7 @@ function parseFile(filename: string): ReportMeta & { content: string; sections: 
 export function getAllReports(): ReportMeta[] {
   if (!fs.existsSync(reportsDir)) return [];
   return fs.readdirSync(reportsDir).filter((f) => f.endsWith(".md")).map((f) => {
-    const { content: _c, sections: _s, ...meta } = parseFile(f);
+    const { content: _c, sections: _s, insights: _i, ...meta } = parseFile(f);
     return meta;
   }).sort((a, b) => (a.date < b.date ? 1 : -1));
 }

@@ -4,6 +4,7 @@ import { getAllReports, getReportBySlug } from "@/lib/reports";
 import { notFound } from "next/navigation";
 import ReportToc from "@/components/report-toc";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import ReportInsightPanel from "@/components/report-insight-panel";
 
 function slugify(input: string) {
   return input.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, "-").replace(/(^-|-$)/g, "");
@@ -55,6 +56,8 @@ export default function ReportPage({ params }: { params: { slug: string } }) {
             </ul>
           </div>
         </section>
+
+        {report.insights.length > 0 && <ReportInsightPanel insights={report.insights} />}
 
         <section className="rounded-xl border bg-card p-6">
           <h2 className="text-lg font-semibold">结构化主表与详细分析</h2>

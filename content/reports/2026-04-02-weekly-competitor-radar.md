@@ -25,6 +25,56 @@ actions:
   - P0：沿用固定表头模板，每周强制按列更新（结论/过程/影响/置信度）。
   - P0：补齐风控与客服缺口截图，避免“无法判断”的高影响空白项。
   - P1：对活动位变化建立单独追踪列（周期、弹层频次、入口位置）。
+insights:
+  - id: fenqile-app-home
+    competitor: 分期乐
+    dimension: APP
+    period: 2026-W14
+    conclusion: 首页中腰部货架变化，主结构稳定。
+    impact: 中
+    confidence: 高/否
+    actions:
+      - 首页保持结构稳态，运营位做小步快跑AB。
+      - 增加运营位变更日志，便于周度复盘。
+    evidence:
+      - /evidence/fenqile-app-home-0323.jpg
+      - /evidence/fenqile-app-home-0402.jpg
+  - id: fenqile-cs-im
+    competitor: 分期乐
+    dimension: 客服
+    period: 2026-W14
+    conclusion: IM半浮层疑似会话可见性增强，需同状态复核。
+    impact: 中
+    confidence: 中/是
+    actions:
+      - 补同状态截图后再下最终判断。
+    evidence:
+      - /evidence/fenqile-cs-im-0323.jpg
+      - /evidence/fenqile-cs-im-0402.jpg
+  - id: dxm-app-home
+    competitor: 度小满
+    dimension: APP
+    period: 2026-W14
+    conclusion: 首屏活动化增强，主交易入口保留。
+    impact: 高
+    confidence: 高/否
+    actions:
+      - 关注活动化增强对交易入口点击率影响。
+    evidence:
+      - /evidence/dxm-app-home-0323.jpg
+      - /evidence/dxm-app-home-0402.jpg
+  - id: dxm-ops-campaign
+    competitor: 度小满
+    dimension: 留存促活运营
+    period: 2026-W14
+    conclusion: 活动周期延长，触达增强。
+    impact: 高
+    confidence: 高/否
+    actions:
+      - 增加活动触达频次监测与控频策略。
+    evidence:
+      - /evidence/dxm-ops-campaign-0323.jpg
+      - /evidence/dxm-ops-campaign-0402.jpg
 ---
 
 ## 结构化主表（按固定表头）
