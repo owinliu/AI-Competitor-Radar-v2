@@ -30,12 +30,18 @@ insights:
     competitor: 分期乐
     dimension: APP
     period: 2026-W14
+    page: 首页
     conclusion: 首页中腰部货架变化，主结构稳定。
+    compare: 顶部入口与底部导航一致；中腰部运营卡内容替换，属运营层变更。
     impact: 中
     confidence: 高/否
     actions:
       - 首页保持结构稳态，运营位做小步快跑AB。
       - 增加运营位变更日志，便于周度复盘。
+    prevEvidence:
+      - /evidence/fenqile-app-home-0323.jpg
+    currEvidence:
+      - /evidence/fenqile-app-home-0402.jpg
     evidence:
       - /evidence/fenqile-app-home-0323.jpg
       - /evidence/fenqile-app-home-0402.jpg
@@ -43,11 +49,17 @@ insights:
     competitor: 分期乐
     dimension: 客服
     period: 2026-W14
+    page: IM半浮层
     conclusion: IM半浮层疑似会话可见性增强，需同状态复核。
+    compare: 两期截图状态不同（输入态/浏览态），先标疑似变化，待同状态复核。
     impact: 中
     confidence: 中/是
     actions:
       - 补同状态截图后再下最终判断。
+    prevEvidence:
+      - /evidence/fenqile-cs-im-0323.jpg
+    currEvidence:
+      - /evidence/fenqile-cs-im-0402.jpg
     evidence:
       - /evidence/fenqile-cs-im-0323.jpg
       - /evidence/fenqile-cs-im-0402.jpg
@@ -55,11 +67,17 @@ insights:
     competitor: 度小满
     dimension: APP
     period: 2026-W14
+    page: 首页
     conclusion: 首屏活动化增强，主交易入口保留。
+    compare: 首页首屏活动表达增强，主交易入口仍保留。
     impact: 高
     confidence: 高/否
     actions:
       - 关注活动化增强对交易入口点击率影响。
+    prevEvidence:
+      - /evidence/dxm-app-home-0323.jpg
+    currEvidence:
+      - /evidence/dxm-app-home-0402.jpg
     evidence:
       - /evidence/dxm-app-home-0323.jpg
       - /evidence/dxm-app-home-0402.jpg
@@ -67,11 +85,17 @@ insights:
     competitor: 度小满
     dimension: 留存促活运营
     period: 2026-W14
+    page: 活动落地页
     conclusion: 活动周期延长，触达增强。
+    compare: 活动页可见周期延长，并出现更多活动化触达素材。
     impact: 高
     confidence: 高/否
     actions:
       - 增加活动触达频次监测与控频策略。
+    prevEvidence:
+      - /evidence/dxm-ops-campaign-0323.jpg
+    currEvidence:
+      - /evidence/dxm-ops-campaign-0402.jpg
     evidence:
       - /evidence/dxm-ops-campaign-0323.jpg
       - /evidence/dxm-ops-campaign-0402.jpg

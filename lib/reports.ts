@@ -9,11 +9,15 @@ export type Insight = {
   competitor: string;
   dimension: string;
   period: string;
+  page?: string;
   conclusion: string;
+  compare?: string;
   impact: "高" | "中" | "低";
   confidence: string;
   actions: string[];
   evidence: string[];
+  prevEvidence?: string[];
+  currEvidence?: string[];
 };
 
 export type ReportMeta = {
@@ -59,11 +63,15 @@ function parseInsights(input: unknown): Insight[] {
     competitor: String(x?.competitor || ""),
     dimension: String(x?.dimension || ""),
     period: String(x?.period || ""),
+    page: String(x?.page || "-"),
     conclusion: String(x?.conclusion || ""),
+    compare: String(x?.compare || ""),
     impact: (["高", "中", "低"].includes(x?.impact) ? x.impact : "中") as "高" | "中" | "低",
     confidence: String(x?.confidence || ""),
     actions: normalizeStringArray(x?.actions),
     evidence: normalizeStringArray(x?.evidence),
+    prevEvidence: normalizeStringArray(x?.prevEvidence),
+    currEvidence: normalizeStringArray(x?.currEvidence),
   }));
 }
 

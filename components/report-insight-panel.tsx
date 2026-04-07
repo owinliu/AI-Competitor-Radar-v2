@@ -34,10 +34,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
 
   const layeredConclusion = useMemo(() => {
     if (competitor === "全部" && dimension === "全部" && period === "全部") {
-      return `全局结论：当前报告共 ${insights.length} 条有效洞察，重点集中在 APP 与留存促活运营。`;
-    }
-    if (competitor === "全部" && dimension !== "全部") {
-      return `维度结论（${dimension}）：命中 ${filtered.length} 条洞察。`;
+      return `全局结论：当前报告共 ${insights.length} 条有效洞察。`;
     }
     return `交叉结论（${competitor}/${dimension}/${period}）：命中 ${filtered.length} 条洞察。`;
   }, [competitor, dimension, period, filtered.length, insights.length]);
@@ -55,43 +52,41 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         <p className="font-medium">{layeredConclusion}</p>
       </div>
 
-      <div className="space-y-3">
-        {filtered.map((x) => (
-          <div key={x.id} className="rounded-lg border p-3">
-            <p className="text-sm font-semibold">[{x.competitor} · {x.dimension}] {x.conclusion}</p>
-            <p className="mt-1 text-xs text-muted-foreground">影响等级：{x.impact}｜置信度：{x.confidence}</p>
-            {x.actions.length > 0 && <ul className="mt-2 list-disc pl-5 text-sm">{x.actions.map((a) => <li key={a}>{a}</li>)}</ul>}
-          </div>
-        ))}
-      </div>
-
       <div className="overflow-x-auto rounded-lg border">
-        <table className="w-full min-w-[980px] border-collapse text-sm">
+        <table className="w-full min-w-[1200px] border-collapse text-sm">
           <thead>
             <tr className="bg-slate-50 text-left text-slate-600">
               <th className="border-b border-slate-200 px-3 py-2">竞品</th>
-              <th className="border-b border-slate-200 px-3 py-2">维度</th>
-              <th className="border-b border-slate-200 px-3 py-2">周期</th>
+              <th className="border-b border-slate-200 px-3 py-2">分析维度</th>
+              <th className="border-b border-slate-200 px-3 py-2">页面位点</th>
               <th className="border-b border-slate-200 px-3 py-2">结论</th>
-              <th className="border-b border-slate-200 px-3 py-2">截图证据</th>
-              <th className="border-b border-slate-200 px-3 py-2">影响/置信度</th>
+              <th className="border-b border-slate-200 px-3 py-2">0323截图（上期）</th>
+              <th className="border-b border-slate-200 px-3 py-2">0402截图（本期）</th>
+              <th className="border-b border-slate-200 px-3 py-2">对比过程（详细）</th>
+              <th className="border-b border-slate-200 px-3 py-2">影响等级</th>
+              <th className="border-b border-slate-200 px-3 py-2">置信度/复核</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((x) => (
-              <tr key={`${x.id}-row`}>
+              <tr key={x.id}>
                 <td className="border-b border-slate-100 px-3 py-3">{x.competitor}</td>
                 <td className="border-b border-slate-100 px-3 py-3">{x.dimension}</td>
-                <td className="border-b border-slate-100 px-3 py-3">{x.period}</td>
-                <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{x.conclusion}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.page || "-"}</td>
+                <td className="border-b border-slate-100 px-3 py-3 max-w-[280px]">{x.conclusion}</td>
                 <td className="border-b border-slate-100 px-3 py-3">
-                  <div className="flex flex-wrap gap-2 min-w-[180px]">
-                    {x.evidence.length > 0 ? x.evidence.map((src) => (
-                      <img key={src} src={src} alt={src} className="h-14 w-20 rounded border object-cover" />
-                    )) : <span className="text-xs text-muted-foreground">无</span>}
-                  </div>
+                  {x.prevEvidence && x.prevEvidence.length > 0 ? x.prevEvidence.map((src) => (
+                    <img key={src} src={src} alt={src} className="h-16 w-24 rounded border object-cover" />
+                  )) : <span className="text-xs text-muted-foreground">无</span>}
                 </td>
-                <td className="border-b border-slate-100 px-3 py-3">{x.impact} / {x.confidence}</td>
+                <td className="border-b border-slate-100 px-3 py-3">
+                  {x.currEvidence && x.currEvidence.length > 0 ? x.currEvidence.map((src) => (
+                    <img key={src} src={src} alt={src} className="h-16 w-24 rounded border object-cover" />
+                  )) : <span className="text-xs text-muted-foreground">无</span>}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{x.compare || "-"}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.impact}</td>
+                <td className="border-b border-slate-100 px-3 py-3">{x.confidence}</td>
               </tr>
             ))}
           </tbody>
