@@ -131,7 +131,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       {filtered.length === 0 && <p className="text-sm text-muted-foreground">当前筛选条件下暂无匹配数据。</p>}
 
       {viewerOpen && viewerImages.length > 0 && (
-        <div className="fixed inset-0 z-50 bg-black/75" onClick={() => setViewerOpen(false)}>
+        <div className="fixed top-0 left-0 z-[9999] h-screen w-screen bg-black/80" onClick={() => setViewerOpen(false)}>
           <div className="mx-auto flex h-full max-w-5xl items-center justify-center px-4" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={prevImage} className="mr-3 rounded bg-white/90 px-3 py-2 text-sm">上一张</button>
             <div className="rounded bg-white p-3">
