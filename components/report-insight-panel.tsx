@@ -1,5 +1,6 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Insight } from "@/lib/reports";
 import { Button } from "@/components/ui/button";
 
@@ -26,6 +27,11 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<ViewerImage[]>([]);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const competitors = ["全部", ...Array.from(new Set(insights.map((x) => x.competitor)))];
   const dimensions = ["全部", ...Array.from(new Set(insights.map((x) => x.dimension)))];
@@ -130,8 +136,8 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
 
       {filtered.length === 0 && <p className="text-sm text-muted-foreground">当前筛选条件下暂无匹配数据。</p>}
 
-      {viewerOpen && viewerImages.length > 0 && (
-        <div className="fixed top-0 left-0 z-[9999] h-screen w-screen bg-black/80" onClick={() => setViewerOpen(false)}>
+      {mounted && viewerOpen && viewerImages.length > 0 && createPortal(
+        <div className="fixed inset-0 z-[2147483647] bg-black/85" onClick={() => setViewerOpen(false)}>
           <div className="mx-auto flex h-full max-w-5xl items-center justify-center px-4" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={prevImage} className="mr-3 rounded bg-white/90 px-3 py-2 text-sm">上一张</button>
             <div className="rounded bg-white p-3">
@@ -140,7 +146,8 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
             </div>
             <button type="button" onClick={nextImage} className="ml-3 rounded bg-white/90 px-3 py-2 text-sm">下一张</button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
