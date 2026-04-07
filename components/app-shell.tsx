@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 const mainNav = [
   { href: "/dashboard", label: "仪表盘", icon: LayoutDashboard },
-  { href: "/reports", label: "周报中心", icon: FileText },
+  { href: "/dashboard", label: "周报中心", icon: FileText },
   { href: "/evidence", label: "证据库", icon: ImageIcon },
   { href: "/settings", label: "配置", icon: Settings },
 ];
@@ -32,7 +32,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     const Icon = item.icon;
                     const active = pathname.startsWith(item.href);
                     return (
-                      <Link key={item.href} href={item.href} className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}>
+                      <Link key={`${item.href}-${item.label}`} href={item.href} className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}>
                         <Icon className={`size-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
                         <span>{item.label}</span>
                       </Link>
@@ -44,7 +44,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div className="h-7 w-7 rounded-md bg-primary shadow-sm" />
             <span className="text-sm font-semibold">AI Competitor Radar</span>
           </div>
-          <Link href="/reports" className="text-sm text-muted-foreground">周报中心</Link>
+          <Link href="/dashboard" className="text-sm text-muted-foreground">周报中心</Link>
         </div>
       </header>
 
@@ -56,7 +56,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 const Icon = item.icon;
                 const active = pathname.startsWith(item.href);
                 return (
-                  <NavigationMenuItem key={item.href}>
+                  <NavigationMenuItem key={`${item.href}-${item.label}`}>
                     <NavigationMenuLink
                       render={<Link href={item.href} />}
                       className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}

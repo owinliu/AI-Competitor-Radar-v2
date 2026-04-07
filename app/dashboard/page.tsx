@@ -1,6 +1,5 @@
 import { getAllReports, getReportBySlug } from "@/lib/reports";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import ReportInsightPanel from "@/components/report-insight-panel";
 
 export default function DashboardPage() {
   const reports = getAllReports();
@@ -11,11 +10,11 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
         <h1 className="text-2xl font-semibold">竞品追踪工作台</h1>
-        <p className="mt-2 text-sm text-muted-foreground">主区直接展示最新报告原文，减少二次点击。</p>
+        <p className="mt-2 text-sm text-muted-foreground">所有分析结果统一在 Dashboard 展示，不再分散到其它页面。</p>
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        {[["周报总数", String(reports.length)], ["当前周期", "0402 vs 0323"], ["高影响项", "3"], ["证据图片", "10"]].map(([k, v]) => (
+        {[["周报总数", String(reports.length)], ["当前周期", latest?.period || "-"], ["高影响项", String(latest?.insights?.filter(i=>i.impact==="高").length || 0)], ["证据图片", String(latest?.insights?.reduce((n,i)=>n+i.evidence.length,0) || 0)]].map(([k, v]) => (
           <div key={k} className="rounded-xl border bg-card p-4">
             <p className="text-xs text-muted-foreground">{k}</p>
             <p className="mt-2 text-2xl font-semibold">{v}</p>
@@ -24,14 +23,13 @@ export default function DashboardPage() {
       </section>
 
       {latest && (
-        <section className="rounded-xl border bg-card p-6">
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">最新报告（原文展开）</p>
-          <h2 className="mt-2 text-xl font-semibold">{latest.title}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">{latest.summary}</p>
-
-          <article className="prose mt-5 max-w-none prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{latest.content}</ReactMarkdown>
-          </article>
+        <section className="rounded-xl border bg-card p-6 space-y-4">
+          <div>
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">最新报告（统一入口）</p>
+            <h2 className="mt-2 text-xl font-semibold">{latest.title}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{latest.summary}</p>
+          </div>
+          <ReportInsightPanel insights={latest.insights} />
         </section>
       )}
     </div>
