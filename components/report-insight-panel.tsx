@@ -46,6 +46,9 @@ function impactTextClass(impact: "高" | "中" | "低") {
 
 type ViewerImage = { src: string; label: string };
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const withBasePath = (src: string) => (src && src.startsWith("/") ? `${BASE_PATH}${src}` : src);
+
 export default function ReportInsightPanel({ insights }: { insights: Insight[] }) {
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
@@ -205,7 +208,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                                 <div className="text-center">
                                   {prevImgs[0] ? (
                                     <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
-                                      <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                      <img src={withBasePath(prevImgs[0].src)} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
                                     </button>
                                   ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                                   <p className="mt-1 text-[11px] text-muted-foreground">上期</p>
@@ -213,7 +216,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                                 <div className="text-center">
                                   {currImgs[0] ? (
                                     <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
-                                      <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                      <img src={withBasePath(currImgs[0].src)} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
                                     </button>
                                   ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                                   <p className="mt-1 text-[11px] text-muted-foreground">本期</p>
@@ -274,7 +277,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                           const idx = allImgs.findIndex((i) => i.src === img.src);
                           return (
                             <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                              <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                              <img src={withBasePath(img.src)} alt={img.src} className="h-24 w-16 rounded object-cover" />
                             </button>
                           );
                         }) : <span className="text-xs text-muted-foreground">无</span>}
@@ -286,7 +289,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                           const idx = allImgs.findIndex((i) => i.src === img.src);
                           return (
                             <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                              <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                              <img src={withBasePath(img.src)} alt={img.src} className="h-24 w-16 rounded object-cover" />
                             </button>
                           );
                         }) : <span className="text-xs text-muted-foreground">无</span>}
@@ -311,7 +314,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
             <button type="button" onClick={prevImage} className="mr-3 rounded bg-white/90 px-3 py-2 text-sm">上一张</button>
             <div className="rounded bg-white p-3">
               <div className="mb-2 text-center text-xs text-slate-500">{viewerImages[viewerIndex]?.label}（{viewerIndex + 1}/{viewerImages.length}）</div>
-              <img src={viewerImages[viewerIndex]?.src} alt="preview" className="max-h-[80vh] max-w-[70vw] rounded object-contain" />
+              <img src={withBasePath(viewerImages[viewerIndex]?.src || "")} alt="preview" className="max-h-[80vh] max-w-[70vw] rounded object-contain" />
             </div>
             <button type="button" onClick={nextImage} className="ml-3 rounded bg-white/90 px-3 py-2 text-sm">下一张</button>
           </div>

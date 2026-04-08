@@ -10,7 +10,9 @@ const nextConfig = {
   },
   trailingSlash: true,
   basePath,
-  assetPrefix: basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
 };
 
 export default nextConfig;
