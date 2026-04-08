@@ -132,20 +132,10 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const prevImage = () => setViewerIndex((i) => (i - 1 + viewerImages.length) % viewerImages.length);
 
   return (
-    <section className="rounded-xl border bg-card p-5 space-y-4">
-      <h2 className="text-lg font-semibold">动态结论面板（按筛选联动）</h2>
-      <div className="grid gap-3 md:grid-cols-[2fr_2fr_1fr_1fr]">
-        {group("竞品", competitors, competitor, setCompetitor)}
-        {group("维度", dimensions, dimension, setDimension)}
-        {group("周期", periods, period, setPeriod)}
-        <div className="md:text-right md:justify-self-end">
-          {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
-        </div>
-      </div>
-
-      <div className="rounded-lg border bg-muted/20 p-4 space-y-3">
+    <>
+      <section className="rounded-xl border bg-card p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-sm font-medium">单产品阶段更新（含对比图）</p>
+          <h2 className="text-lg font-semibold">单产品阶段更新（含对比图）</h2>
           <div className="flex flex-wrap gap-2">
             {stageTabs.map((x) => (
               <Button key={x} size="sm" variant={x === stageCompetitor ? "default" : "outline"} onClick={() => setStageCompetitor(x)}>{x}</Button>
@@ -202,80 +192,92 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
             ))}
           </div>
         )}
-      </div>
+      </section>
 
-      <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
-        <p className="mb-1 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 运营 / 风控）</p>
-        <ul className="list-disc space-y-1 pl-5 text-sm">
-          {dimensionSummaries.map((s) => (
-            <li key={s.dim}>{s.text}</li>
-          ))}
-        </ul>
-      </div>
+      <section className="rounded-xl border bg-card p-5 space-y-4">
+        <h2 className="text-lg font-semibold">动态结论面板（按筛选联动）</h2>
+        <div className="grid gap-3 md:grid-cols-[2fr_2fr_1fr_1fr]">
+          {group("竞品", competitors, competitor, setCompetitor)}
+          {group("维度", dimensions, dimension, setDimension)}
+          {group("周期", periods, period, setPeriod)}
+          <div className="md:text-right md:justify-self-end">
+            {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
+          </div>
+        </div>
 
-      <div className="overflow-x-auto rounded-lg border">
-        <table className="w-full min-w-[1200px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-slate-50 text-left text-slate-600">
-              <th className="border-b border-slate-200 px-3 py-2">竞品</th>
-              <th className="border-b border-slate-200 px-3 py-2">分析维度</th>
-              <th className="border-b border-slate-200 px-3 py-2">页面位点</th>
-              <th className="border-b border-slate-200 px-3 py-2">结论</th>
-              <th className="border-b border-slate-200 px-3 py-2">0323截图（上期）</th>
-              <th className="border-b border-slate-200 px-3 py-2">0402截图（本期）</th>
-              <th className="border-b border-slate-200 px-3 py-2">对比过程（仅变化明显时展示）</th>
-              <th className="border-b border-slate-200 px-3 py-2">影响等级</th>
-              <th className="border-b border-slate-200 px-3 py-2">是否建议人工复核</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((x) => {
-              const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
-              const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
-              const allImgs = [...prevImgs, ...currImgs];
-              const smallChange = /稳定|变化不大|未见明显变化|基本一致/.test(`${x.conclusion}${x.compare || ""}`);
-              const needReview = `${x.confidence}`.includes("是");
-              return (
-                <tr key={x.id}>
-                  <td className="border-b border-slate-100 px-3 py-3 whitespace-nowrap min-w-[6em] w-[6em]">{x.competitor}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">{displayLabel(x.dimension)}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">{x.page || "-"}</td>
-                  <td className="border-b border-slate-100 px-3 py-3 max-w-[280px]">{x.conclusion}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">
-                    <div className="flex flex-wrap gap-2">
-                      {prevImgs.length > 0 ? prevImgs.map((img) => {
-                        const idx = allImgs.findIndex((i) => i.src === img.src);
-                        return (
-                          <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                            <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
-                          </button>
-                        );
-                      }) : <span className="text-xs text-muted-foreground">无</span>}
-                    </div>
-                  </td>
-                  <td className="border-b border-slate-100 px-3 py-3">
-                    <div className="flex flex-wrap gap-2">
-                      {currImgs.length > 0 ? currImgs.map((img) => {
-                        const idx = allImgs.findIndex((i) => i.src === img.src);
-                        return (
-                          <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                            <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
-                          </button>
-                        );
-                      }) : <span className="text-xs text-muted-foreground">无</span>}
-                    </div>
-                  </td>
-                  <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{smallChange ? "（变化不大，省略详细过程）" : (x.compare || "-")}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">{x.impact}</td>
-                  <td className="border-b border-slate-100 px-3 py-3">{needReview ? "是（建议人工复核）" : "否"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+        <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
+          <p className="mb-1 text-sm font-medium">按维度总结（APP / 客服 / 消金 / 运营 / 风控）</p>
+          <ul className="list-disc space-y-1 pl-5 text-sm">
+            {dimensionSummaries.map((s) => (
+              <li key={s.dim}>{s.text}</li>
+            ))}
+          </ul>
+        </div>
 
-      {filtered.length === 0 && <p className="text-sm text-muted-foreground">当前筛选条件下暂无匹配数据。</p>}
+        <div className="overflow-x-auto rounded-lg border">
+          <table className="w-full min-w-[1200px] border-collapse text-sm">
+            <thead>
+              <tr className="bg-slate-50 text-left text-slate-600">
+                <th className="border-b border-slate-200 px-3 py-2">竞品</th>
+                <th className="border-b border-slate-200 px-3 py-2">分析维度</th>
+                <th className="border-b border-slate-200 px-3 py-2">页面位点</th>
+                <th className="border-b border-slate-200 px-3 py-2">结论</th>
+                <th className="border-b border-slate-200 px-3 py-2">0323截图（上期）</th>
+                <th className="border-b border-slate-200 px-3 py-2">0402截图（本期）</th>
+                <th className="border-b border-slate-200 px-3 py-2">对比过程（仅变化明显时展示）</th>
+                <th className="border-b border-slate-200 px-3 py-2">影响等级</th>
+                <th className="border-b border-slate-200 px-3 py-2">是否建议人工复核</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((x) => {
+                const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
+                const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
+                const allImgs = [...prevImgs, ...currImgs];
+                const smallChange = /稳定|变化不大|未见明显变化|基本一致/.test(`${x.conclusion}${x.compare || ""}`);
+                const needReview = `${x.confidence}`.includes("是");
+                return (
+                  <tr key={x.id}>
+                    <td className="border-b border-slate-100 px-3 py-3 whitespace-nowrap min-w-[6em] w-[6em]">{x.competitor}</td>
+                    <td className="border-b border-slate-100 px-3 py-3">{displayLabel(x.dimension)}</td>
+                    <td className="border-b border-slate-100 px-3 py-3">{x.page || "-"}</td>
+                    <td className="border-b border-slate-100 px-3 py-3 max-w-[280px]">{x.conclusion}</td>
+                    <td className="border-b border-slate-100 px-3 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {prevImgs.length > 0 ? prevImgs.map((img) => {
+                          const idx = allImgs.findIndex((i) => i.src === img.src);
+                          return (
+                            <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
+                              <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                            </button>
+                          );
+                        }) : <span className="text-xs text-muted-foreground">无</span>}
+                      </div>
+                    </td>
+                    <td className="border-b border-slate-100 px-3 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {currImgs.length > 0 ? currImgs.map((img) => {
+                          const idx = allImgs.findIndex((i) => i.src === img.src);
+                          return (
+                            <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
+                              <img src={img.src} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                            </button>
+                          );
+                        }) : <span className="text-xs text-muted-foreground">无</span>}
+                      </div>
+                    </td>
+                    <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{smallChange ? "（变化不大，省略详细过程）" : (x.compare || "-")}</td>
+                    <td className="border-b border-slate-100 px-3 py-3">{x.impact}</td>
+                    <td className="border-b border-slate-100 px-3 py-3">{needReview ? "是（建议人工复核）" : "否"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {filtered.length === 0 && <p className="text-sm text-muted-foreground">当前筛选条件下暂无匹配数据。</p>}
+      </section>
 
       {mounted && viewerOpen && viewerImages.length > 0 && createPortal(
         <div className="fixed inset-0 z-[2147483647] bg-black/85" onClick={() => setViewerOpen(false)}>
@@ -290,6 +292,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         </div>,
         document.body
       )}
-    </section>
+    </>
   );
 }
