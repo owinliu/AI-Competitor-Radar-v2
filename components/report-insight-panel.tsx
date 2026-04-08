@@ -28,6 +28,9 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
   const [changeScope, setChangeScope] = useState<"显著变化" | "全部">("显著变化");
+  const preferredCompetitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
+  const stageTabs = preferredCompetitorOrder.filter((x) => insights.some((i) => i.competitor === x));
+  const [stageCompetitor, setStageCompetitor] = useState(stageTabs[0] || "全部");
 
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<ViewerImage[]>([]);
@@ -37,6 +40,13 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!stageTabs.length) return;
+    if (!stageTabs.includes(stageCompetitor)) {
+      setStageCompetitor(stageTabs[0]);
+    }
+  }, [stageTabs, stageCompetitor]);
 
   const competitors = ["全部", ...Array.from(new Set(insights.map((x) => x.competitor)))];
   const dimensionOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
@@ -56,6 +66,14 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     }
     return true;
   }), [insights, competitor, dimension, period, changeScope]);
+
+  const stageInsights = useMemo(() => {
+    const active = filtered.filter((x) => x.competitor === stageCompetitor);
+    const order = ["APP", "客服", "消金", "留存促活运营", "风控"];
+    return order
+      .map((d) => ({ dimension: d, rows: active.filter((x) => x.dimension === d) }))
+      .filter((x) => x.rows.length > 0);
+  }, [filtered, stageCompetitor]);
 
   const dimensionSummaries = useMemo(() => {
     const byDim = new Map<string, typeof filtered>();
@@ -123,6 +141,67 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         <div className="md:text-right md:justify-self-end">
           {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
         </div>
+      </div>
+
+      <div className="rounded-lg border bg-muted/20 p-4 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm font-medium">单产品阶段更新（含对比图）</p>
+          <div className="flex flex-wrap gap-2">
+            {stageTabs.map((x) => (
+              <Button key={x} size="sm" variant={x === stageCompetitor ? "default" : "outline"} onClick={() => setStageCompetitor(x)}>{x}</Button>
+            ))}
+          </div>
+        </div>
+
+        {stageInsights.length === 0 ? (
+          <p className="text-sm text-muted-foreground">当前筛选下暂无该竞品的阶段更新。</p>
+        ) : (
+          <div className="space-y-4">
+            {stageInsights.map(({ dimension: dim, rows }) => (
+              <div key={dim} className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">{displayLabel(dim)}</p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {rows.slice(0, 4).map((x) => {
+                    const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
+                    const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
+                    const allImgs = [...prevImgs, ...currImgs];
+                    return (
+                      <div key={x.id} className="rounded-lg border bg-card p-3 space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-medium">{x.page || "页面位点未标注"}</p>
+                          <span className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">影响：{x.impact}</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
+                            {prevImgs[0] ? (
+                              <button type="button" onClick={() => openViewer(allImgs, 0)} className="block w-full rounded border p-1 hover:bg-slate-50">
+                                <img src={prevImgs[0].src} alt="上期截图" className="h-36 w-full rounded object-cover" />
+                              </button>
+                            ) : <div className="h-36 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                          </div>
+                          <div>
+                            <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
+                            {currImgs[0] ? (
+                              <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="block w-full rounded border p-1 hover:bg-slate-50">
+                                <img src={currImgs[0].src} alt="本期截图" className="h-36 w-full rounded object-cover" />
+                              </button>
+                            ) : <div className="h-36 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                          </div>
+                        </div>
+                        <div className="space-y-1 text-xs">
+                          <p><span className="font-medium">事实：</span>{x.conclusion || "-"}</p>
+                          <p><span className="font-medium">体验：</span>{x.compare || "变化不大，省略详细过程"}</p>
+                          <p><span className="font-medium">业务启发：</span>建议按{displayLabel(x.dimension)}维度持续跟踪该位点，当前影响等级为{x.impact}。</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="rounded-lg border bg-muted/30 p-3 text-sm space-y-2">
