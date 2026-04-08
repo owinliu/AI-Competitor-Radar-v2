@@ -568,41 +568,23 @@ insights:
     evidence:
       - /evidence/奇富借条-消金-0323-账单页.jpg
       - /evidence/奇富借条-消金-0407-账单页.jpg
-  - id: 奇富借条-留存促活运营-借款折扣
-    competitor: 奇富借条
-    dimension: 留存促活运营
-    period: 2026-W15
-    page: 借款折扣
-    conclusion: 借款折扣与借钱折扣存在命名位点不一致，跨期可比性不足。
-    compare: 对照窗口：0323（借款折扣）vs 0407（借钱折扣），建议补齐同位点命名后再判定。
-    impact: 中
-    confidence: 是（建议人工复核）
-    actions:
-      - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - /evidence/奇富借条-留存促活运营-0323-借款折扣.jpg
-    currEvidence:
-      - 无
-    evidence:
-      - /evidence/奇富借条-留存促活运营-0323-借款折扣.jpg
-      - 无
   - id: 奇富借条-留存促活运营-借钱折扣
     competitor: 奇富借条
     dimension: 留存促活运营
     period: 2026-W15
     page: 借钱折扣
-    conclusion: 借钱折扣为新增命名位点，需与借款折扣做同位点对齐。
-    compare: 对照窗口：0407新增命名，暂缺0323同名位点。
+    conclusion: 借钱折扣位点两期已对齐，活动权益表达延续并有轻微强化。
+    compare: 对照窗口：0323 vs 0407，活动主框架一致，文案与奖励提示轻度增强。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
-      - 无
+      - /evidence/奇富借条-留存促活运营-0323-借钱折扣.jpg
     currEvidence:
       - /evidence/奇富借条-留存促活运营-0407-借钱折扣.jpg
     evidence:
-      - 无
+      - /evidence/奇富借条-留存促活运营-0323-借钱折扣.jpg
       - /evidence/奇富借条-留存促活运营-0407-借钱折扣.jpg
   - id: 奇富借条-留存促活运营-免息券1
     competitor: 奇富借条
