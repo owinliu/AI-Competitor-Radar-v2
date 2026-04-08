@@ -51,9 +51,9 @@ insights:
     dimension: APP
     period: 2026-W15
     page: 我的页
-    conclusion: 我的页主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
-    impact: 中
+    conclusion: 我的页账户主结构稳定，权益呈现有小幅调整（优惠券与福利位变动）。
+    compare: 对照窗口：0323 vs 0402，入口框架一致，属于轻度运营层更新。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -87,9 +87,9 @@ insights:
     dimension: APP
     period: 2026-W15
     page: 购物推荐页
-    conclusion: 购物推荐页主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
-    impact: 中
+    conclusion: 购物推荐页商品池与主推主题有更新，但页面框架保持稳定。
+    compare: 对照窗口：0323 vs 0402，属于内容换新而非结构改版。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -105,9 +105,9 @@ insights:
     dimension: APP
     period: 2026-W15
     page: 购物页 买吖超市
-    conclusion: 购物页 买吖超市主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
-    impact: 中
+    conclusion: 买吖超市页以货盘与活动内容迭代为主，交易入口结构稳定。
+    compare: 对照窗口：0323 vs 0402，未见关键交互路径变化。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -177,37 +177,19 @@ insights:
     dimension: 消金
     period: 2026-W15
     page: plus活动
-    conclusion: PLUS会员位点在0402切换为“会员plus”呈现，权益表达由金融权益扩展到消费/内容权益。
-    compare: 对照窗口：0323 plus活动 vs 0402 会员plus，页面命名变化但位点可比，0402新增“开通送50元超市金”等强化利益点。
+    conclusion: PLUS服务页在0402新增“开通送50元超市金”与内容权益横幅，会员价值表达从金融权益扩展为复合权益。
+    compare: 对照窗口：0323 plus活动 vs 0402 plus活动，核心会员框架保持，但中上部新增活动条与内容权益，开通动机增强。
     impact: 高
     confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 按同位点持续追踪，重点关注活动条对开通转化的影响。
     prevEvidence:
       - /evidence/分期乐-消金-0323-plus活动.jpg
     currEvidence:
-      - 无
+      - /evidence/分期乐-消金-0402-plus活动.jpg
     evidence:
       - /evidence/分期乐-消金-0323-plus活动.jpg
-      - 无
-  - id: 分期乐-消金-会员plus
-    competitor: 分期乐
-    dimension: 消金
-    period: 2026-W15
-    page: 会员plus
-    conclusion: 会员plus承接原PLUS位点，新增消费权益与内容权益展示，开通动机更复合。
-    compare: 对照窗口：0323 plus活动 vs 0402 会员plus，权益叙事从“金融优惠”扩展为“金融+消费+内容”。
-    impact: 高
-    confidence: 否
-    actions:
-      - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - 无
-    currEvidence:
-      - /evidence/分期乐-消金-0402-会员plus.jpg
-    evidence:
-      - 无
-      - /evidence/分期乐-消金-0402-会员plus.jpg
+      - /evidence/分期乐-消金-0402-plus活动.jpg
   - id: 分期乐-消金-借钱
     competitor: 分期乐
     dimension: 消金
