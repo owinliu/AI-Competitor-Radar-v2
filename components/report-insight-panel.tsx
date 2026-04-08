@@ -165,20 +165,20 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                         <div className="grid grid-cols-[auto_1fr] gap-3 items-start">
                           <div className="grid grid-cols-2 gap-2">
                             <div className="text-center">
-                              <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
                               {prevImgs[0] ? (
                                 <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
                                   <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
                                 </button>
                               ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                              <p className="mt-1 text-[11px] text-muted-foreground">上期</p>
                             </div>
                             <div className="text-center">
-                              <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
                               {currImgs[0] ? (
                                 <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
                                   <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
                                 </button>
                               ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                              <p className="mt-1 text-[11px] text-muted-foreground">本期</p>
                             </div>
                           </div>
 
