@@ -645,37 +645,19 @@ insights:
     dimension: APP
     period: 2026-W15
     page: 我的页1
-    conclusion: 0407该位点与0323首页形态接近，存在页面命名映射变化，需按位点复核。
-    compare: 对照窗口：0323我的页1 vs 0407样本，顶部结构与底部导航出现跨页映射信号。
-    impact: 中
-    confidence: 是（建议人工复核）
-    actions:
-      - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - /evidence/安逸花-app-0323-我的页1.jpg
-    currEvidence:
-      - 无
-    evidence:
-      - /evidence/安逸花-app-0323-我的页1.jpg
-      - 无
-  - id: 安逸花-app-我的页2
-    competitor: 安逸花
-    dimension: APP
-    period: 2026-W15
-    page: 我的页2
-    conclusion: 我的页2结构整体稳定，主要为内容位轻微更新。
-    compare: 对照窗口：0323 vs 0407，入口布局未见明显变更。
+    conclusion: 我的页1结构稳定，权益与内容位有轻微更新。
+    compare: 对照窗口：0323 vs 0407，账户框架与主导航一致，主要为内容迭代。
     impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
-      - /evidence/安逸花-app-0323-我的页2.jpg
+      - /evidence/安逸花-app-0323-我的页1.jpg
     currEvidence:
-      - 无
+      - /evidence/安逸花-app-0407-我的页1.jpg
     evidence:
-      - /evidence/安逸花-app-0323-我的页2.jpg
-      - 无
+      - /evidence/安逸花-app-0323-我的页1.jpg
+      - /evidence/安逸花-app-0407-我的页1.jpg
   - id: 安逸花-app-首页
     competitor: 安逸花
     dimension: APP
@@ -690,10 +672,28 @@ insights:
     prevEvidence:
       - /evidence/安逸花-app-0323-首页.jpg
     currEvidence:
-      - 无
+      - /evidence/安逸花-app-0407-首页.jpg
     evidence:
       - /evidence/安逸花-app-0323-首页.jpg
-      - 无
+      - /evidence/安逸花-app-0407-首页.jpg
+  - id: 安逸花-app-首页2
+    competitor: 安逸花
+    dimension: APP
+    period: 2026-W15
+    page: 首页2
+    conclusion: 首页2位点结构基本一致，属于运营内容更新。
+    compare: 对照窗口：0323 vs 0407，模块骨架与主操作位保持稳定。
+    impact: 低
+    confidence: 否
+    actions:
+      - 按同位点持续追踪，缺口优先补拍。
+    prevEvidence:
+      - /evidence/安逸花-app-0323-首页2.jpg
+    currEvidence:
+      - /evidence/安逸花-app-0407-首页2.jpg
+    evidence:
+      - /evidence/安逸花-app-0323-首页2.jpg
+      - /evidence/安逸花-app-0407-首页2.jpg
   - id: 安逸花-客服-ai客服
     competitor: 安逸花
     dimension: 客服
