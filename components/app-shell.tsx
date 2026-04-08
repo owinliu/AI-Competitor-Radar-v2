@@ -14,6 +14,7 @@ const mainNav = [
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -40,7 +41,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
               </SheetContent>
             </Sheet>
-            <div className="h-7 w-7 rounded-md bg-primary shadow-sm" />
+            <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-7 w-7 rounded-md object-cover shadow-sm" />
             <span className="text-sm font-semibold">AI Competitor Radar</span>
           </div>
           <Link href="/dashboard" className="text-sm text-muted-foreground">周报中心</Link>

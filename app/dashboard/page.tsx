@@ -10,7 +10,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
         <h1 className="text-2xl font-semibold">竞品追踪工作台</h1>
-        <p className="mt-2 text-sm text-muted-foreground">所有分析结果统一在 Dashboard 展示，不再分散到其它页面。</p>
+        <p className="mt-2 text-sm text-muted-foreground">构建“ AI竞品动态雷达”，稳定的周度看板能力，持续追踪竞品在重点范围内的动态变化；并输出格式化分析结论与业务指导建议，为各团队提供决策参考。</p>
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">
