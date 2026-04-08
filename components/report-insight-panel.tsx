@@ -32,6 +32,12 @@ function experienceText(compare: string, impact: "高" | "中" | "低") {
   return "用户感知有一定变化，但整体学习成本可控。";
 }
 
+function impactChipClass(impact: "高" | "中" | "低") {
+  if (impact === "高") return "bg-red-100 text-red-700 border border-red-200";
+  if (impact === "中") return "bg-amber-100 text-amber-700 border border-amber-200";
+  return "bg-slate-100 text-slate-700 border border-slate-200";
+}
+
 type ViewerImage = { src: string; label: string };
 
 export default function ReportInsightPanel({ insights }: { insights: Insight[] }) {
@@ -164,7 +170,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                       <article key={x.id} className="rounded-lg border bg-card/60 p-3 space-y-2">
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-sm font-medium truncate">{x.page || "页面位点未标注"}</p>
-                          <span className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700 shrink-0">{x.impact}</span>
+                          <span className={`rounded px-2 py-0.5 text-xs shrink-0 ${impactChipClass(x.impact)}`}>{x.impact}</span>
                         </div>
 
                         <div className="grid grid-cols-[auto_1fr] gap-3 items-start">
