@@ -82,6 +82,28 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       .filter((x) => x.dims.length > 0);
   }, [filtered]);
 
+  const crossDimRows = useMemo(() => {
+    const dimOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
+    const competitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
+    return dimOrder.map((dim) => {
+      const byCompetitor = competitorOrder.map((c) => {
+        const hit = filtered.find((x) => x.dimension === dim && x.competitor === c);
+        return { competitor: c, hit };
+      });
+      return { dim, byCompetitor };
+    });
+  }, [filtered]);
+
+  const strategyRows = useMemo(() => {
+    const competitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
+    return competitorOrder
+      .map((c) => {
+        const rows = filtered.filter((x) => x.competitor === c).slice(0, 3);
+        return { competitor: c, rows };
+      })
+      .filter((x) => x.rows.length > 0);
+  }, [filtered]);
+
   const openViewer = (images: ViewerImage[], idx: number) => {
     if (images.length === 0) return;
     setViewerImages(images);
@@ -111,7 +133,61 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
           <h2 className="text-lg font-semibold">结构变化总览（按全局筛选）</h2>
         </div>
 
-        {stageGroups.length === 0 ? (
+        {competitor === "全部" ? (
+          <div className="space-y-4">
+            <div className="rounded-lg border bg-card p-4">
+              <h3 className="text-sm font-semibold mb-3">五维跨产品对比</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[900px] border-collapse text-sm">
+                  <thead>
+                    <tr className="bg-slate-50 text-left text-slate-600">
+                      <th className="border-b border-slate-200 px-3 py-2">维度</th>
+                      <th className="border-b border-slate-200 px-3 py-2">分期乐</th>
+                      <th className="border-b border-slate-200 px-3 py-2">度小满</th>
+                      <th className="border-b border-slate-200 px-3 py-2">安逸花</th>
+                      <th className="border-b border-slate-200 px-3 py-2">小赢</th>
+                      <th className="border-b border-slate-200 px-3 py-2">奇富借条</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {crossDimRows.map(({ dim, byCompetitor }) => (
+                      <tr key={dim}>
+                        <td className="border-b border-slate-100 px-3 py-3 font-medium">{displayLabel(dim)}</td>
+                        {byCompetitor.map(({ competitor: c, hit }) => (
+                          <td key={`${dim}-${c}`} className="border-b border-slate-100 px-3 py-3 align-top">
+                            {hit ? (
+                              <div className="space-y-1">
+                                <span className={`inline-block rounded px-2 py-0.5 text-xs ${impactChipClass(hit.impact)}`}>{hit.impact}</span>
+                                <p className="text-xs text-muted-foreground line-clamp-2">{hit.conclusion}</p>
+                              </div>
+                            ) : <span className="text-xs text-muted-foreground">—</span>}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="rounded-lg border bg-card p-4">
+              <h3 className="text-sm font-semibold mb-3">各产品策略变化对比</h3>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                {strategyRows.map(({ competitor: comp, rows }) => (
+                  <article key={comp} className="rounded-lg border bg-card/60 p-3 space-y-2">
+                    <p className="text-sm font-semibold">{comp}</p>
+                    {rows.map((x) => (
+                      <div key={x.id} className="text-xs text-muted-foreground">
+                        <p><span className={`inline-block rounded px-1.5 py-0.5 mr-1 ${impactChipClass(x.impact)}`}>{x.impact}</span>{displayLabel(x.dimension)} · {x.page}</p>
+                        <p className="line-clamp-2">{x.conclusion}</p>
+                      </div>
+                    ))}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : stageGroups.length === 0 ? (
           <p className="text-sm text-muted-foreground">当前筛选下暂无结构变化页面。</p>
         ) : (
           <div className="space-y-6">
