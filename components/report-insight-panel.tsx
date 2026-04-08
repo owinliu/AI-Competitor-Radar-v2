@@ -176,17 +176,17 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                             <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
                             {prevImgs[0] ? (
                               <button type="button" onClick={() => openViewer(allImgs, 0)} className="block w-full rounded border p-1 hover:bg-slate-50">
-                                <img src={prevImgs[0].src} alt="上期截图" className="h-36 w-full rounded object-cover" />
+                                <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-44 w-24 rounded object-cover" />
                               </button>
-                            ) : <div className="h-36 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            ) : <div className="mx-auto h-44 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                           </div>
                           <div>
                             <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
                             {currImgs[0] ? (
                               <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="block w-full rounded border p-1 hover:bg-slate-50">
-                                <img src={currImgs[0].src} alt="本期截图" className="h-36 w-full rounded object-cover" />
+                                <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-44 w-24 rounded object-cover" />
                               </button>
-                            ) : <div className="h-36 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            ) : <div className="mx-auto h-44 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                           </div>
                         </div>
                         <div className="space-y-1 text-xs">
