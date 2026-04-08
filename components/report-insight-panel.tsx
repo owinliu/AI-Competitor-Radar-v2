@@ -133,8 +133,8 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
 
   return (
     <>
-      <section className="rounded-xl border bg-card p-5 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-semibold">单产品阶段更新（含对比图）</h2>
           <div className="flex flex-wrap gap-2">
             {stageTabs.map((x) => (
@@ -146,45 +146,46 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         {stageInsights.length === 0 ? (
           <p className="text-sm text-muted-foreground">当前筛选下暂无该竞品的阶段更新。</p>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-5">
             {stageInsights.map(({ dimension: dim, rows }) => (
               <div key={dim} className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground">{displayLabel(dim)}</p>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {rows.slice(0, 4).map((x) => {
+                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                  {rows.slice(0, 6).map((x) => {
                     const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
                     const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
                     const allImgs = [...prevImgs, ...currImgs];
                     return (
-                      <div key={x.id} className="rounded-lg border bg-card p-3 space-y-2">
+                      <article key={x.id} className="rounded-lg border bg-card/60 p-3 space-y-2">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="text-sm font-medium">{x.page || "页面位点未标注"}</p>
-                          <span className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">影响：{x.impact}</span>
+                          <p className="text-sm font-medium truncate">{x.page || "页面位点未标注"}</p>
+                          <span className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700 shrink-0">{x.impact}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div>
+
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="text-center">
                             <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
                             {prevImgs[0] ? (
-                              <button type="button" onClick={() => openViewer(allImgs, 0)} className="block w-full rounded border p-1 hover:bg-slate-50">
-                                <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-44 w-24 rounded object-cover" />
+                              <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
+                                <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-40 w-[5.5rem] rounded object-cover" />
                               </button>
-                            ) : <div className="mx-auto h-44 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            ) : <div className="mx-auto h-40 w-[5.5rem] rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                           </div>
-                          <div>
+                          <div className="text-center">
                             <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
                             {currImgs[0] ? (
-                              <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="block w-full rounded border p-1 hover:bg-slate-50">
-                                <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-44 w-24 rounded object-cover" />
+                              <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
+                                <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-40 w-[5.5rem] rounded object-cover" />
                               </button>
-                            ) : <div className="mx-auto h-44 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            ) : <div className="mx-auto h-40 w-[5.5rem] rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
                           </div>
                         </div>
-                        <div className="space-y-1 text-xs">
-                          <p><span className="font-medium">事实：</span>{x.conclusion || "-"}</p>
-                          <p><span className="font-medium">体验：</span>{x.compare || "变化不大，省略详细过程"}</p>
-                          <p><span className="font-medium">业务启发：</span>建议按{displayLabel(x.dimension)}维度持续跟踪该位点，当前影响等级为{x.impact}。</p>
+
+                        <div className="space-y-1 text-xs text-muted-foreground">
+                          <p className="line-clamp-2"><span className="font-medium text-foreground">事实：</span>{x.conclusion || "-"}</p>
+                          <p className="line-clamp-2"><span className="font-medium text-foreground">体验：</span>{x.compare || "变化不大，省略详细过程"}</p>
                         </div>
-                      </div>
+                      </article>
                     );
                   })}
                 </div>
