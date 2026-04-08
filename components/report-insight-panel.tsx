@@ -162,28 +162,30 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                           <span className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700 shrink-0">{x.impact}</span>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="text-center">
-                            <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
-                            {prevImgs[0] ? (
-                              <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
-                                <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-24 w-24 rounded object-cover" />
-                              </button>
-                            ) : <div className="mx-auto h-24 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                        <div className="grid grid-cols-[auto_1fr] gap-3 items-start">
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="text-center">
+                              <p className="mb-1 text-[11px] text-muted-foreground">上期</p>
+                              {prevImgs[0] ? (
+                                <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
+                                  <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                </button>
+                              ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            </div>
+                            <div className="text-center">
+                              <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
+                              {currImgs[0] ? (
+                                <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
+                                  <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                </button>
+                              ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                            </div>
                           </div>
-                          <div className="text-center">
-                            <p className="mb-1 text-[11px] text-muted-foreground">本期</p>
-                            {currImgs[0] ? (
-                              <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
-                                <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-24 w-24 rounded object-cover" />
-                              </button>
-                            ) : <div className="mx-auto h-24 w-24 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
-                          </div>
-                        </div>
 
-                        <div className="space-y-1 text-xs text-muted-foreground">
-                          <p className="line-clamp-2"><span className="font-medium text-foreground">事实：</span>{x.conclusion || "-"}</p>
-                          <p className="line-clamp-2"><span className="font-medium text-foreground">体验：</span>{x.compare || "变化不大，省略详细过程"}</p>
+                          <div className="space-y-1 text-xs text-muted-foreground min-w-0">
+                            <p className="line-clamp-3"><span className="font-medium text-foreground">事实：</span>{x.conclusion || "-"}</p>
+                            <p className="line-clamp-3"><span className="font-medium text-foreground">体验：</span>{x.compare || "变化不大，省略详细过程"}</p>
+                          </div>
                         </div>
                       </article>
                     );
