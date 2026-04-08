@@ -25,13 +25,6 @@ function hasStructuralChange(text: string) {
   return /入口|布局|层级|主操作|主链路|路径|结构|改版|切换|新增|强化|调整/.test(text);
 }
 
-function hasSignificantStructuralChange(conclusion: string, compare: string) {
-  const text = `${conclusion}${compare}`;
-  const isSmall = /变化不大|基本一致|整体稳定|省略详细过程|主链路稳定|未见关键路径变化|轻微|小幅/.test(text);
-  const hasSignal = /新增|切换|改版|强化|调整|变化|替换|升级/.test(text);
-  return !isSmall && hasStructuralChange(text) && hasSignal;
-}
-
 function experienceText(compare: string, impact: "高" | "中" | "低") {
   if (!hasStructuralChange(compare) && impact === "低") return "用户主路径基本不变，感知为延续性更新。";
   if (!hasStructuralChange(compare) && impact === "中") return "用户主路径变化有限，感知为局部优化。";
@@ -45,7 +38,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
-  const [changeScope, setChangeScope] = useState<"显著变化" | "全部">("显著变化");
+  const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("全部");
   const preferredCompetitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
   const stageTabs = preferredCompetitorOrder.filter((x) => insights.some((i) => i.competitor === x));
   const [stageCompetitor, setStageCompetitor] = useState(stageTabs[0] || "全部");
@@ -75,10 +68,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     if (competitor !== "全部" && x.competitor !== competitor) return false;
     if (dimension !== "全部" && x.dimension !== dimension) return false;
     if (period !== "全部" && x.period !== period) return false;
-    if (changeScope === "显著变化") {
-      // 新规则：不看历史高影响标签，仅按截图对比中的“结构层变化信号”筛选
-      if (!hasSignificantStructuralChange(x.conclusion || "", x.compare || "")) return false;
-    }
+    if (changeScope !== "全部" && x.impact !== changeScope) return false;
     return true;
   }), [insights, competitor, dimension, period, changeScope]);
 
@@ -220,7 +210,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
           {group("维度", dimensions, dimension, setDimension)}
           {group("周期", periods, period, setPeriod)}
           <div className="md:text-right md:justify-self-end">
-            {group("变化范围", ["显著变化", "全部"], changeScope, (v) => setChangeScope(v as "显著变化" | "全部"))}
+            {group("变化等级", ["全部", "高", "中", "低"], changeScope, (v) => setChangeScope(v as "全部" | "高" | "中" | "低"))}
           </div>
         </div>
 
@@ -241,8 +231,8 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                 <th className="border-b border-slate-200 px-3 py-2">分析维度</th>
                 <th className="border-b border-slate-200 px-3 py-2">页面位点</th>
                 <th className="border-b border-slate-200 px-3 py-2">结论</th>
-                <th className="border-b border-slate-200 px-3 py-2">0323截图（上期）</th>
-                <th className="border-b border-slate-200 px-3 py-2">0402截图（本期）</th>
+                <th className="border-b border-slate-200 px-3 py-2">上期截图</th>
+                <th className="border-b border-slate-200 px-3 py-2">本期截图</th>
                 <th className="border-b border-slate-200 px-3 py-2">对比过程（仅变化明显时展示）</th>
                 <th className="border-b border-slate-200 px-3 py-2">影响等级</th>
                 <th className="border-b border-slate-200 px-3 py-2">是否建议人工复核</th>
@@ -253,7 +243,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                 const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
                 const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
                 const allImgs = [...prevImgs, ...currImgs];
-                const smallChange = /稳定|变化不大|未见明显变化|基本一致/.test(`${x.conclusion}${x.compare || ""}`);
                 const needReview = `${x.confidence}`.includes("是");
                 return (
                   <tr key={x.id}>
@@ -285,7 +274,7 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
                         }) : <span className="text-xs text-muted-foreground">无</span>}
                       </div>
                     </td>
-                    <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{smallChange ? "（变化不大，省略详细过程）" : (x.compare || "-")}</td>
+                    <td className="border-b border-slate-100 px-3 py-3 max-w-[320px]">{x.compare || "-"}</td>
                     <td className="border-b border-slate-100 px-3 py-3">{x.impact}</td>
                     <td className="border-b border-slate-100 px-3 py-3">{needReview ? "是（建议人工复核）" : "否"}</td>
                   </tr>
