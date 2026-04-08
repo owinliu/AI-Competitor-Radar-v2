@@ -45,9 +45,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
   const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("全部");
-  const preferredCompetitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
-  const stageTabs = preferredCompetitorOrder.filter((x) => insights.some((i) => i.competitor === x));
-  const [stageCompetitor, setStageCompetitor] = useState(stageTabs[0] || "全部");
 
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<ViewerImage[]>([]);
@@ -57,13 +54,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!stageTabs.length) return;
-    if (!stageTabs.includes(stageCompetitor)) {
-      setStageCompetitor(stageTabs[0]);
-    }
-  }, [stageTabs, stageCompetitor]);
 
   const competitors = ["全部", ...Array.from(new Set(insights.map((x) => x.competitor)))];
   const dimensionOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
@@ -78,13 +68,19 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
     return true;
   }), [insights, competitor, dimension, period, changeScope]);
 
-  const stageInsights = useMemo(() => {
-    const active = filtered.filter((x) => x.competitor === stageCompetitor);
-    const order = ["APP", "客服", "消金", "留存促活运营", "风控"];
-    return order
-      .map((d) => ({ dimension: d, rows: active.filter((x) => x.dimension === d) }))
-      .filter((x) => x.rows.length > 0);
-  }, [filtered, stageCompetitor]);
+  const stageGroups = useMemo(() => {
+    const competitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
+    const dimOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
+    return competitorOrder
+      .map((c) => {
+        const rows = filtered.filter((x) => x.competitor === c);
+        const dims = dimOrder
+          .map((d) => ({ dimension: d, rows: rows.filter((x) => x.dimension === d) }))
+          .filter((x) => x.rows.length > 0);
+        return { competitor: c, dims };
+      })
+      .filter((x) => x.dims.length > 0);
+  }, [filtered]);
 
   const openViewer = (images: ViewerImage[], idx: number) => {
     if (images.length === 0) return;
@@ -112,63 +108,63 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
 
       <section className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">单产品结构变化页（按截图对比）</h2>
-          <div className="flex flex-wrap gap-2">
-            {stageTabs.map((x) => (
-              <Button key={x} size="sm" variant={x === stageCompetitor ? "default" : "outline"} onClick={() => setStageCompetitor(x)}>{x}</Button>
-            ))}
-          </div>
+          <h2 className="text-lg font-semibold">结构变化总览（按全局筛选）</h2>
         </div>
 
-        {stageInsights.length === 0 ? (
-          <p className="text-sm text-muted-foreground">当前筛选下暂无结构层明显变化页面。</p>
+        {stageGroups.length === 0 ? (
+          <p className="text-sm text-muted-foreground">当前筛选下暂无结构变化页面。</p>
         ) : (
-          <div className="space-y-5">
-            {stageInsights.map(({ dimension: dim, rows }) => (
-              <div key={dim} className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground">{displayLabel(dim)}</p>
-                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {rows.slice(0, 6).map((x) => {
-                    const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
-                    const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
-                    const allImgs = [...prevImgs, ...currImgs];
-                    return (
-                      <article key={x.id} className="rounded-lg border bg-card/60 p-3 space-y-2">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-sm font-medium truncate">{x.page || "页面位点未标注"}</p>
-                          <span className={`rounded px-2 py-0.5 text-xs shrink-0 ${impactChipClass(x.impact)}`}>{x.impact}</span>
-                        </div>
-
-                        <div className="grid grid-cols-[auto_1fr] gap-3 items-start">
-                          <div className="grid grid-cols-2 gap-2">
-                            <div className="text-center">
-                              {prevImgs[0] ? (
-                                <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
-                                  <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
-                                </button>
-                              ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
-                              <p className="mt-1 text-[11px] text-muted-foreground">上期</p>
+          <div className="space-y-6">
+            {stageGroups.map(({ competitor: comp, dims }) => (
+              <div key={comp} className="space-y-3">
+                <h3 className="text-sm font-semibold">{comp}</h3>
+                {dims.map(({ dimension: dim, rows }) => (
+                  <div key={`${comp}-${dim}`} className="space-y-2">
+                    <p className="text-xs font-medium text-muted-foreground">{displayLabel(dim)}</p>
+                    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                      {rows.slice(0, 6).map((x) => {
+                        const prevImgs = (x.prevEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "上期" }));
+                        const currImgs = (x.currEvidence || []).filter((src) => src && src !== "无").map((src) => ({ src, label: "本期" }));
+                        const allImgs = [...prevImgs, ...currImgs];
+                        return (
+                          <article key={x.id} className="rounded-lg border bg-card/60 p-3 space-y-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <p className="text-sm font-medium truncate">{x.page || "页面位点未标注"}</p>
+                              <span className={`rounded px-2 py-0.5 text-xs shrink-0 ${impactChipClass(x.impact)}`}>{x.impact}</span>
                             </div>
-                            <div className="text-center">
-                              {currImgs[0] ? (
-                                <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
-                                  <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
-                                </button>
-                              ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
-                              <p className="mt-1 text-[11px] text-muted-foreground">本期</p>
-                            </div>
-                          </div>
 
-                          <div className="space-y-1 text-xs text-muted-foreground min-w-0">
-                            <p className="line-clamp-3"><span className="font-medium text-foreground">1）截图变化：</span>{x.compare || "两期截图差异较小。"}</p>
-                            <p className="line-clamp-3"><span className="font-medium text-foreground">2）事实：</span>{x.conclusion || "-"}</p>
-                            <p className="line-clamp-3"><span className="font-medium text-foreground">3）体验：</span>{experienceText(x.compare || "", x.impact)}</p>
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
+                            <div className="grid grid-cols-[auto_1fr] gap-3 items-start">
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="text-center">
+                                  {prevImgs[0] ? (
+                                    <button type="button" onClick={() => openViewer(allImgs, 0)} className="rounded border p-1 hover:bg-slate-50">
+                                      <img src={prevImgs[0].src} alt="上期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                    </button>
+                                  ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                                  <p className="mt-1 text-[11px] text-muted-foreground">上期</p>
+                                </div>
+                                <div className="text-center">
+                                  {currImgs[0] ? (
+                                    <button type="button" onClick={() => openViewer(allImgs, prevImgs.length)} className="rounded border p-1 hover:bg-slate-50">
+                                      <img src={currImgs[0].src} alt="本期截图" className="mx-auto h-28 w-16 rounded object-cover" />
+                                    </button>
+                                  ) : <div className="mx-auto h-28 w-16 rounded border border-dashed text-xs text-muted-foreground grid place-items-center">无</div>}
+                                  <p className="mt-1 text-[11px] text-muted-foreground">本期</p>
+                                </div>
+                              </div>
+
+                              <div className="space-y-1 text-xs text-muted-foreground min-w-0">
+                                <p className="line-clamp-3"><span className="font-medium text-foreground">1）截图变化：</span>{x.compare || "两期截图差异较小。"}</p>
+                                <p className="line-clamp-3"><span className="font-medium text-foreground">2）事实：</span>{x.conclusion || "-"}</p>
+                                <p className="line-clamp-3"><span className="font-medium text-foreground">3）体验：</span>{experienceText(x.compare || "", x.impact)}</p>
+                              </div>
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
