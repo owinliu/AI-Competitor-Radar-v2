@@ -88,18 +88,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
       .filter((x) => x.dims.length > 0);
   }, [filtered]);
 
-  const crossDimRows = useMemo(() => {
-    const dimOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
-    const competitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
-    return dimOrder.map((dim) => {
-      const byCompetitor = competitorOrder.map((c) => {
-        const hit = filtered.find((x) => x.dimension === dim && x.competitor === c);
-        return { competitor: c, hit };
-      });
-      return { dim, byCompetitor };
-    });
-  }, [filtered]);
-
   const strategyRows = useMemo(() => {
     const competitorOrder = ["分期乐", "度小满", "安逸花", "小赢", "奇富借条"];
     const dimOrder = ["APP", "客服", "消金", "留存促活运营", "风控"];
@@ -152,40 +140,6 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
 
         {competitor === "全部" ? (
           <div className="space-y-4">
-            <div className="rounded-lg border bg-card p-4">
-              <h3 className="text-sm font-semibold mb-3">五维跨产品对比</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[900px] border-collapse text-sm">
-                  <thead>
-                    <tr className="bg-slate-50 text-left text-slate-600">
-                      <th className="border-b border-slate-200 px-3 py-2 whitespace-nowrap w-[88px]">维度</th>
-                      <th className="border-b border-slate-200 px-3 py-2">分期乐</th>
-                      <th className="border-b border-slate-200 px-3 py-2">度小满</th>
-                      <th className="border-b border-slate-200 px-3 py-2">安逸花</th>
-                      <th className="border-b border-slate-200 px-3 py-2">小赢</th>
-                      <th className="border-b border-slate-200 px-3 py-2">奇富借条</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {crossDimRows.map(({ dim, byCompetitor }) => (
-                      <tr key={dim}>
-                        <td className="border-b border-slate-100 px-3 py-3 font-medium whitespace-nowrap">{displayLabel(dim)}</td>
-                        {byCompetitor.map(({ competitor: c, hit }) => (
-                          <td key={`${dim}-${c}`} className="border-b border-slate-100 px-3 py-3 align-top">
-                            {hit ? (
-                              <div className={`space-y-1 text-xs ${impactTextClass(hit.impact)}`}>
-                                <p className="line-clamp-2">{hit.conclusion}</p>
-                              </div>
-                            ) : <span className="text-xs text-muted-foreground">—</span>}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
             <div className="rounded-lg border bg-card p-4 space-y-3">
               <h3 className="text-sm font-semibold">单产品策略解读对照（全量读图结论）</h3>
               <div className="overflow-x-auto">
