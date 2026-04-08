@@ -1419,102 +1419,102 @@ insights:
     dimension: APP
     period: 2026-W15
     page: 保险
-    conclusion: 保险最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 保险页结构与权益主文案基本一致，整体处于稳定态。
+    compare: 对照窗口：0323 vs 0402，入口宫格与新人健康礼包主框架未见明显变化。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 按同位点持续追踪，优先监控保险活动位是否出现新增运营条。
     prevEvidence:
       - /evidence/度小满-app-0323-保险.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-app-0402-保险.jpg
     evidence:
       - /evidence/度小满-app-0323-保险.jpg
-      - 无
+      - /evidence/度小满-app-0402-保险.jpg
   - id: 度小满-app-借钱
     competitor: 度小满
     dimension: APP
     period: 2026-W15
     page: 借钱
-    conclusion: 借钱最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 借钱页主流程与信息架构稳定，未见关键转化链路变动。
+    compare: 对照窗口：0323 vs 0402，额度卡、服务宫格与攻略区保持一致。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 保持周度巡检，重点关注借钱页中腰部活动插槽是否新增。
     prevEvidence:
       - /evidence/度小满-app-0323-借钱.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-app-0402-借钱.jpg
     evidence:
       - /evidence/度小满-app-0323-借钱.jpg
-      - 无
+      - /evidence/度小满-app-0402-借钱.jpg
   - id: 度小满-app-我的
     competitor: 度小满
     dimension: APP
     period: 2026-W15
     page: 我的
-    conclusion: 我的最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 我的页账户资产区稳定，仅卡券数量等轻量运营数据有更新。
+    compare: 对照窗口：0323 vs 0402，页面结构一致，属于低影响内容刷新。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 持续跟踪权益数字变化，判断是否进入活动期运营加码。
     prevEvidence:
       - /evidence/度小满-app-0323-我的.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-app-0402-我的.jpg
     evidence:
       - /evidence/度小满-app-0323-我的.jpg
-      - 无
+      - /evidence/度小满-app-0402-我的.jpg
   - id: 度小满-app-理财
     competitor: 度小满
     dimension: APP
     period: 2026-W15
     page: 理财
-    conclusion: 理财最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 理财页主框架稳定，产品数值与货架内容有常规更新。
+    compare: 对照窗口：0323 vs 0402，布局一致，年化展示与期限产品有小幅替换。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 跟踪理财首屏主推位，识别是否出现高激励活动替换。
     prevEvidence:
       - /evidence/度小满-app-0323-理财.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-app-0402-理财.jpg
     evidence:
       - /evidence/度小满-app-0323-理财.jpg
-      - 无
+      - /evidence/度小满-app-0402-理财.jpg
   - id: 度小满-app-首页
     competitor: 度小满
     dimension: APP
     period: 2026-W15
     page: 首页
-    conclusion: 首页最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 首页顶部从资讯通知切换为“乘风2026”品牌活动主视觉，活动导流显著增强。
+    compare: 对照窗口：0323 vs 0402，借钱主卡稳定，但顶部banner由蓝色信息流变为红色明星活动位。
+    impact: 高
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 重点跟踪活动主视觉对借钱入口点击与停留的影响。
     prevEvidence:
       - /evidence/度小满-app-0323-首页.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-app-0402-首页.jpg
     evidence:
       - /evidence/度小满-app-0323-首页.jpg
-      - 无
+      - /evidence/度小满-app-0402-首页.jpg
   - id: 度小满-客服-对话页
     competitor: 度小满
     dimension: 客服
     period: 2026-W15
     page: 对话页
-    conclusion: 对话页客服入口与会话展示存在变化信号。
-    compare: 对照窗口：0323 vs 0407，建议人工复核状态差异。
+    conclusion: 对话页问答模板内容更新，咨询主题更偏借款申请与额度路径。
+    compare: 对照窗口：0323 vs 0407，聊天框架稳定，推荐问题与按钮文案发生替换。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 持续观察客服问题模板变化，评估对转化路径引导效果。
     prevEvidence:
       - /evidence/度小满-客服-0323-对话页.jpg
     currEvidence:
@@ -1527,12 +1527,12 @@ insights:
     dimension: 客服
     period: 2026-W15
     page: 对话页初始
-    conclusion: 对话页初始客服入口与会话展示存在变化信号。
-    compare: 对照窗口：0323 vs 0407，建议人工复核状态差异。
+    conclusion: 对话页初始状态结构稳定，问答词包按当期业务主题更新。
+    compare: 对照窗口：0323 vs 0407，入口与组件一致，首屏问题集合有替换。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 关注首屏问题词包是否进一步引导至借钱/降息类任务。
     prevEvidence:
       - /evidence/度小满-客服-0323-对话页初始.jpg
     currEvidence:
@@ -1545,12 +1545,12 @@ insights:
     dimension: 客服
     period: 2026-W15
     page: 消息中心
-    conclusion: 消息中心客服入口与会话展示存在变化信号。
-    compare: 对照窗口：0323 vs 0407，建议人工复核状态差异。
+    conclusion: 消息中心FAQ与自助服务位点有更新，服务导向更偏借款场景。
+    compare: 对照窗口：0323 vs 0407，版式不变，但问题列表和服务icon组合发生变化。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 跟踪客服场景词变化，识别催化借款动作的触达策略。
     prevEvidence:
       - /evidence/度小满-客服-0323-消息中心.jpg
     currEvidence:
@@ -1563,12 +1563,12 @@ insights:
     dimension: 客服
     period: 2026-W15
     page: 消息中心2
-    conclusion: 消息中心2客服入口与会话展示存在变化信号。
-    compare: 对照窗口：0323 vs 0407，建议人工复核状态差异。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 消息中心2与消息中心一致，主要是FAQ与服务快捷入口按期调整。
+    compare: 对照窗口：0323 vs 0407，未见结构改版，属于内容层更新。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 与消息中心联动观察，避免重复位点造成结论冗余。
     prevEvidence:
       - /evidence/度小满-客服-0323-消息中心2.jpg
     currEvidence:
@@ -1581,55 +1581,56 @@ insights:
     dimension: 消金
     period: 2026-W15
     page: 借钱
-    conclusion: 借钱最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 消金借钱页与APP借钱页一致，主借款链路保持稳定。
+    compare: 对照窗口：0323 vs 0402，额度卡、服务区、攻略区未见结构变化。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 保持同位点跟踪，重点监控借款权益区是否出现活动加码。
     prevEvidence:
       - /evidence/度小满-消金-0323-借钱.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-消金-0402-借钱.jpg
     evidence:
       - /evidence/度小满-消金-0323-借钱.jpg
-      - 无
+      - /evidence/度小满-消金-0402-借钱.jpg
   - id: 度小满-消金-额度页
     competitor: 度小满
     dimension: 消金
     period: 2026-W15
     page: 额度页
-    conclusion: 额度页最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 额度页核心展示与按钮动作稳定，暂无显著策略调整。
+    compare: 对照窗口：0323 vs 0402，参数文案与布局基本一致。
+    impact: 低
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 持续关注额度页是否新增运营提示或权益入口。
     prevEvidence:
       - /evidence/度小满-消金-0323-额度页.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-消金-0402-额度页.jpg
     evidence:
       - /evidence/度小满-消金-0323-额度页.jpg
-      - 无
+      - /evidence/度小满-消金-0402-额度页.jpg
   - id: 度小满-留存促活运营-活动落地页
     competitor: 度小满
     dimension: 留存促活运营
     period: 2026-W15
     page: 活动落地页
-    conclusion: 活动落地页最新周期缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
-    impact: 中
-    confidence: 是（建议人工复核）
+    conclusion: 0402新增“乘风2026”系列弹窗与奖励浮层，活动触达层级明显增强。
+    compare: 对照窗口：0323活动落地页 vs 0402活动落地页/弹窗/奖励浮层，活动链路从单页展示升级为多触点运营。
+    impact: 高
+    confidence: 否
     actions:
-      - 按同位点持续追踪，缺口优先补拍。
+      - 重点跟踪活动弹窗与奖励浮层对点击率与留存的拉动效果。
     prevEvidence:
       - /evidence/度小满-留存促活运营-0323-活动落地页.jpg
     currEvidence:
-      - 无
+      - /evidence/度小满-留存促活运营-0402-活动落地页.jpg
     evidence:
       - /evidence/度小满-留存促活运营-0323-活动落地页.jpg
-      - 无
+      - /evidence/度小满-留存促活运营-0402-活动落地页.jpg
+
 ---
 
 ## 结构化主表（按固定表头）
