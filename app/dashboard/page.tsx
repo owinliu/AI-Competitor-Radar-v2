@@ -285,7 +285,7 @@ export default function DashboardPage() {
         <h2 className="text-base font-semibold">细分钻取（按产品 / 维度 / 周期）</h2>
         <p className="mt-1 text-xs text-muted-foreground">用于查看“客服维度下其它竞品做了什么”等细分问题。</p>
         <div className="mt-4">
-          <ReportInsightPanel insights={latestInsights} />
+          <ReportInsightPanel insights={latestInsights} showStrategyOverview={false} />
         </div>
       </section>
     </div>

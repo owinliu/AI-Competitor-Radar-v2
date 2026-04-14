@@ -49,7 +49,7 @@ type ViewerImage = { src: string; label: string };
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const withBasePath = (src: string) => (src && src.startsWith("/") ? `${BASE_PATH}${src}` : src);
 
-export default function ReportInsightPanel({ insights }: { insights: Insight[] }) {
+export default function ReportInsightPanel({ insights, showStrategyOverview = true }: { insights: Insight[]; showStrategyOverview?: boolean }) {
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
@@ -142,45 +142,49 @@ export default function ReportInsightPanel({ insights }: { insights: Insight[] }
         </div>
 
         {competitor === "全部" ? (
-          <div className="space-y-4">
-            <div className="rounded-lg border bg-card p-4 space-y-3">
-              <h3 className="text-sm font-semibold">单产品策略解读对照（全量读图结论）</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[1200px] border-collapse text-sm">
-                  <thead>
-                    <tr className="bg-slate-50 text-left text-slate-600">
-                      <th className="border-b border-slate-200 px-3 py-2">产品</th>
-                      <th className="border-b border-slate-200 px-3 py-2">证据覆盖度</th>
-                      <th className="border-b border-slate-200 px-3 py-2">主策略变化</th>
-                      <th className="border-b border-slate-200 px-3 py-2">APP</th>
-                      <th className="border-b border-slate-200 px-3 py-2">客服</th>
-                      <th className="border-b border-slate-200 px-3 py-2">消金</th>
-                      <th className="border-b border-slate-200 px-3 py-2">运营</th>
-                      <th className="border-b border-slate-200 px-3 py-2">风控</th>
-                      <th className="border-b border-slate-200 px-3 py-2">业务含义</th>
-                      <th className="border-b border-slate-200 px-3 py-2">一句对外总结</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {strategyRows.map(({ competitor: comp, count, byDim, main, summary }) => (
-                      <tr key={comp}>
-                        <td className="border-b border-slate-100 px-3 py-3 font-medium whitespace-nowrap">{comp}</td>
-                        <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">已纳入 {count} 个可比位点</td>
-                        <td className={`border-b border-slate-100 px-3 py-3 text-xs ${main ? impactTextClass(main.impact) : "text-muted-foreground"}`}>{main?.conclusion || "—"}</td>
-                        {byDim.map(({ dim, hit }) => (
-                          <td key={`${comp}-${dim}`} className={`border-b border-slate-100 px-3 py-3 text-xs ${hit ? impactTextClass(hit.impact) : "text-muted-foreground"}`}>
-                            {hit?.conclusion || "—"}
-                          </td>
-                        ))}
-                        <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">{summary || "—"}</td>
-                        <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">{main ? `${comp}本期以${displayLabel(main.dimension)}维度变化最明显。` : "—"}</td>
+          showStrategyOverview ? (
+            <div className="space-y-4">
+              <div className="rounded-lg border bg-card p-4 space-y-3">
+                <h3 className="text-sm font-semibold">单产品策略解读对照（全量读图结论）</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[1200px] border-collapse text-sm">
+                    <thead>
+                      <tr className="bg-slate-50 text-left text-slate-600">
+                        <th className="border-b border-slate-200 px-3 py-2">产品</th>
+                        <th className="border-b border-slate-200 px-3 py-2">证据覆盖度</th>
+                        <th className="border-b border-slate-200 px-3 py-2">主策略变化</th>
+                        <th className="border-b border-slate-200 px-3 py-2">APP</th>
+                        <th className="border-b border-slate-200 px-3 py-2">客服</th>
+                        <th className="border-b border-slate-200 px-3 py-2">消金</th>
+                        <th className="border-b border-slate-200 px-3 py-2">运营</th>
+                        <th className="border-b border-slate-200 px-3 py-2">风控</th>
+                        <th className="border-b border-slate-200 px-3 py-2">业务含义</th>
+                        <th className="border-b border-slate-200 px-3 py-2">一句对外总结</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {strategyRows.map(({ competitor: comp, count, byDim, main, summary }) => (
+                        <tr key={comp}>
+                          <td className="border-b border-slate-100 px-3 py-3 font-medium whitespace-nowrap">{comp}</td>
+                          <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">已纳入 {count} 个可比位点</td>
+                          <td className={`border-b border-slate-100 px-3 py-3 text-xs ${main ? impactTextClass(main.impact) : "text-muted-foreground"}`}>{main?.conclusion || "—"}</td>
+                          {byDim.map(({ dim, hit }) => (
+                            <td key={`${comp}-${dim}`} className={`border-b border-slate-100 px-3 py-3 text-xs ${hit ? impactTextClass(hit.impact) : "text-muted-foreground"}`}>
+                              {hit?.conclusion || "—"}
+                            </td>
+                          ))}
+                          <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">{summary || "—"}</td>
+                          <td className="border-b border-slate-100 px-3 py-3 text-xs text-muted-foreground">{main ? `${comp}本期以${displayLabel(main.dimension)}维度变化最明显。` : "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">请通过左侧「历史记录」查看全量读图结论与对比明细。</p>
+          )
         ) : stageGroups.length === 0 ? (
           <p className="text-sm text-muted-foreground">当前筛选下暂无结构变化页面。</p>
         ) : (
