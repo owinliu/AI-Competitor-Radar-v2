@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
-import ReportInsightPanel from "@/components/report-insight-panel";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -282,10 +282,18 @@ export default function DashboardPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">细分钻取（按产品 / 维度 / 周期）</h2>
-        <p className="mt-1 text-xs text-muted-foreground">用于查看“客服维度下其它竞品做了什么”等细分问题。</p>
-        <div className="mt-4">
-          <ReportInsightPanel insights={latestInsights} showStrategyOverview={false} />
+        <h2 className="text-base font-semibold">下一步分析入口</h2>
+        <p className="mt-1 text-xs text-muted-foreground">首页仅保留总览决策信息。细分筛选、全量读图结论与证据对比已迁移到「历史记录」。</p>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          <Link href="/history" className="rounded-lg border p-4 hover:bg-muted/40">
+            <p className="text-sm font-medium">进入历史记录列表</p>
+            <p className="mt-1 text-xs text-muted-foreground">按时间倒序查看历史分析，先选期次再深挖。</p>
+          </Link>
+          <Link href={`/history/${latest.slug}`} className="rounded-lg border p-4 hover:bg-muted/40">
+            <p className="text-sm font-medium">查看本期全量详情</p>
+            <p className="mt-1 text-xs text-muted-foreground">直接进入本期二级页，查看全量图表对比与读图结论。</p>
+          </Link>
         </div>
       </section>
     </div>
