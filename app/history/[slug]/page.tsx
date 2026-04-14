@@ -21,7 +21,7 @@ export default function HistoryDetailPage({ params }: { params: { slug: string }
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
-        <Link className="text-sm text-muted-foreground hover:text-foreground" href="/history">← 返回历史记录</Link>
+        <Link className="text-sm text-muted-foreground hover:text-foreground" href="/history">← 返回详细分析</Link>
         <h1 className="mt-2 text-2xl font-semibold">{report.title}</h1>
         <p className="mt-2 text-sm text-muted-foreground">周期：{report.period || "-"} · 日期：{report.date} · 全量变动点位：{report.insights.length}</p>
       </section>

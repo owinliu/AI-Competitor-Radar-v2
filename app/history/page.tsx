@@ -31,7 +31,7 @@ export default function HistoryPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
-        <h1 className="text-2xl font-semibold">历史记录</h1>
+        <h1 className="text-2xl font-semibold">详细分析</h1>
         <p className="mt-2 text-sm text-muted-foreground">按时间倒序展示历史分析。点击可查看该期全量图表对比与读图结论。</p>
       </section>
 

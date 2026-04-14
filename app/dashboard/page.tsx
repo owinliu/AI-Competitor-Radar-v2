@@ -283,11 +283,11 @@ export default function DashboardPage() {
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">下一步分析入口</h2>
-        <p className="mt-1 text-xs text-muted-foreground">首页仅保留总览决策信息。细分筛选、全量读图结论与证据对比已迁移到「历史记录」。</p>
+        <p className="mt-1 text-xs text-muted-foreground">首页仅保留总览决策信息。细分筛选、全量读图结论与证据对比已迁移到「详细分析」。</p>
 
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           <Link href="/history" className="rounded-lg border p-4 hover:bg-muted/40">
-            <p className="text-sm font-medium">进入历史记录列表</p>
+            <p className="text-sm font-medium">进入详细分析列表</p>
             <p className="mt-1 text-xs text-muted-foreground">按时间倒序查看历史分析，先选期次再深挖。</p>
           </Link>
           <Link href={`/history/${latest.slug}`} className="rounded-lg border p-4 hover:bg-muted/40">
