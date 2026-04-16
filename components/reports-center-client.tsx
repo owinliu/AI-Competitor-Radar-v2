@@ -21,8 +21,6 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
   const [p1, setP1] = useState(periods[1] || periods[0] || "");
   const [p2, setP2] = useState(periods[0] || "");
 
-  const [reviewed, setReviewed] = useState<Record<string, "已复核" | "已修正" | undefined>>({});
-  const [overrides, setOverrides] = useState<Record<string, { conclusion?: string; impact?: string }>>({});
   const [detailSlug, setDetailSlug] = useState(reports[0]?.slug || "");
 
   const reportP1 = reports.find((r) => r.period === p1);
@@ -43,19 +41,45 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
         const same = a.conclusion === b.conclusion && a.impact === b.impact;
         return { key: k, type: same ? "稳定" : "变化", item: b };
       })
-      .filter(Boolean) as { key: string; type: string; item: Insight }[];
+      .filter(Boolean) as { key: string; type: "新增" | "缺口" | "稳定" | "变化"; item: Insight }[];
   }, [reportP1, reportP2]);
+
+  const compareSummary = useMemo(() => {
+    return {
+      新增: changes.filter((x) => x.type === "新增").length,
+      缺口: changes.filter((x) => x.type === "缺口").length,
+      变化: changes.filter((x) => x.type === "变化").length,
+      稳定: changes.filter((x) => x.type === "稳定").length,
+    };
+  }, [changes]);
+
+  const matrix = useMemo(() => {
+    const dims = ["APP", "客服", "消金", "留存促活运营", "风控"];
+    const competitors = Array.from(new Set(changes.map((x) => x.item.competitor)));
+    const data = competitors.map((c) => {
+      const byDim = dims.map((d) => {
+        const rows = changes.filter((x) => x.item.competitor === c && x.item.dimension === d);
+        const net = rows.filter((x) => x.type === "新增" || x.type === "变化").length - rows.filter((x) => x.type === "缺口").length;
+        return { dim: d, net, count: rows.length };
+      });
+      const netTotal = byDim.reduce((n, x) => n + x.net, 0);
+      const top = [...byDim].sort((a, b) => b.count - a.count)[0];
+      return { competitor: c, byDim, netTotal, topDim: top?.dim || "-", topCount: top?.count || 0 };
+    });
+    return { dims, data };
+  }, [changes]);
+
+  const topDiffs = useMemo(() => {
+    const impactScore: Record<string, number> = { 高: 3, 中: 2, 低: 1 };
+    const typeScore: Record<string, number> = { 新增: 3, 变化: 2, 缺口: 1, 稳定: 0 };
+    return changes
+      .filter((x) => x.type !== "稳定")
+      .sort((a, b) => (typeScore[b.type] + impactScore[b.item.impact]) - (typeScore[a.type] + impactScore[a.item.impact]))
+      .slice(0, 10);
+  }, [changes]);
 
   const latest = reports[0];
 
-  const applyManualFix = (key: string, item: Insight) => {
-    const nextConclusion = window.prompt("人工修正-结论", overrides[key]?.conclusion || item.conclusion);
-    if (nextConclusion === null) return;
-    const nextImpact = window.prompt("人工修正-影响等级（高/中/低）", overrides[key]?.impact || item.impact);
-    if (nextImpact === null) return;
-    setOverrides((s) => ({ ...s, [key]: { conclusion: nextConclusion, impact: nextImpact } }));
-    setReviewed((s) => ({ ...s, [key]: "已修正" }));
-  };
   const quality = useMemo(() => {
     if (!latest) return { evidence: 0, comparable: 0, risk: 0 };
     const all = latest.insights;
@@ -69,25 +93,6 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       risk: Math.round((risk / all.length) * 100),
     };
   }, [latest]);
-
-  const multiPeriodTrend = useMemo(() => {
-    if (periods.length < 3) return [] as { key: string; trend: string }[];
-    const sorted = [...periods].sort();
-    const byKey = new Map<string, { high: number; total: number }>();
-    for (const p of sorted) {
-      const rpt = reports.find((r) => r.period === p);
-      for (const i of rpt?.insights || []) {
-        const key = `${i.competitor}|${i.dimension}|${i.page}`;
-        const cur = byKey.get(key) || { high: 0, total: 0 };
-        cur.total += 1;
-        if (i.impact === "高") cur.high += 1;
-        byKey.set(key, cur);
-      }
-    }
-    return Array.from(byKey.entries())
-      .map(([key, v]) => ({ key, trend: v.high >= 2 ? "持续高变化" : v.high === 1 ? "阶段性变化" : "整体稳定" }))
-      .slice(0, 20);
-  }, [periods, reports]);
 
   const exportBrief = () => {
     const lines = [
@@ -146,48 +151,77 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       )}
 
       {view === "compare" && (
-      <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">B. 跨期对比视图</h2>
-        <div className="mt-3 flex gap-2">
+      <section className="rounded-xl border bg-card p-6 space-y-5">
+        <h2 className="text-lg font-semibold">B. 跨期对比总览（差分视角）</h2>
+        <p className="text-sm text-muted-foreground">这里仅展示两个周期的差分结果，不重复首页“本期总量仪表盘”。</p>
+
+        <div className="flex flex-wrap items-center gap-2">
           <select value={p1} onChange={(e) => setP1(e.target.value)} className="rounded border px-2 py-1.5 text-sm">{periods.map((p) => <option key={p}>{p}</option>)}</select>
           <span className="text-sm text-muted-foreground">vs</span>
           <select value={p2} onChange={(e) => setP2(e.target.value)} className="rounded border px-2 py-1.5 text-sm">{periods.map((p) => <option key={p}>{p}</option>)}</select>
+          <button
+            className="ml-2 rounded border px-2 py-1.5 text-xs hover:bg-muted"
+            onClick={() => {
+              if (reportP2?.slug) setDetailSlug(reportP2.slug);
+              document.getElementById("detail-analysis")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          >
+            跳到下方详细证据
+          </button>
         </div>
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[1000px] border-collapse text-sm">
-            <thead><tr className="bg-slate-50"><th className="border-b px-3 py-2">类型</th><th className="border-b px-3 py-2">竞品</th><th className="border-b px-3 py-2">维度</th><th className="border-b px-3 py-2">位点</th><th className="border-b px-3 py-2">结论</th><th className="border-b px-3 py-2">复核</th></tr></thead>
-            <tbody>{changes.map((c) => {
-              const ov = overrides[c.key] || {};
-              return (
-                <tr key={c.key}>
-                  <td className="border-b px-3 py-2">{c.type}</td>
-                  <td className="border-b px-3 py-2">{c.item.competitor}</td>
-                  <td className="border-b px-3 py-2">{c.item.dimension}</td>
-                  <td className="border-b px-3 py-2">{c.item.page}</td>
-                  <td className="border-b px-3 py-2">{ov.conclusion || c.item.conclusion} {ov.impact ? <span className="ml-2 text-xs text-blue-700">({ov.impact})</span> : null}</td>
-                  <td className="border-b px-3 py-2">
-                    <button className="mr-2 rounded border px-2 py-1 text-xs" onClick={() => setReviewed((s) => ({ ...s, [c.key]: "已复核" }))}>标记已复核</button>
-                    <button className="mr-2 rounded border px-2 py-1 text-xs" onClick={() => applyManualFix(c.key, c.item)}>人工修正</button>
-                    {reviewed[c.key] && <span className="ml-1 text-xs text-emerald-700">{reviewed[c.key]}</span>}
-                  </td>
+
+        <div className="grid gap-3 md:grid-cols-4">
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">新增位点</p><p className="text-2xl font-semibold">{compareSummary.新增}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">缺口位点</p><p className="text-2xl font-semibold">{compareSummary.缺口}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">变化位点</p><p className="text-2xl font-semibold">{compareSummary.变化}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">稳定位点</p><p className="text-2xl font-semibold">{compareSummary.稳定}</p></div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[980px] border-collapse text-sm">
+            <thead>
+              <tr className="bg-slate-50">
+                <th className="border-b px-3 py-2 text-left">产品</th>
+                {matrix.dims.map((d) => <th key={d} className="border-b px-3 py-2 text-left">{d === "留存促活运营" ? "运营" : d}净变化</th>)}
+                <th className="border-b px-3 py-2 text-left">净变化总计</th>
+                <th className="border-b px-3 py-2 text-left">主变化维度</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matrix.data.map((row) => (
+                <tr key={row.competitor}>
+                  <td className="border-b px-3 py-2 font-medium">{row.competitor}</td>
+                  {row.byDim.map((x) => (
+                    <td key={`${row.competitor}-${x.dim}`} className={`border-b px-3 py-2 ${x.net > 0 ? "text-emerald-700" : x.net < 0 ? "text-red-700" : "text-muted-foreground"}`}>
+                      {x.net > 0 ? `+${x.net}` : x.net}
+                    </td>
+                  ))}
+                  <td className={`border-b px-3 py-2 font-semibold ${row.netTotal > 0 ? "text-emerald-700" : row.netTotal < 0 ? "text-red-700" : "text-foreground"}`}>{row.netTotal > 0 ? `+${row.netTotal}` : row.netTotal}</td>
+                  <td className="border-b px-3 py-2 text-muted-foreground">{row.topDim === "留存促活运营" ? "运营" : row.topDim}（{row.topCount}）</td>
                 </tr>
-              );
-            })}</tbody>
+              ))}
+            </tbody>
           </table>
         </div>
 
-        {periods.length >= 3 && (
-          <div className="mt-4 rounded-lg border p-3">
-            <p className="text-sm font-medium">多期趋势表（≥3期）</p>
-            <ul className="mt-2 list-disc pl-5 text-sm">
-              {multiPeriodTrend.map((t) => <li key={t.key}>{t.key}：{t.trend}</li>)}
-            </ul>
-          </div>
-        )}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[900px] border-collapse text-sm">
+            <thead><tr className="bg-slate-50"><th className="border-b px-3 py-2 text-left">类型</th><th className="border-b px-3 py-2 text-left">竞品</th><th className="border-b px-3 py-2 text-left">维度</th><th className="border-b px-3 py-2 text-left">位点</th><th className="border-b px-3 py-2 text-left">摘要</th></tr></thead>
+            <tbody>{topDiffs.map((c) => (
+              <tr key={`top-${c.key}`}>
+                <td className="border-b px-3 py-2">{c.type}</td>
+                <td className="border-b px-3 py-2">{c.item.competitor}</td>
+                <td className="border-b px-3 py-2">{c.item.dimension === "留存促活运营" ? "运营" : c.item.dimension}</td>
+                <td className="border-b px-3 py-2">{c.item.page || "-"}</td>
+                <td className="border-b px-3 py-2 text-muted-foreground">{c.item.conclusion}</td>
+              </tr>
+            ))}</tbody>
+          </table>
+        </div>
       </section>
       )}
 
-      <section className="rounded-xl border bg-card p-6">
+      <section id="detail-analysis" className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">C. 详细分析（含截图、产品维度筛选、结构变化总览）</h2>
         <div className="mt-3 flex items-center gap-2">
           <span className="text-sm text-muted-foreground">选择期次：</span>
