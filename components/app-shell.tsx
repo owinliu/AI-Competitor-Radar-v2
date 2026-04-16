@@ -47,7 +47,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-7 w-7 rounded-md object-cover shadow-sm" />
             <span className="text-sm font-semibold">AI Competitor Radar</span>
           </div>
-          <Link href="/dashboard" className="text-sm text-muted-foreground">周报中心</Link>
+          <Link href="/reports" className="text-sm text-muted-foreground">周报中心</Link>
         </div>
       </header>
 

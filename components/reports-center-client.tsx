@@ -26,6 +26,7 @@ type Report = {
 };
 
 export default function ReportsCenterClient({ reports }: { reports: Report[] }) {
+  const [view, setView] = useState<"archive" | "compare">("archive");
   const periods = Array.from(new Set(reports.map((r) => r.period).filter(Boolean) as string[]));
   const [p1, setP1] = useState(periods[1] || periods[0] || "");
   const [p2, setP2] = useState(periods[0] || "");
@@ -120,6 +121,27 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
   return (
     <div className="space-y-6">
+      <section className="rounded-xl border bg-card p-4">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">已合并「详细分析」能力：用视图切换完成归档浏览与深度对比。</p>
+          <div className="inline-flex rounded-lg border p-1">
+            <button
+              className={`rounded-md px-3 py-1.5 text-sm ${view === "archive" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+              onClick={() => setView("archive")}
+            >
+              档案列表视图
+            </button>
+            <button
+              className={`rounded-md px-3 py-1.5 text-sm ${view === "compare" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+              onClick={() => setView("compare")}
+            >
+              详细对比视图
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {view === "archive" && (
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">A. 周报档案库（按周）</h2>
         <div className="mt-3 overflow-x-auto">
@@ -129,7 +151,9 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
           </table>
         </div>
       </section>
+      )}
 
+      {view === "compare" && (
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">B. 跨期对比视图</h2>
         <div className="mt-3 flex gap-2">
@@ -169,6 +193,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
           </div>
         )}
       </section>
+      )}
 
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">C. 质量与缺口看板</h2>
