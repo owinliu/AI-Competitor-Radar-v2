@@ -39,6 +39,8 @@ function keyChanges(insights: Insight[]) {
 function buildCompetitorHighlights(insights: Insight[]) {
   const byCompetitor = new Map<string, { text: string; weight: number }[]>();
   for (const x of insights) {
+    const uncertain = /无法判断|无法跨期|缺图|待复核/.test(x.conclusion || "");
+    if (uncertain) continue;
     const arr = byCompetitor.get(x.competitor) || [];
     const weight = x.impact === "高" ? 3 : x.impact === "中" ? 2 : 1;
     arr.push({ text: `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`, weight });
@@ -49,7 +51,7 @@ function buildCompetitorHighlights(insights: Insight[]) {
     Array.from(byCompetitor.entries()).map(([competitor, rows]) => {
       const uniq = Array.from(new Map(rows.map((r) => [r.text, r])).values())
         .sort((a, b) => b.weight - a.weight)
-        .slice(0, 3)
+        .slice(0, 4)
         .map((r) => r.text);
       return [competitor, uniq];
     })

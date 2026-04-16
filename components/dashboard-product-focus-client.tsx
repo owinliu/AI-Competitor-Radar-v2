@@ -66,20 +66,23 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
 
       <div className="rounded border bg-white p-4">
         <p className="text-sm font-semibold">{selectedItem.competitor} · 维度构成与关键变化</p>
-        <div className="mt-3 flex items-start gap-5">
-          <div className="h-40 w-40 shrink-0 rounded-full border" style={{ background: buildConic(selectedItem.values) }} />
-          <div className="flex-1 space-y-3">
-            <div className="text-xs text-muted-foreground space-y-1">
-              {selectedItem.values.filter((x) => x.count > 0).map((x) => (
-                <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}</p>
-              ))}
+        <div className="mt-3 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <div className="mx-auto h-40 w-40 rounded-full border" style={{ background: buildConic(selectedItem.values) }} />
+            <div className="mt-3 space-y-1 text-xs text-muted-foreground">
+              {selectedItem.values.map((x) => {
+                const total = selectedItem.values.reduce((n, v) => n + v.count, 0) || 1;
+                const pct = Math.round((x.count / total) * 100);
+                return <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}（{pct}%）</p>;
+              })}
             </div>
-            <div>
-              <p className="text-xs font-medium text-foreground">关键结论</p>
-              <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-muted-foreground">
-                {selectedItem.highlights.length > 0 ? selectedItem.highlights.map((h, i) => <li key={`${selectedItem.competitor}-h-${i}`}>{h}</li>) : <li>暂无关键结论</li>}
-              </ul>
-            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-medium text-foreground">结论（仅展示可判断变化）</p>
+            <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-muted-foreground">
+              {selectedItem.highlights.length > 0 ? selectedItem.highlights.map((h, i) => <li key={`${selectedItem.competitor}-h-${i}`}>{h}</li>) : <li>本期暂无可明确判断的变化结论</li>}
+            </ul>
           </div>
         </div>
       </div>
