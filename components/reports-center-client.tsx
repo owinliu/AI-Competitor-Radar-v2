@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 type Insight = {
@@ -26,7 +27,7 @@ type Report = {
 };
 
 export default function ReportsCenterClient({ reports }: { reports: Report[] }) {
-  const [view, setView] = useState<"archive" | "compare">("archive");
+  const [view, setView] = useState<"archive" | "compare">("compare");
   const periods = Array.from(new Set(reports.map((r) => r.period).filter(Boolean) as string[]));
   const [p1, setP1] = useState(periods[1] || periods[0] || "");
   const [p2, setP2] = useState(periods[0] || "");
@@ -145,9 +146,9 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">A. 周报档案库（按周）</h2>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[900px] border-collapse text-sm">
-            <thead><tr className="bg-slate-50"><th className="border-b px-3 py-2">标题</th><th className="border-b px-3 py-2">周期</th><th className="border-b px-3 py-2">更新时间</th></tr></thead>
-            <tbody>{reports.map((r) => <tr key={r.slug}><td className="border-b px-3 py-2">{r.title}</td><td className="border-b px-3 py-2">{r.period}</td><td className="border-b px-3 py-2">{r.date}</td></tr>)}</tbody>
+          <table className="w-full min-w-[980px] border-collapse text-sm">
+            <thead><tr className="bg-slate-50"><th className="border-b px-3 py-2">标题</th><th className="border-b px-3 py-2">周期</th><th className="border-b px-3 py-2">更新时间</th><th className="border-b px-3 py-2">操作</th></tr></thead>
+            <tbody>{reports.map((r) => <tr key={r.slug}><td className="border-b px-3 py-2">{r.title}</td><td className="border-b px-3 py-2">{r.period}</td><td className="border-b px-3 py-2">{r.date}</td><td className="border-b px-3 py-2"><Link href={`/history/${r.slug}`} className="rounded border px-2 py-1 text-xs hover:bg-muted">查看该期详细分析</Link></td></tr>)}</tbody>
           </table>
         </div>
       </section>
