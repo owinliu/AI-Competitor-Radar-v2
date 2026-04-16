@@ -69,54 +69,87 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
   const valid = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""));
   const competitors = Array.from(new Set(valid.map((x) => x.competitor)));
 
+  const pickEvidenceBalanced = (rows: Insight[], max = 3) => {
+    const byComp = new Map<string, Insight[]>();
+    for (const r of rows) {
+      const arr = byComp.get(r.competitor) || [];
+      arr.push(r);
+      byComp.set(r.competitor, arr);
+    }
+    const picked: Insight[] = [];
+    for (const c of byComp.keys()) {
+      if (picked.length >= max) break;
+      const first = byComp.get(c)?.[0];
+      if (first) picked.push(first);
+    }
+    return picked.slice(0, max).map((r) => `${r.competitor}/${dimLabel(r.dimension)}/${r.page || "未标注"}`).join("；");
+  };
+
   const has = (rows: Insight[], re: RegExp) => rows.some((r) => re.test(`${r.page || ""} ${r.conclusion || ""}`));
-  const evidence = (rows: Insight[], n = 2) => rows.slice(0, n).map((r) => `${r.competitor}/${dimLabel(r.dimension)}/${r.page || "未标注"}`).join("；");
 
   const productModes = competitors.map((c) => {
     const rows = valid.filter((x) => x.competitor === c);
     const tags: string[] = [];
     if (has(rows, /借钱|额度|银行卡|降息|免息|提额/)) tags.push("转化前置");
-    if (has(rows, /活动|消息|通知|横幅|弹窗|主题/)) tags.push("运营触达增强");
+    if (has(rows, /活动|消息|通知|横幅|弹窗|主题|代言/)) tags.push("运营触达增强");
     if (has(rows, /客服|会话|服务大厅|IM|消息中心/)) tags.push("服务承接增强");
-    if (has(rows, /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)) tags.push("链路稳态微调");
+    if (has(rows, /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)) tags.push("消金链路稳态微调");
     if (!tags.length) tags.push("常规迭代优化");
 
-    const anchorRows = rows
-      .filter((r) => tags.some((t) => `${r.page || ""} ${r.conclusion || ""}`.match(t === "转化前置" ? /借钱|额度|银行卡|降息|免息|提额/ : t === "运营触达增强" ? /活动|消息|通知|横幅|弹窗|主题/ : t === "服务承接增强" ? /客服|会话|服务大厅|IM|消息中心/ : /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)))
-      .slice(0, 2);
-
-    return `${c}当前模式：${tags.join(" + ")}。[证据锚点：${evidence(anchorRows.length ? anchorRows : rows)}]`;
+    return `${c}当前模式：${tags.join(" + ")}。[证据锚点：${pickEvidenceBalanced(rows, 2)}]`;
   });
 
   const appRows = valid.filter((x) => x.dimension === "APP");
   const csRows = valid.filter((x) => x.dimension === "客服");
   const opRows = valid.filter((x) => x.dimension === "留存促活运营");
-  const commonModes = [
-    `APP层面共性：多个产品将变化集中在借贷转化入口与权益卡表达，强调“更快借、更多权益”。[证据锚点：${evidence(appRows)}]`,
-    `客服层面共性：会话承接与消息触达持续加强，目标是缩短响应路径、提升连续服务感知。[证据锚点：${evidence(csRows)}]`,
-    `运营层面共性：活动主题/文案/触达位高频更新，用运营内容强化品牌与转化抓手。[证据锚点：${evidence(opRows)}]`,
-  ];
 
-  const strategyDriven = competitors.filter((c) => {
+  const commonModes: string[] = [];
+  if (new Set(appRows.map((x) => x.competitor)).size >= 3) {
+    commonModes.push(`APP层面共性：各产品普遍加强借贷入口与权益表达，重心偏向转化前置。[证据锚点：${pickEvidenceBalanced(appRows)}]`);
+  }
+  if (new Set(csRows.map((x) => x.competitor)).size >= 3) {
+    commonModes.push(`客服层面共性：会话承接与快速响应路径持续优化，强调连续服务体验。[证据锚点：${pickEvidenceBalanced(csRows)}]`);
+  }
+  if (new Set(opRows.map((x) => x.competitor)).size >= 3) {
+    commonModes.push(`运营层面共性：活动主题与触达位迭代密集，以内容运营强化品牌与转化。[证据锚点：${pickEvidenceBalanced(opRows)}]`);
+  }
+  if (!commonModes.length) commonModes.push("本期共性模式尚不稳定，暂不做统一策略判断。[证据锚点：-]");
+
+  const profiles = competitors.map((c) => {
     const rows = valid.filter((x) => x.competitor === c);
-    return rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length > rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
+    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
+    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
+    const total = Math.max(rows.length, 1);
+    return {
+      competitor: c,
+      rows,
+      strategyRatio: strategyCnt / total,
+      operationRatio: opCnt / total,
+    };
   });
-  const operationDriven = competitors.filter((c) => !strategyDriven.includes(c));
+
+  const strategyDriven = profiles.filter((p) => p.strategyRatio >= 0.45 && p.strategyRatio > p.operationRatio + 0.1);
+  const operationDriven = profiles.filter((p) => p.operationRatio >= 0.45 && p.operationRatio > p.strategyRatio + 0.1);
+  const balanced = profiles.filter((p) => !strategyDriven.includes(p) && !operationDriven.includes(p));
 
   const diffModes: string[] = [];
   if (strategyDriven.length) {
-    const anchor = valid.filter((x) => strategyDriven.includes(x.competitor) && classifyChangeType(x.conclusion) === "策略级");
-    diffModes.push(`${strategyDriven.join("、")}偏策略级分化：主路径/入口/结构在调整，体现产品策略层动作。[证据锚点：${evidence(anchor)}]`);
+    const anchorRows = strategyDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "策略级"));
+    diffModes.push(`${strategyDriven.map((x) => x.competitor).join("、")}偏策略级分化：主路径/入口/结构调整更突出。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
   }
   if (operationDriven.length) {
-    const anchor = valid.filter((x) => operationDriven.includes(x.competitor) && classifyChangeType(x.conclusion) !== "策略级");
-    diffModes.push(`${operationDriven.join("、")}偏运营级分化：活动位、文案与触达更新更密集，更多是运营动作迭代。[证据锚点：${evidence(anchor)}]`);
+    const anchorRows = operationDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "运营级"));
+    diffModes.push(`${operationDriven.map((x) => x.competitor).join("、")}偏运营级分化：活动位、文案、触达策略更新更密集。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
+  }
+  if (balanced.length) {
+    const anchorRows = balanced.flatMap((p) => p.rows.slice(0, 1));
+    diffModes.push(`${balanced.map((x) => x.competitor).join("、")}偏均衡型：策略与运营同步迭代，暂无单侧偏移。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
   }
   if (!diffModes.length) diffModes.push("本期差异模式不明显，主要是常规优化延续。[证据锚点：-]");
 
   return {
     productModes: productModes.slice(0, 5),
-    commonModes: commonModes,
+    commonModes: commonModes.slice(0, 3),
     diffModes: diffModes.slice(0, 3),
   };
 }
