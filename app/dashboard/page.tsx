@@ -65,49 +65,53 @@ function classifyChangeType(text: string) {
   return "一般更新";
 }
 
-function buildConsensus(latestInsights: Insight[]) {
+function buildNarrativeSummary(latestInsights: Insight[]) {
   const valid = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""));
   const competitors = Array.from(new Set(valid.map((x) => x.competitor)));
+
+  const productModes = competitors.map((c) => {
+    const rows = valid.filter((x) => x.competitor === c);
+    const topDim = DIMENSIONS.map((d) => ({ dim: d, cnt: rows.filter((x) => x.dimension === d).length }))
+      .sort((a, b) => b.cnt - a.cnt)[0];
+    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
+    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
+    const mode = strategyCnt > opCnt ? "策略驱动" : opCnt > strategyCnt ? "运营驱动" : "均衡推进";
+    const anchor = rows.slice(0, 2).map((x) => `${dimLabel(x.dimension)}-${x.page || "未标注"}`).join("；");
+    return `${c}以${mode}为主，当前重点落在${dimLabel(topDim?.dim || "APP")}（证据：${anchor || "-"}）。`;
+  });
 
   const byDimension = DIMENSIONS.map((d) => {
     const rows = valid.filter((x) => x.dimension === d);
     const products = Array.from(new Set(rows.map((x) => x.competitor)));
-    return { dimension: d, rows, products, coverage: products.length };
+    return { dimension: d, rows, coverage: products.length };
   });
 
-  const commonStrategy = byDimension
+  const commonModes = byDimension
     .filter((x) => x.coverage >= Math.max(2, Math.ceil(competitors.length * 0.6)))
     .sort((a, b) => b.coverage - a.coverage)
     .slice(0, 3)
     .map((x) => {
-      const strategyRows = x.rows.filter((r) => classifyChangeType(r.conclusion) === "策略级");
-      const level = strategyRows.length >= Math.max(1, Math.floor(x.rows.length * 0.35)) ? "策略推进" : "以运营优化为主";
-      return `${dimLabel(x.dimension)}层面整体呈${level}（覆盖${x.coverage}个产品），共同指向${dimLabel(x.dimension)}能力持续强化。`;
+      const strategyCnt = x.rows.filter((r) => classifyChangeType(r.conclusion) === "策略级").length;
+      const opCnt = x.rows.filter((r) => classifyChangeType(r.conclusion) === "运营级").length;
+      const focus = strategyCnt >= opCnt ? "策略能力强化" : "运营触达强化";
+      return `在${dimLabel(x.dimension)}层面，多个产品共同呈现${focus}（覆盖${x.coverage}个产品）。`;
     });
 
-  const perCompetitor = competitors.map((c) => {
+  const strategyDriven = competitors.filter((c) => {
     const rows = valid.filter((x) => x.competitor === c);
-    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
-    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
-    return { competitor: c, strategyCnt, opCnt, total: rows.length };
+    return rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length > rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
   });
+  const operationDriven = competitors.filter((c) => !strategyDriven.includes(c));
 
-  const strategyDriven = perCompetitor.filter((x) => x.strategyCnt > x.opCnt && x.strategyCnt > 0);
-  const operationDriven = perCompetitor.filter((x) => x.opCnt >= x.strategyCnt && x.opCnt > 0);
-
-  const diff: string[] = [];
-  if (strategyDriven.length > 0) {
-    diff.push(`${strategyDriven.map((x) => x.competitor).join("、")}更偏策略级调整（入口/路径/结构层变化更明显）。`);
-  }
-  if (operationDriven.length > 0) {
-    diff.push(`${operationDriven.map((x) => x.competitor).join("、")}更偏运营级更新（活动位、文案与触达迭代为主）。`);
-  }
-
-  if (diff.length === 0) diff.push("本期未观察到显著分化，整体以常规优化为主。");
+  const diffModes: string[] = [];
+  if (strategyDriven.length) diffModes.push(`${strategyDriven.join("、")}偏策略级变化（入口/路径/结构调整更明显）。`);
+  if (operationDriven.length) diffModes.push(`${operationDriven.join("、")}偏运营级变化（活动主题/文案/触达更新更集中）。`);
+  if (!diffModes.length) diffModes.push("本期差异不明显，整体以稳态优化为主。");
 
   return {
-    common: commonStrategy.length > 0 ? commonStrategy : ["本期暂未形成稳定的一致策略主轴，整体以局部优化为主。"],
-    diff: diff.slice(0, 3),
+    productModes: productModes.slice(0, 5),
+    commonModes: commonModes.length ? commonModes : ["本期共性策略不突出，更多是局部优化。"],
+    diffModes: diffModes.slice(0, 3),
   };
 }
 
@@ -149,7 +153,7 @@ export default function DashboardPage() {
   const compHeat = countByCompetitor(latestInsights);
   const breakdown = competitorDimensionBreakdown(latestInsights);
   const changes = keyChanges(latestInsights);
-  const consensus = buildConsensus(latestInsights);
+  const narrative = buildNarrativeSummary(latestInsights);
   const highlights = buildCompetitorHighlights(latestInsights);
   const productTrends = buildProductDimensionTrends(reports);
 
@@ -173,17 +177,23 @@ export default function DashboardPage() {
         />
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">整体结论：一致策略变化</h2>
+          <h2 className="text-base font-semibold">整体结论：单产品模式</h2>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-            {consensus.common.length > 0 ? consensus.common.map((x, i) => <li key={`c-${i}`}>{x}</li>) : <li>暂无明显一致变化</li>}
+            {narrative.productModes.map((x, i) => <li key={`p-${i}`}>{x}</li>)}
           </ul>
         </div>
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">整体结论：差异策略判断</h2>
+          <h2 className="text-base font-semibold">整体结论：全产品共性模式</h2>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
-            {consensus.diff.length > 0 ? consensus.diff.map((x, i) => <li key={`d-${i}`}>{x}</li>) : <li>暂无明显分化</li>}
+            {narrative.commonModes.map((x, i) => <li key={`c-${i}`}>{x}</li>)}
+          </ul>
+        </div>
+        <div className="rounded-xl border bg-card p-5">
+          <h2 className="text-base font-semibold">整体结论：差异模式</h2>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+            {narrative.diffModes.map((x, i) => <li key={`d-${i}`}>{x}</li>)}
           </ul>
         </div>
       </section>
