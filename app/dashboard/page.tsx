@@ -69,33 +69,33 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
   const valid = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""));
   const competitors = Array.from(new Set(valid.map((x) => x.competitor)));
 
+  const has = (rows: Insight[], re: RegExp) => rows.some((r) => re.test(`${r.page || ""} ${r.conclusion || ""}`));
+  const evidence = (rows: Insight[], n = 2) => rows.slice(0, n).map((r) => `${r.competitor}/${dimLabel(r.dimension)}/${r.page || "未标注"}`).join("；");
+
   const productModes = competitors.map((c) => {
     const rows = valid.filter((x) => x.competitor === c);
-    const topDim = DIMENSIONS.map((d) => ({ dim: d, cnt: rows.filter((x) => x.dimension === d).length }))
-      .sort((a, b) => b.cnt - a.cnt)[0];
-    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
-    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
-    const mode = strategyCnt > opCnt ? "策略驱动" : opCnt > strategyCnt ? "运营驱动" : "均衡推进";
-    const anchor = rows.slice(0, 2).map((x) => `${dimLabel(x.dimension)}-${x.page || "未标注"}`).join("；");
-    return `${c}以${mode}为主，当前重点落在${dimLabel(topDim?.dim || "APP")}（证据：${anchor || "-"}）。`;
+    const tags: string[] = [];
+    if (has(rows, /借钱|额度|银行卡|降息|免息|提额/)) tags.push("转化前置");
+    if (has(rows, /活动|消息|通知|横幅|弹窗|主题/)) tags.push("运营触达增强");
+    if (has(rows, /客服|会话|服务大厅|IM|消息中心/)) tags.push("服务承接增强");
+    if (has(rows, /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)) tags.push("链路稳态微调");
+    if (!tags.length) tags.push("常规迭代优化");
+
+    const anchorRows = rows
+      .filter((r) => tags.some((t) => `${r.page || ""} ${r.conclusion || ""}`.match(t === "转化前置" ? /借钱|额度|银行卡|降息|免息|提额/ : t === "运营触达增强" ? /活动|消息|通知|横幅|弹窗|主题/ : t === "服务承接增强" ? /客服|会话|服务大厅|IM|消息中心/ : /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)))
+      .slice(0, 2);
+
+    return `${c}当前模式：${tags.join(" + ")}。[证据锚点：${evidence(anchorRows.length ? anchorRows : rows)}]`;
   });
 
-  const byDimension = DIMENSIONS.map((d) => {
-    const rows = valid.filter((x) => x.dimension === d);
-    const products = Array.from(new Set(rows.map((x) => x.competitor)));
-    return { dimension: d, rows, coverage: products.length };
-  });
-
-  const commonModes = byDimension
-    .filter((x) => x.coverage >= Math.max(2, Math.ceil(competitors.length * 0.6)))
-    .sort((a, b) => b.coverage - a.coverage)
-    .slice(0, 3)
-    .map((x) => {
-      const strategyCnt = x.rows.filter((r) => classifyChangeType(r.conclusion) === "策略级").length;
-      const opCnt = x.rows.filter((r) => classifyChangeType(r.conclusion) === "运营级").length;
-      const focus = strategyCnt >= opCnt ? "策略能力强化" : "运营触达强化";
-      return `在${dimLabel(x.dimension)}层面，多个产品共同呈现${focus}（覆盖${x.coverage}个产品）。`;
-    });
+  const appRows = valid.filter((x) => x.dimension === "APP");
+  const csRows = valid.filter((x) => x.dimension === "客服");
+  const opRows = valid.filter((x) => x.dimension === "留存促活运营");
+  const commonModes = [
+    `APP层面共性：多个产品将变化集中在借贷转化入口与权益卡表达，强调“更快借、更多权益”。[证据锚点：${evidence(appRows)}]`,
+    `客服层面共性：会话承接与消息触达持续加强，目标是缩短响应路径、提升连续服务感知。[证据锚点：${evidence(csRows)}]`,
+    `运营层面共性：活动主题/文案/触达位高频更新，用运营内容强化品牌与转化抓手。[证据锚点：${evidence(opRows)}]`,
+  ];
 
   const strategyDriven = competitors.filter((c) => {
     const rows = valid.filter((x) => x.competitor === c);
@@ -104,13 +104,19 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
   const operationDriven = competitors.filter((c) => !strategyDriven.includes(c));
 
   const diffModes: string[] = [];
-  if (strategyDriven.length) diffModes.push(`${strategyDriven.join("、")}偏策略级变化（入口/路径/结构调整更明显）。`);
-  if (operationDriven.length) diffModes.push(`${operationDriven.join("、")}偏运营级变化（活动主题/文案/触达更新更集中）。`);
-  if (!diffModes.length) diffModes.push("本期差异不明显，整体以稳态优化为主。");
+  if (strategyDriven.length) {
+    const anchor = valid.filter((x) => strategyDriven.includes(x.competitor) && classifyChangeType(x.conclusion) === "策略级");
+    diffModes.push(`${strategyDriven.join("、")}偏策略级分化：主路径/入口/结构在调整，体现产品策略层动作。[证据锚点：${evidence(anchor)}]`);
+  }
+  if (operationDriven.length) {
+    const anchor = valid.filter((x) => operationDriven.includes(x.competitor) && classifyChangeType(x.conclusion) !== "策略级");
+    diffModes.push(`${operationDriven.join("、")}偏运营级分化：活动位、文案与触达更新更密集，更多是运营动作迭代。[证据锚点：${evidence(anchor)}]`);
+  }
+  if (!diffModes.length) diffModes.push("本期差异模式不明显，主要是常规优化延续。[证据锚点：-]");
 
   return {
     productModes: productModes.slice(0, 5),
-    commonModes: commonModes.length ? commonModes : ["本期共性策略不突出，更多是局部优化。"],
+    commonModes: commonModes,
     diffModes: diffModes.slice(0, 3),
   };
 }
