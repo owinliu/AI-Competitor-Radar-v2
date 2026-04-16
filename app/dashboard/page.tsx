@@ -1,4 +1,5 @@
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
+import DashboardProductFocusClient from "@/components/dashboard-product-focus-client";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -33,28 +34,6 @@ function keyChanges(insights: Insight[]) {
     else map.set(key, { competitor: x.competitor, dimension: x.dimension, page, count: 1, sample: x.conclusion });
   }
   return Array.from(map.values()).sort((a, b) => b.count - a.count).slice(0, 12);
-}
-
-function buildConic(values: { dimension: string; count: number }[]) {
-  const palette: Record<string, string> = {
-    APP: "#334155",
-    风控: "#7c3aed",
-    客服: "#0f766e",
-    消金: "#b45309",
-    留存促活运营: "#be123c",
-  };
-  const total = values.reduce((n, x) => n + x.count, 0) || 1;
-  let start = 0;
-  const parts = values
-    .filter((x) => x.count > 0)
-    .map((x) => {
-      const pct = (x.count / total) * 100;
-      const end = start + pct;
-      const seg = `${palette[x.dimension] || "#64748b"} ${start.toFixed(2)}% ${end.toFixed(2)}%`;
-      start = end;
-      return seg;
-    });
-  return `conic-gradient(${parts.join(", ")})`;
 }
 
 function buildConsensus(latestInsights: Insight[]) {
@@ -123,39 +102,14 @@ export default function DashboardPage() {
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">产品变动排序（本期）</h2>
-        <p className="mt-1 text-xs text-muted-foreground">鼠标悬停产品行可查看该产品维度构成饼图。</p>
-        <div className="mt-4 space-y-3">
-          {compHeat.map((item) => {
-            const max = Math.max(compHeat[0]?.count || 1, 1);
-            const width = `${Math.max((item.count / max) * 100, 4)}%`;
-            const dist = breakdown.find((x) => x.competitor === item.competitor);
-            const pie = buildConic(dist?.values || []);
-            return (
-              <div key={item.competitor} className="group rounded border p-3 hover:bg-muted/30">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="mb-1 flex items-center justify-between text-sm">
-                      <span className="font-medium">{item.competitor}</span>
-                      <span className="text-muted-foreground">{item.count}</span>
-                    </div>
-                    <div className="h-2 rounded bg-slate-100">
-                      <div className="h-2 rounded bg-slate-800" style={{ width }} />
-                    </div>
-                  </div>
-
-                  <div className="hidden items-center gap-3 rounded border bg-white p-2 group-hover:flex">
-                    <div className="h-14 w-14 rounded-full border" style={{ background: pie }} />
-                    <div className="text-xs text-muted-foreground">
-                      {(dist?.values || []).filter((x) => x.count > 0).map((x) => (
-                        <p key={`${item.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}</p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <p className="mt-1 text-xs text-muted-foreground">左侧选择竞品，右侧同步展示该竞品的维度饼图。</p>
+        <DashboardProductFocusClient
+          items={compHeat.map((item) => ({
+            competitor: item.competitor,
+            count: item.count,
+            values: breakdown.find((x) => x.competitor === item.competitor)?.values || [],
+          }))}
+        />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
