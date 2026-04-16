@@ -133,17 +133,22 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
   const balanced = profiles.filter((p) => !strategyDriven.includes(p) && !operationDriven.includes(p));
 
   const diffModes: string[] = [];
+  const pct = (n: number) => `${Math.round(n * 100)}%`;
+
   if (strategyDriven.length) {
     const anchorRows = strategyDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "策略级"));
-    diffModes.push(`${strategyDriven.map((x) => x.competitor).join("、")}偏策略级分化：主路径/入口/结构调整更突出。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
+    const ratioText = strategyDriven.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
+    diffModes.push(`${ratioText}偏策略级分化：主路径/入口/结构调整更突出。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
   }
   if (operationDriven.length) {
     const anchorRows = operationDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "运营级"));
-    diffModes.push(`${operationDriven.map((x) => x.competitor).join("、")}偏运营级分化：活动位、文案、触达策略更新更密集。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
+    const ratioText = operationDriven.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
+    diffModes.push(`${ratioText}偏运营级分化：活动位、文案、触达策略更新更密集。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
   }
   if (balanced.length) {
     const anchorRows = balanced.flatMap((p) => p.rows.slice(0, 1));
-    diffModes.push(`${balanced.map((x) => x.competitor).join("、")}偏均衡型：策略与运营同步迭代，暂无单侧偏移。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
+    const ratioText = balanced.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
+    diffModes.push(`${ratioText}偏均衡型：策略与运营同步迭代，暂无单侧偏移。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
   }
   if (!diffModes.length) diffModes.push("本期差异模式不明显，主要是常规优化延续。[证据锚点：-]");
 
