@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 type DimValue = { dimension: string; count: number };
-type Item = { competitor: string; count: number; values: DimValue[] };
+type Item = { competitor: string; count: number; values: DimValue[]; highlights: string[] };
 
 function dimLabel(dim: string) {
   return dim === "留存促活运营" ? "运营" : dim;
@@ -40,7 +40,7 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
   if (!items.length || !selectedItem) return null;
 
   return (
-    <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+    <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="space-y-3">
         {items.map((item) => {
           const width = `${Math.max((item.count / max) * 100, 4)}%`;
@@ -65,13 +65,21 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
       </div>
 
       <div className="rounded border bg-white p-4">
-        <p className="text-sm font-semibold">{selectedItem.competitor} · 维度构成</p>
-        <div className="mt-3 flex items-center gap-4">
-          <div className="h-28 w-28 rounded-full border" style={{ background: buildConic(selectedItem.values) }} />
-          <div className="text-xs text-muted-foreground space-y-1">
-            {selectedItem.values.filter((x) => x.count > 0).map((x) => (
-              <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}</p>
-            ))}
+        <p className="text-sm font-semibold">{selectedItem.competitor} · 维度构成与关键变化</p>
+        <div className="mt-3 flex items-start gap-5">
+          <div className="h-40 w-40 shrink-0 rounded-full border" style={{ background: buildConic(selectedItem.values) }} />
+          <div className="flex-1 space-y-3">
+            <div className="text-xs text-muted-foreground space-y-1">
+              {selectedItem.values.filter((x) => x.count > 0).map((x) => (
+                <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}</p>
+              ))}
+            </div>
+            <div>
+              <p className="text-xs font-medium text-foreground">关键结论</p>
+              <ul className="mt-1 list-disc space-y-1 pl-4 text-xs text-muted-foreground">
+                {selectedItem.highlights.length > 0 ? selectedItem.highlights.map((h, i) => <li key={`${selectedItem.competitor}-h-${i}`}>{h}</li>) : <li>暂无关键结论</li>}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

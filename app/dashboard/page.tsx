@@ -36,6 +36,26 @@ function keyChanges(insights: Insight[]) {
   return Array.from(map.values()).sort((a, b) => b.count - a.count).slice(0, 12);
 }
 
+function buildCompetitorHighlights(insights: Insight[]) {
+  const byCompetitor = new Map<string, { text: string; weight: number }[]>();
+  for (const x of insights) {
+    const arr = byCompetitor.get(x.competitor) || [];
+    const weight = x.impact === "高" ? 3 : x.impact === "中" ? 2 : 1;
+    arr.push({ text: `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`, weight });
+    byCompetitor.set(x.competitor, arr);
+  }
+
+  return new Map(
+    Array.from(byCompetitor.entries()).map(([competitor, rows]) => {
+      const uniq = Array.from(new Map(rows.map((r) => [r.text, r])).values())
+        .sort((a, b) => b.weight - a.weight)
+        .slice(0, 3)
+        .map((r) => r.text);
+      return [competitor, uniq];
+    })
+  );
+}
+
 function buildConsensus(latestInsights: Insight[]) {
   const competitors = Array.from(new Set(latestInsights.map((x) => x.competitor)));
   const byDim = DIMENSIONS.map((d) => {
@@ -91,6 +111,7 @@ export default function DashboardPage() {
   const breakdown = competitorDimensionBreakdown(latestInsights);
   const changes = keyChanges(latestInsights);
   const consensus = buildConsensus(latestInsights);
+  const highlights = buildCompetitorHighlights(latestInsights);
   const productTrends = buildProductDimensionTrends(reports);
 
   return (
@@ -108,6 +129,7 @@ export default function DashboardPage() {
             competitor: item.competitor,
             count: item.count,
             values: breakdown.find((x) => x.competitor === item.competitor)?.values || [],
+            highlights: highlights.get(item.competitor) || [],
           }))}
         />
       </section>
