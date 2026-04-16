@@ -53,7 +53,7 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
-  const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("全部");
+  const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("高");
 
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<ViewerImage[]>([]);
