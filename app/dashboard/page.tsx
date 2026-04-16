@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
@@ -7,87 +6,91 @@ function dimLabel(dim: string) {
   return dim === "留存促活运营" ? "运营" : dim;
 }
 
-function countByDimension(insights: Insight[]) {
-  return DIMENSIONS.map((dim) => ({
-    dimension: dim,
-    count: insights.filter((x) => x.dimension === dim).length,
-  })).sort((a, b) => b.count - a.count);
-}
-
 function countByCompetitor(insights: Insight[]) {
   const map = new Map<string, number>();
-  for (const x of insights) {
-    map.set(x.competitor, (map.get(x.competitor) || 0) + 1);
-  }
+  for (const x of insights) map.set(x.competitor, (map.get(x.competitor) || 0) + 1);
   return Array.from(map.entries())
     .map(([competitor, count]) => ({ competitor, count }))
     .sort((a, b) => b.count - a.count);
 }
 
-function buildMatrix(insights: Insight[]) {
-  const competitors = countByCompetitor(insights).map((x) => x.competitor);
-  const rowTotal = (competitor: string) => insights.filter((x) => x.competitor === competitor).length;
-  const value = (competitor: string, dimension: string) => insights.filter((x) => x.competitor === competitor && x.dimension === dimension).length;
-
-  return {
-    competitors,
-    rowTotal,
-    value,
-  };
+function competitorDimensionBreakdown(insights: Insight[]) {
+  const competitors = Array.from(new Set(insights.map((x) => x.competitor)));
+  return competitors.map((c) => {
+    const values = DIMENSIONS.map((d) => ({ dimension: d, count: insights.filter((x) => x.competitor === c && x.dimension === d).length }));
+    const total = values.reduce((n, x) => n + x.count, 0);
+    return { competitor: c, total, values };
+  });
 }
 
 function keyChanges(insights: Insight[]) {
   const map = new Map<string, { competitor: string; dimension: string; page: string; count: number; sample: string }>();
-
   for (const x of insights) {
     const page = x.page || "未标注页面";
     const key = `${x.competitor}__${x.dimension}__${page}`;
     const prev = map.get(key);
-    if (prev) {
-      prev.count += 1;
-    } else {
-      map.set(key, {
-        competitor: x.competitor,
-        dimension: x.dimension,
-        page,
-        count: 1,
-        sample: x.conclusion,
-      });
-    }
+    if (prev) prev.count += 1;
+    else map.set(key, { competitor: x.competitor, dimension: x.dimension, page, count: 1, sample: x.conclusion });
   }
-
   return Array.from(map.values()).sort((a, b) => b.count - a.count).slice(0, 12);
 }
 
-function trendByDimension(reports: ReturnType<typeof getAllReports>) {
-  return DIMENSIONS.map((dim) => {
-    const values = reports.map((r) => {
-      const detail = getReportBySlug(r.slug);
-      const count = detail?.insights.filter((x) => x.dimension === dim).length || 0;
-      return { date: r.date, count };
+function buildConic(values: { dimension: string; count: number }[]) {
+  const palette: Record<string, string> = {
+    APP: "#334155",
+    风控: "#7c3aed",
+    客服: "#0f766e",
+    消金: "#b45309",
+    留存促活运营: "#be123c",
+  };
+  const total = values.reduce((n, x) => n + x.count, 0) || 1;
+  let start = 0;
+  const parts = values
+    .filter((x) => x.count > 0)
+    .map((x) => {
+      const pct = (x.count / total) * 100;
+      const end = start + pct;
+      const seg = `${palette[x.dimension] || "#64748b"} ${start.toFixed(2)}% ${end.toFixed(2)}%`;
+      start = end;
+      return seg;
     });
-    return { dimension: dim, values };
-  });
+  return `conic-gradient(${parts.join(", ")})`;
 }
 
-function trendByCompetitor(reports: ReturnType<typeof getAllReports>) {
-  const allCompetitors = new Set<string>();
-  const details = reports.map((r) => ({ report: r, detail: getReportBySlug(r.slug) }));
-  for (const item of details) {
-    for (const i of item.detail?.insights || []) allCompetitors.add(i.competitor);
-  }
+function buildConsensus(latestInsights: Insight[]) {
+  const competitors = Array.from(new Set(latestInsights.map((x) => x.competitor)));
+  const byDim = DIMENSIONS.map((d) => {
+    const products = competitors.filter((c) => latestInsights.some((x) => x.competitor === c && x.dimension === d));
+    return { dimension: d, products, coverage: products.length };
+  });
 
-  return Array.from(allCompetitors)
-    .map((competitor) => {
-      const values = details.map(({ report, detail }) => ({
-        date: report.date,
-        count: detail?.insights.filter((x) => x.competitor === competitor).length || 0,
-      }));
-      const total = values.reduce((n, x) => n + x.count, 0);
-      return { competitor, values, total };
-    })
-    .sort((a, b) => b.total - a.total)
-    .slice(0, 8);
+  const common = byDim.filter((x) => x.coverage >= 3).sort((a, b) => b.coverage - a.coverage).slice(0, 3);
+  const diff = byDim.filter((x) => x.coverage <= 2).sort((a, b) => a.coverage - b.coverage).slice(0, 3);
+
+  return {
+    common: common.map((x) => `${dimLabel(x.dimension)}在${x.coverage}个产品出现变化（${x.products.join("、")}）`),
+    diff: diff.map((x) => `${dimLabel(x.dimension)}分化明显，仅${x.coverage}个产品出现变化（${x.products.join("、") || "暂无"}）`),
+  };
+}
+
+function buildProductDimensionTrends(reports: ReturnType<typeof getAllReports>) {
+  const recentReports = reports.slice(0, 4).sort((a, b) => (a.date > b.date ? 1 : -1));
+  const details = recentReports.map((r) => ({ meta: r, data: getReportBySlug(r.slug) }));
+  const competitors = Array.from(new Set(details.flatMap((x) => (x.data?.insights || []).map((i) => i.competitor))));
+
+  return competitors.map((c) => {
+    const weeks = details.map(({ meta, data }) => {
+      const rows = (data?.insights || []).filter((x) => x.competitor === c);
+      const dimCounts = DIMENSIONS.map((d) => ({ dim: d, count: rows.filter((x) => x.dimension === d).length }));
+      const top = [...dimCounts].sort((a, b) => b.count - a.count)[0];
+      return { date: meta.date, total: rows.length, topDim: top?.dim || "APP", topDimCount: top?.count || 0 };
+    });
+
+    const change = weeks.length >= 2 ? weeks[weeks.length - 1].total - weeks[weeks.length - 2].total : 0;
+    const direction = change > 0 ? "上升" : change < 0 ? "回落" : "持平";
+
+    return { competitor: c, weeks, direction, change };
+  });
 }
 
 export default function DashboardPage() {
@@ -105,99 +108,102 @@ export default function DashboardPage() {
   }
 
   const latestInsights = latest.insights;
-  const dimHeat = countByDimension(latestInsights);
   const compHeat = countByCompetitor(latestInsights);
-  const matrix = buildMatrix(latestInsights);
+  const breakdown = competitorDimensionBreakdown(latestInsights);
   const changes = keyChanges(latestInsights);
-
-  const recentReports = reports.slice(0, 4).sort((a, b) => (a.date > b.date ? 1 : -1));
-  const dimTrend = trendByDimension(recentReports);
-  const compTrend = trendByCompetitor(recentReports);
+  const consensus = buildConsensus(latestInsights);
+  const productTrends = buildProductDimensionTrends(reports);
 
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
         <h1 className="text-2xl font-semibold">竞品变化仪表盘</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          默认按维度热度展示。当前周期：{latest.period || latest.date}；统计口径：同一页面多个点位变化，按点位条数计数。
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">首页优先回答：本期谁变化最多、变化集中在哪些维度、共性与分化是什么、趋势如何。</p>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">产品变动排序（本期）</h2>
+        <p className="mt-1 text-xs text-muted-foreground">鼠标悬停产品行可查看该产品维度构成饼图。</p>
+        <div className="mt-4 space-y-3">
+          {compHeat.map((item) => {
+            const max = Math.max(compHeat[0]?.count || 1, 1);
+            const width = `${Math.max((item.count / max) * 100, 4)}%`;
+            const dist = breakdown.find((x) => x.competitor === item.competitor);
+            const pie = buildConic(dist?.values || []);
+            return (
+              <div key={item.competitor} className="group rounded border p-3 hover:bg-muted/30">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="mb-1 flex items-center justify-between text-sm">
+                      <span className="font-medium">{item.competitor}</span>
+                      <span className="text-muted-foreground">{item.count}</span>
+                    </div>
+                    <div className="h-2 rounded bg-slate-100">
+                      <div className="h-2 rounded bg-slate-800" style={{ width }} />
+                    </div>
+                  </div>
+
+                  <div className="hidden items-center gap-3 rounded border bg-white p-2 group-hover:flex">
+                    <div className="h-14 w-14 rounded-full border" style={{ background: pie }} />
+                    <div className="text-xs text-muted-foreground">
+                      {(dist?.values || []).filter((x) => x.count > 0).map((x) => (
+                        <p key={`${item.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">维度热度（本期）</h2>
-          <div className="mt-4 space-y-3">
-            {dimHeat.map((item) => {
-              const max = Math.max(dimHeat[0]?.count || 1, 1);
-              const width = `${Math.max((item.count / max) * 100, 4)}%`;
-              return (
-                <div key={item.dimension}>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span>{dimLabel(item.dimension)}</span>
-                    <span className="text-muted-foreground">{item.count}</span>
-                  </div>
-                  <div className="h-2 rounded bg-slate-100">
-                    <div className="h-2 rounded bg-slate-900" style={{ width }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <h2 className="text-base font-semibold">整体结论：一致变化</h2>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+            {consensus.common.length > 0 ? consensus.common.map((x, i) => <li key={`c-${i}`}>{x}</li>) : <li>暂无明显一致变化</li>}
+          </ul>
         </div>
-
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">产品变动排序（本期）</h2>
-          <div className="mt-4 space-y-3">
-            {compHeat.map((item) => {
-              const max = Math.max(compHeat[0]?.count || 1, 1);
-              const width = `${Math.max((item.count / max) * 100, 4)}%`;
-              return (
-                <div key={item.competitor}>
-                  <div className="mb-1 flex items-center justify-between text-sm">
-                    <span>{item.competitor}</span>
-                    <span className="text-muted-foreground">{item.count}</span>
-                  </div>
-                  <div className="h-2 rounded bg-slate-100">
-                    <div className="h-2 rounded bg-slate-700" style={{ width }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <h2 className="text-base font-semibold">整体结论：差异变化</h2>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+            {consensus.diff.length > 0 ? consensus.diff.map((x, i) => <li key={`d-${i}`}>{x}</li>) : <li>暂无明显分化</li>}
+          </ul>
         </div>
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">总表概览（产品 × 维度）</h2>
-        <p className="mt-1 text-xs text-muted-foreground">用于直观看出哪个产品变动更多、主要发生在哪个维度。</p>
+        <h2 className="text-base font-semibold">变化趋势（按产品看维度）</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[860px] border-collapse text-sm">
             <thead>
               <tr className="bg-slate-50 text-left text-slate-600">
                 <th className="border-b px-3 py-2">产品</th>
-                {DIMENSIONS.map((d) => (
-                  <th key={d} className="border-b px-3 py-2">{dimLabel(d)}</th>
-                ))}
-                <th className="border-b px-3 py-2">总变动数</th>
+                <th className="border-b px-3 py-2">近4周总变动（从旧到新）</th>
+                <th className="border-b px-3 py-2">本期主变化维度</th>
+                <th className="border-b px-3 py-2">趋势判断</th>
               </tr>
             </thead>
             <tbody>
-              {matrix.competitors.map((c) => (
-                <tr key={c}>
-                  <td className="border-b px-3 py-2 font-medium">{c}</td>
-                  {DIMENSIONS.map((d) => (
-                    <td key={`${c}-${d}`} className="border-b px-3 py-2">{matrix.value(c, d)}</td>
-                  ))}
-                  <td className="border-b px-3 py-2 font-semibold">{matrix.rowTotal(c)}</td>
-                </tr>
-              ))}
+              {productTrends.map((row) => {
+                const latestWeek = row.weeks[row.weeks.length - 1];
+                return (
+                  <tr key={row.competitor}>
+                    <td className="border-b px-3 py-2 font-medium">{row.competitor}</td>
+                    <td className="border-b px-3 py-2">{row.weeks.map((w) => w.total).join(" → ")}</td>
+                    <td className="border-b px-3 py-2">{dimLabel(latestWeek?.topDim || "APP")}（{latestWeek?.topDimCount || 0}）</td>
+                    <td className="border-b px-3 py-2 text-muted-foreground">{row.direction}{row.change !== 0 ? `（${row.change > 0 ? "+" : ""}${row.change}）` : ""}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">本期关键变化页面（Top 12）</h2>
+        <h2 className="text-base font-semibold">本期具体变化（Top 12）</h2>
         <p className="mt-1 text-xs text-muted-foreground">按“页面内变化点位数量”排序，先定位变化最密集的位置。</p>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[980px] border-collapse text-sm">
@@ -224,76 +230,6 @@ export default function DashboardPage() {
               ))}
             </tbody>
           </table>
-        </div>
-      </section>
-
-      <section className="grid gap-4 xl:grid-cols-2">
-        <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">近4周趋势（维度）</h2>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[520px] border-collapse text-sm">
-              <thead>
-                <tr className="bg-slate-50 text-left text-slate-600">
-                  <th className="border-b px-3 py-2">维度</th>
-                  {recentReports.map((r) => (
-                    <th key={r.slug} className="border-b px-3 py-2">{r.date.slice(5)}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {dimTrend.map((row) => (
-                  <tr key={row.dimension}>
-                    <td className="border-b px-3 py-2">{dimLabel(row.dimension)}</td>
-                    {row.values.map((v) => (
-                      <td key={`${row.dimension}-${v.date}`} className="border-b px-3 py-2">{v.count}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">近4周趋势（产品）</h2>
-          <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[520px] border-collapse text-sm">
-              <thead>
-                <tr className="bg-slate-50 text-left text-slate-600">
-                  <th className="border-b px-3 py-2">产品</th>
-                  {recentReports.map((r) => (
-                    <th key={r.slug} className="border-b px-3 py-2">{r.date.slice(5)}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {compTrend.map((row) => (
-                  <tr key={row.competitor}>
-                    <td className="border-b px-3 py-2">{row.competitor}</td>
-                    {row.values.map((v) => (
-                      <td key={`${row.competitor}-${v.date}`} className="border-b px-3 py-2">{v.count}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">下一步分析入口</h2>
-        <p className="mt-1 text-xs text-muted-foreground">首页仅保留总览决策信息。细分筛选、全量读图结论与证据对比已迁移到「周报中心」。</p>
-
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <Link href="/reports" className="rounded-lg border p-4 hover:bg-muted/40">
-            <p className="text-sm font-medium">进入周报中心</p>
-            <p className="mt-1 text-xs text-muted-foreground">按时间倒序查看历史分析，先选期次再深挖。</p>
-          </Link>
-          <Link href={`/history/${latest.slug}`} className="rounded-lg border p-4 hover:bg-muted/40">
-            <p className="text-sm font-medium">查看本期全量详情</p>
-            <p className="mt-1 text-xs text-muted-foreground">直接进入本期二级页，查看全量图表对比与读图结论。</p>
-          </Link>
         </div>
       </section>
     </div>
