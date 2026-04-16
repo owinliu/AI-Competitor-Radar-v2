@@ -2,19 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-
-type Insight = {
-  id: string;
-  competitor: string;
-  dimension: string;
-  period: string;
-  page?: string;
-  conclusion: string;
-  impact: "高" | "中" | "低";
-  confidence: string;
-  prevEvidence?: string[];
-  currEvidence?: string[];
-};
+import ReportInsightPanel from "@/components/report-insight-panel";
+import type { Insight } from "@/lib/reports";
 
 type Report = {
   slug: string;
@@ -34,9 +23,11 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
   const [reviewed, setReviewed] = useState<Record<string, "已复核" | "已修正" | undefined>>({});
   const [overrides, setOverrides] = useState<Record<string, { conclusion?: string; impact?: string }>>({});
+  const [detailSlug, setDetailSlug] = useState(reports[0]?.slug || "");
 
   const reportP1 = reports.find((r) => r.period === p1);
   const reportP2 = reports.find((r) => r.period === p2);
+  const detailReport = reports.find((r) => r.slug === detailSlug) || reports[0];
 
   const changes = useMemo(() => {
     const map1 = new Map((reportP1?.insights || []).map((i) => [`${i.competitor}|${i.dimension}|${i.page}`, i]));
@@ -197,7 +188,35 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       )}
 
       <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">C. 质量与缺口看板</h2>
+        <h2 className="text-lg font-semibold">C. 详细分析（含截图、产品维度筛选、结构变化总览）</h2>
+        <div className="mt-3 flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">选择期次：</span>
+          <select
+            value={detailSlug}
+            onChange={(e) => setDetailSlug(e.target.value)}
+            className="rounded border px-2 py-1.5 text-sm"
+          >
+            {reports.map((r) => (
+              <option key={r.slug} value={r.slug}>
+                {r.title}（{r.period || r.date}）
+              </option>
+            ))}
+          </select>
+          <Link href={`/history/${detailReport?.slug}`} className="rounded border px-2 py-1.5 text-xs hover:bg-muted">
+            全屏查看该期
+          </Link>
+        </div>
+        <div className="mt-4">
+          {detailReport ? (
+            <ReportInsightPanel insights={detailReport.insights} showStrategyOverview={true} />
+          ) : (
+            <p className="text-sm text-muted-foreground">暂无可展示的详细分析数据。</p>
+          )}
+        </div>
+      </section>
+
+      <section className="rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold">D. 质量与缺口看板</h2>
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           <div className="rounded border p-3"><p className="text-xs text-muted-foreground">证据完整度</p><p className="text-2xl font-semibold">{quality.evidence}%</p></div>
           <div className="rounded border p-3"><p className="text-xs text-muted-foreground">可比度</p><p className="text-2xl font-semibold">{quality.comparable}%</p></div>
