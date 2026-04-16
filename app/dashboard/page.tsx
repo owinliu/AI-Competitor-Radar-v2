@@ -58,19 +58,56 @@ function buildCompetitorHighlights(insights: Insight[]) {
   );
 }
 
+function classifyChangeType(text: string) {
+  const t = text || "";
+  if (/结构|路径|主链路|入口|改版|重心|转为|切换/.test(t)) return "策略级";
+  if (/活动|弹窗|文案|素材|主题|运营|触达|横幅/.test(t)) return "运营级";
+  return "一般更新";
+}
+
 function buildConsensus(latestInsights: Insight[]) {
-  const competitors = Array.from(new Set(latestInsights.map((x) => x.competitor)));
-  const byDim = DIMENSIONS.map((d) => {
-    const products = competitors.filter((c) => latestInsights.some((x) => x.competitor === c && x.dimension === d));
-    return { dimension: d, products, coverage: products.length };
+  const valid = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""));
+  const competitors = Array.from(new Set(valid.map((x) => x.competitor)));
+
+  const byDimension = DIMENSIONS.map((d) => {
+    const rows = valid.filter((x) => x.dimension === d);
+    const products = Array.from(new Set(rows.map((x) => x.competitor)));
+    return { dimension: d, rows, products, coverage: products.length };
   });
 
-  const common = byDim.filter((x) => x.coverage >= 3).sort((a, b) => b.coverage - a.coverage).slice(0, 3);
-  const diff = byDim.filter((x) => x.coverage <= 2).sort((a, b) => a.coverage - b.coverage).slice(0, 3);
+  const commonStrategy = byDimension
+    .filter((x) => x.coverage >= Math.max(2, Math.ceil(competitors.length * 0.6)))
+    .sort((a, b) => b.coverage - a.coverage)
+    .slice(0, 3)
+    .map((x) => {
+      const strategyRows = x.rows.filter((r) => classifyChangeType(r.conclusion) === "策略级");
+      const level = strategyRows.length >= Math.max(1, Math.floor(x.rows.length * 0.35)) ? "策略推进" : "以运营优化为主";
+      return `${dimLabel(x.dimension)}层面整体呈${level}（覆盖${x.coverage}个产品），共同指向${dimLabel(x.dimension)}能力持续强化。`;
+    });
+
+  const perCompetitor = competitors.map((c) => {
+    const rows = valid.filter((x) => x.competitor === c);
+    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
+    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
+    return { competitor: c, strategyCnt, opCnt, total: rows.length };
+  });
+
+  const strategyDriven = perCompetitor.filter((x) => x.strategyCnt > x.opCnt && x.strategyCnt > 0);
+  const operationDriven = perCompetitor.filter((x) => x.opCnt >= x.strategyCnt && x.opCnt > 0);
+
+  const diff: string[] = [];
+  if (strategyDriven.length > 0) {
+    diff.push(`${strategyDriven.map((x) => x.competitor).join("、")}更偏策略级调整（入口/路径/结构层变化更明显）。`);
+  }
+  if (operationDriven.length > 0) {
+    diff.push(`${operationDriven.map((x) => x.competitor).join("、")}更偏运营级更新（活动位、文案与触达迭代为主）。`);
+  }
+
+  if (diff.length === 0) diff.push("本期未观察到显著分化，整体以常规优化为主。");
 
   return {
-    common: common.map((x) => `${dimLabel(x.dimension)}在${x.coverage}个产品出现变化（${x.products.join("、")}）`),
-    diff: diff.map((x) => `${dimLabel(x.dimension)}分化明显，仅${x.coverage}个产品出现变化（${x.products.join("、") || "暂无"}）`),
+    common: commonStrategy.length > 0 ? commonStrategy : ["本期暂未形成稳定的一致策略主轴，整体以局部优化为主。"],
+    diff: diff.slice(0, 3),
   };
 }
 
@@ -138,13 +175,13 @@ export default function DashboardPage() {
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">整体结论：一致变化</h2>
+          <h2 className="text-base font-semibold">整体结论：一致策略变化</h2>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
             {consensus.common.length > 0 ? consensus.common.map((x, i) => <li key={`c-${i}`}>{x}</li>) : <li>暂无明显一致变化</li>}
           </ul>
         </div>
         <div className="rounded-xl border bg-card p-5">
-          <h2 className="text-base font-semibold">整体结论：差异变化</h2>
+          <h2 className="text-base font-semibold">整体结论：差异策略判断</h2>
           <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
             {consensus.diff.length > 0 ? consensus.diff.map((x, i) => <li key={`d-${i}`}>{x}</li>) : <li>暂无明显分化</li>}
           </ul>
