@@ -70,11 +70,15 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
           <div>
             <div className="mx-auto h-40 w-40 rounded-full border" style={{ background: buildConic(selectedItem.values) }} />
             <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-              {selectedItem.values.map((x) => {
-                const total = selectedItem.values.reduce((n, v) => n + v.count, 0) || 1;
-                const pct = Math.round((x.count / total) * 100);
-                return <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}（{pct}%）</p>;
-              })}
+              {selectedItem.values.filter((x) => x.count > 0).length > 0 ? (
+                selectedItem.values.filter((x) => x.count > 0).map((x) => {
+                  const total = selectedItem.values.reduce((n, v) => n + v.count, 0) || 1;
+                  const pct = Math.round((x.count / total) * 100);
+                  return <p key={`${selectedItem.competitor}-${x.dimension}`}>{dimLabel(x.dimension)}：{x.count}（{pct}%）</p>;
+                })
+              ) : (
+                <p>无明显变化</p>
+              )}
             </div>
           </div>
 
