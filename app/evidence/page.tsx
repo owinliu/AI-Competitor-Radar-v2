@@ -90,6 +90,26 @@ function buildPromoThemes(text: string) {
   return hit.length ? hit : ["常规维护"];
 }
 
+function buildVisualSignals(latestShots: string[], prevShots: string[]) {
+  const latest = latestShots.filter(Boolean);
+  const prev = prevShots.filter(Boolean);
+  const latestSet = new Set(latest);
+  const prevSet = new Set(prev);
+  const overlap = [...latestSet].filter((x) => prevSet.has(x)).length;
+  const overlapRate = latest.length ? overlap / latest.length : 0;
+
+  const tags: string[] = [];
+  if (latest.length && prev.length) tags.push("双版本有图");
+  if (latest.length > prev.length) tags.push("展示素材扩张");
+  if (latest.length < prev.length) tags.push("展示素材收敛");
+  if (latest.length === prev.length && overlapRate < 0.4 && latest.length > 0) tags.push("素材替换明显");
+  if (latest.length === prev.length && overlapRate >= 0.7 && latest.length > 0) tags.push("素材延续稳定");
+  if (!latest.length) tags.push("当前版本缺图");
+  if (!prev.length) tags.push("上一版本缺图");
+
+  return tags.length ? tags : ["图像信号有限"];
+}
+
 export default function AppVersionUpdatesPage() {
   const rows = loadTimeline();
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
@@ -116,10 +136,14 @@ export default function AppVersionUpdatesPage() {
     const latestText = latest?.releaseNotes || "";
     const diffText = compareNotes(latest?.releaseNotes, previous?.releaseNotes).join("；");
     const themes = buildPromoThemes(`${latestText}\n${diffText}`);
-    const shotCount = (latest?.screenshotUrls || []).filter(Boolean).length;
+    const latestShots = (latest?.screenshotUrls || []).filter(Boolean);
+    const prevShots = (previous?.screenshotUrls || []).filter(Boolean);
+    const visualSignals = buildVisualSignals(latestShots, prevShots);
+    const shotCount = latestShots.length;
     return {
       name,
       themes,
+      visualSignals,
       signal: diffText || (latestText ? "文案有更新，但差异点不明显" : "暂无文案信息"),
       shotCount,
       screenshotSource: latest?.screenshotSource || (shotCount > 0 ? "已获取（历史来源）" : "未获取"),
@@ -143,9 +167,9 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">应用市场宣传重点差异（基于版本更新文案 + 截图来源）</h2>
+        <h2 className="text-base font-semibold">应用市场宣传重点差异（识图信号 + 版本文案）</h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          说明：当前差异分析主要来自版本更新文案；截图文案语义分析将在后续加入 OCR 后增强。
+          说明：已禁用 OCR，不做截图文字识别。当前图像分析基于双版本截图的数量/替换/延续信号。
         </p>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           {promoSummary.map((x) => (
@@ -157,7 +181,12 @@ export default function AppVersionUpdatesPage() {
                   <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-muted-foreground line-clamp-3">差异信号：{x.signal}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {x.visualSignals.map((t) => (
+                  <span key={t} className="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700">{t}</span>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground line-clamp-3">文案差异信号：{x.signal}</p>
             </div>
           ))}
         </div>
