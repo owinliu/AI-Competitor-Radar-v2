@@ -13,15 +13,15 @@ const rows = [
   },
   {
     brand: "奇富借条（360借条）",
-    site: "https://www.360jie.com",
+    site: "https://www.360jie.com.cn/",
     positioning: "主打大平台风控与便捷借款",
     heroCopy: "首页首屏信息（已截图，可视化核对）",
     featureShowcase: "建议结合截图复核具体模块",
     pricing: "建议结合截图复核",
     cta: "建议结合截图复核",
     trust: "建议结合截图复核",
-    status: "截图待补（官网访问超时）",
-    screenshot: "/brand-screenshots/qifu.jpg"
+    status: "已补全页截图",
+    screenshot: "/brand-screenshots/qifu-full.png"
   },
   {
     brand: "安逸花",
