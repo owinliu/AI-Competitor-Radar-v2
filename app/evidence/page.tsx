@@ -189,33 +189,26 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">应用市场宣传重点差异（截图文字+内容级识别）</h2>
+        <h2 className="text-base font-semibold">各竞品截图宣传内容总结</h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          说明：基于版本文案 + 截图OCR提取文本 + 双版本截图对比信号综合生成。
+          仅展示：每个产品当前在应用市场截图里重点宣传的内容方向。
         </p>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           {promoSummary.map((x) => {
             const ca = contentAnalysis.find((i) => i.competitor === x.name);
             const focus = ca?.focus?.length ? ca.focus : x.themes;
-            const newWords = ca?.newWords?.slice(0, 8) || [];
+            const newWords = ca?.newWords?.slice(0, 10) || [];
             return (
               <div key={x.name} className="rounded-lg border p-3">
                 <p className="text-sm font-medium">{x.name}</p>
-                <p className="mt-1 text-xs text-muted-foreground">截图状态：{x.shotCount > 0 ? `已获取 ${x.shotCount} 张` : "未获取"}（来源：{x.screenshotSource}）</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {focus.map((t) => (
                     <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
                   ))}
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {x.visualSignals.map((t) => (
-                    <span key={t} className="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700">{t}</span>
-                  ))}
-                </div>
                 {newWords.length > 0 && (
-                  <p className="mt-2 text-xs text-muted-foreground">截图/文案新词：{newWords.join("、")}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">宣传关键词：{newWords.join("、")}</p>
                 )}
-                <p className="mt-2 text-xs text-muted-foreground line-clamp-3">文案差异信号：{x.signal}</p>
               </div>
             );
           })}
