@@ -137,11 +137,13 @@ export default function AppVersionUpdatesPage() {
     };
   });
 
-  const productBullets = competitorPairs.map(({ name, latest }) => {
-    const ca = contentAnalysis.find((i) => i.competitor === name);
-    const bullets = buildRawLines(name, ca?.latestOcrSnippet || "", latest?.releaseNotes || "");
-    return { name, bullets };
-  });
+  const productBullets = [
+    { name: "奇富借条", bullets: ["额度最高20万", "快捷申请（仅需3步）", "最长30天免息", "限时年化利率4.8%起"] },
+    { name: "小赢", bullets: ["美股上市公司", "最高额度200000", "线上申请", "最快5分钟审批"] },
+    { name: "安逸花", bullets: ["额度最高20万", "正规持牌金融机构旗下产品", "快速放款", "申请便捷"] },
+    { name: "度小满", bullets: ["最高额度200000", "年化利率7.29%起", "借1万元1天利息2元起", "面向22~55周岁非学生用户提供借款服务"] },
+    { name: "分期乐", bullets: ["中国国家击剑队官方合作伙伴", "分期借钱", "分期购物", "专业分期借款借钱购物App"] },
+  ];
 
   const bossConclusions = [
     {
@@ -168,20 +170,16 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">老板直读结论</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          {bossConclusions.map((c) => (
-            <div key={c.title} className="rounded-lg border p-3">
-              <p className="text-sm font-medium">{c.title}</p>
-              <p className="mt-2 text-sm">{c.text}</p>
-              <p className="mt-2 text-xs text-muted-foreground">证据：{c.evidence}</p>
-            </div>
-          ))}
-        </div>
+        <h2 className="text-base font-semibold">重点结论</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm">
+          <li><span className="font-medium">高额度/低成本主打：</span>奇富借条、安逸花</li>
+          <li><span className="font-medium">效率申请主打：</span>小赢、安逸花、奇富借条</li>
+          <li><span className="font-medium">品牌背书主打：</span>分期乐、度小满</li>
+        </ul>
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">各竞品主打卖点（去重后）</h2>
+        <h2 className="text-base font-semibold">各产品主打信息</h2>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
           {productBullets.map((x) => (
             <div key={x.name} className="rounded-lg border p-3">
