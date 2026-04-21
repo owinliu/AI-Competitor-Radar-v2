@@ -37,7 +37,7 @@ const rows = [
   },
   {
     brand: "小赢",
-    site: "https://www.xiaoying.com",
+    site: "https://www.xiaoyinggroup.com/",
     positioning: "上市公司背景下的普惠服务平台，强调服务个体与小微",
     heroCopy: "页面主视觉偏‘金融权益保障’导向，品牌口号露出较克制",
     featureShowcase: "官网以公司简介/动态为主，产品功能呈现相对轻",
