@@ -164,17 +164,7 @@ export default function AppVersionUpdatesPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
-        <h1 className="text-2xl font-semibold">APP版本更新（最近两次迭代对比）</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          当前为手动抓取演示：从 App Store CN 拉取竞品版本信息与商店截图，按竞品展示最近两次版本迭代对比。
-        </p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          手动更新命令：<code>npm run market:fetch</code>
-        </p>
-      </section>
-
-      <section className="rounded-xl border bg-card p-5 text-sm text-muted-foreground">
-        当前线上静态页已固定展示全部竞品（共 {competitorOptions.length} 个），如需筛选可先用浏览器页面查找（⌘/Ctrl + F）。
+        <h1 className="text-2xl font-semibold">APP版本更新</h1>
       </section>
 
       <section className="rounded-xl border bg-card p-5">
