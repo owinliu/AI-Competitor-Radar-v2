@@ -9,7 +9,8 @@
     "lint": "next lint",
     "report:new": "node scripts/new-weekly-report.mjs",
     "report:scan-conflicts": "node scripts/scan-conflicts.mjs",
-    "market:fetch": "node scripts/fetch-appstore-versions.mjs"
+    "market:fetch": "node scripts/fetch-appstore-versions.mjs",
+    "analyze:content": "node scripts/analyze-screenshot-content.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

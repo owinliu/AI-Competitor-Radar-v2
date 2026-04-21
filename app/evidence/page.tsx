@@ -2,6 +2,16 @@ import fs from "fs";
 import path from "path";
 
 
+type ContentAnalysisItem = {
+  competitor: string;
+  latestVersion: string;
+  previousVersion: string;
+  screenshotCount: number;
+  focus: string[];
+  newWords: string[];
+  latestOcrSnippet?: string;
+};
+
 type VersionItem = {
   competitor: string;
   platform: string;
@@ -28,6 +38,17 @@ function loadTimeline(): VersionItem[] {
   const parsed = JSON.parse(raw);
   if (!Array.isArray(parsed)) return [];
   return parsed as VersionItem[];
+}
+
+function loadContentAnalysis(): ContentAnalysisItem[] {
+  const p = path.join(process.cwd(), "data", "screenshot-content-analysis.json");
+  if (!fs.existsSync(p)) return [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
+    return Array.isArray(parsed?.items) ? (parsed.items as ContentAnalysisItem[]) : [];
+  } catch {
+    return [];
+  }
 }
 
 function toTime(s?: string) {
@@ -112,6 +133,7 @@ function buildVisualSignals(latestShots: string[], prevShots: string[]) {
 
 export default function AppVersionUpdatesPage() {
   const rows = loadTimeline();
+  const contentAnalysis = loadContentAnalysis();
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
   const filtered = rows;
 
@@ -167,28 +189,36 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">应用市场宣传重点差异（识图信号 + 版本文案）</h2>
+        <h2 className="text-base font-semibold">应用市场宣传重点差异（截图文字+内容级识别）</h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          说明：已禁用 OCR，不做截图文字识别。当前图像分析基于双版本截图的数量/替换/延续信号。
+          说明：基于版本文案 + 截图OCR提取文本 + 双版本截图对比信号综合生成。
         </p>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {promoSummary.map((x) => (
-            <div key={x.name} className="rounded-lg border p-3">
-              <p className="text-sm font-medium">{x.name}</p>
-              <p className="mt-1 text-xs text-muted-foreground">截图状态：{x.shotCount > 0 ? `已获取 ${x.shotCount} 张` : "未获取"}（来源：{x.screenshotSource}）</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {x.themes.map((t) => (
-                  <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
-                ))}
+          {promoSummary.map((x) => {
+            const ca = contentAnalysis.find((i) => i.competitor === x.name);
+            const focus = ca?.focus?.length ? ca.focus : x.themes;
+            const newWords = ca?.newWords?.slice(0, 8) || [];
+            return (
+              <div key={x.name} className="rounded-lg border p-3">
+                <p className="text-sm font-medium">{x.name}</p>
+                <p className="mt-1 text-xs text-muted-foreground">截图状态：{x.shotCount > 0 ? `已获取 ${x.shotCount} 张` : "未获取"}（来源：{x.screenshotSource}）</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {focus.map((t) => (
+                    <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
+                  ))}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {x.visualSignals.map((t) => (
+                    <span key={t} className="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700">{t}</span>
+                  ))}
+                </div>
+                {newWords.length > 0 && (
+                  <p className="mt-2 text-xs text-muted-foreground">截图/文案新词：{newWords.join("、")}</p>
+                )}
+                <p className="mt-2 text-xs text-muted-foreground line-clamp-3">文案差异信号：{x.signal}</p>
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {x.visualSignals.map((t) => (
-                  <span key={t} className="rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700">{t}</span>
-                ))}
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground line-clamp-3">文案差异信号：{x.signal}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

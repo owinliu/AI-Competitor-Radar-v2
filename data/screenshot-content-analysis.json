@@ -1,0 +1,100 @@
+{
+  "generatedAt": "2026-04-21T11:07:13.067Z",
+  "engine": "tesseract-eng",
+  "items": [
+    {
+      "competitor": "奇富借条",
+      "latestVersion": "2.0.43",
+      "previousVersion": "2.0.42",
+      "screenshotCount": 5,
+      "focus": [
+        "转化导向",
+        "优惠活动导向",
+        "服务触达导向",
+        "体验稳定导向"
+      ],
+      "newWords": [],
+      "latestOcrSnippet": "aie aS Rie205 RPS RHR om ae ABA mone 300 BBM (7) e 2 sepeine avon akon NAP SE OK Eo oa mESOXRS MBPSSRN 5 Pe MR i205 B22 meter",
+      "previousOcrSnippet": "aie aS Rie205 RPS RHR om ae ABA mone 300 BBM (7) e 2 sepeine avon akon NAP SE OK Eo oa mESOXRS MBPSSRN 5 Pe MR i205 B22 meter"
+    },
+    {
+      "competitor": "小赢",
+      "latestVersion": "5.3.8",
+      "previousVersion": "5.3.7",
+      "screenshotCount": 4,
+      "focus": [
+        "体验稳定导向"
+      ],
+      "newWords": [
+        "somme",
+        "rrlbaa",
+        "200",
+        "te",
+        "000",
+        "rawe",
+        "ores",
+        "rass",
+        "heh",
+        "omm",
+        "ee"
+      ],
+      "latestOcrSnippet": "Somme \\ RRLBAA = 200. Te) @ 000, a Rawe ORES © RASS HEH omm—EE —_",
+      "previousOcrSnippet": ""
+    },
+    {
+      "competitor": "安逸花",
+      "latestVersion": "4.0.36",
+      "previousVersion": "4.0.35",
+      "screenshotCount": 5,
+      "focus": [
+        "转化导向",
+        "体验稳定导向"
+      ],
+      "newWords": [
+        "oss",
+        "osant",
+        "lis",
+        "tod",
+        "rea",
+        "emsrsmminter",
+        "rrr",
+        "mers",
+        "toate",
+        "swarfa",
+        "iniiz",
+        "fas",
+        "apmreaen",
+        "raa",
+        "ane",
+        "brr"
+      ],
+      "latestOcrSnippet": "Oss Osant Lis tod Rea EMSRSMMINTER RRR mers toate SwARFa RRR iniiz Fas apmREAeN Raa ane BRR",
+      "previousOcrSnippet": ""
+    },
+    {
+      "competitor": "度小满",
+      "latestVersion": "11.2.5",
+      "previousVersion": "11.2.4",
+      "screenshotCount": 5,
+      "focus": [
+        "服务触达导向",
+        "体验稳定导向"
+      ],
+      "newWords": [],
+      "latestOcrSnippet": "| = ™» Ry er oy 2 ry ek an | ae l . Cr lap afi Taher AY BNBRRPRBRRABSARFER HHI 22~SS RHEE IR RIBS 2015% 2018 RUBBER —- SABA HN BH \\ BE (70) 200,000 T FEAT 2% (MBIA B27 aa ROM KER EA",
+      "previousOcrSnippet": "| = ™» Ry er oy 2 ry ek an | ae l . Cr lap afi Taher AY BNBRRPRBRRABSARFER HHI 22~SS RHEE IR RIBS 2015% 2018 RUBBER —- SABA HN BH \\ BE (70) 200,000 T FEAT 2% (MBIA B27 aa ROM KER EA"
+    },
+    {
+      "competitor": "分期乐",
+      "latestVersion": "8.10.7",
+      "previousVersion": "8.10.6",
+      "screenshotCount": 5,
+      "focus": [
+        "体验稳定导向"
+      ],
+      "newWords": [],
+      "latestOcrSnippet": "FEB | > PamRte PHREREMARAAHEKE PBREF FEHR RS MHSHSE W J Diese | DY EAMES RM MApp Alar ne nN GRACE, ERAETAGT INA",
+      "previousOcrSnippet": "FEB | > PamRte PHREREMARAAHEKE PBREF FEHR RS MHSHSE W J Diese | DY EAMES RM MApp Alar ne nN GRACE, ERAETAGT INA"
+    }
+  ]
+}
