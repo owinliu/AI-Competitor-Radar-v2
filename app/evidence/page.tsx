@@ -172,6 +172,46 @@ export default function AppVersionUpdatesPage() {
     };
   });
 
+  const productBullets = promoSummary.map((x) => {
+    const ca = contentAnalysis.find((i) => i.competitor === x.name);
+    const words = ca?.newWords?.filter((w) => w && w.length >= 2).slice(0, 12) || [];
+    return {
+      name: x.name,
+      bullets: words,
+      focus: ca?.focus || x.themes,
+    };
+  });
+
+  const bossConclusions = (() => {
+    const rows = productBullets.map((p) => ({ ...p, score: p.focus.length + p.bullets.length }));
+    const sorted = [...rows].sort((a, b) => b.score - a.score);
+    const top = sorted[0];
+    const second = sorted[1];
+    const stable = rows.filter((r) => r.focus.includes("体验稳定导向")).map((r) => r.name);
+
+    return [
+      top
+        ? {
+            title: "主打信息密度最高",
+            text: `${top.name} 当前截图宣传点最密集，集中在：${top.focus.slice(0, 3).join("、")}`,
+            evidence: top.bullets.slice(0, 4).join("、") || "（当前词条较少，建议人工补充）",
+          }
+        : null,
+      second
+        ? {
+            title: "次高强度宣传产品",
+            text: `${second.name} 重点围绕：${second.focus.slice(0, 3).join("、")}`,
+            evidence: second.bullets.slice(0, 4).join("、") || "（当前词条较少，建议人工补充）",
+          }
+        : null,
+      {
+        title: "稳态维护型宣传",
+        text: stable.length ? `${stable.join("、")} 更偏“修复/优化/稳定”叙事。` : "本期稳态维护型信号不明显。",
+        evidence: "依据：各产品截图与版本文案中“优化/修复/稳定/升级”类词频。",
+      },
+    ].filter(Boolean) as { title: string; text: string; evidence: string }[];
+  })();
+
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
@@ -189,30 +229,59 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">各竞品截图宣传内容总结</h2>
-        <p className="mt-1 text-xs text-muted-foreground">
-          仅展示：每个产品当前在应用市场截图里重点宣传的内容方向。
-        </p>
-        <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {promoSummary.map((x) => {
-            const ca = contentAnalysis.find((i) => i.competitor === x.name);
-            const focus = ca?.focus?.length ? ca.focus : x.themes;
-            const newWords = ca?.newWords?.slice(0, 10) || [];
-            return (
-              <div key={x.name} className="rounded-lg border p-3">
-                <p className="text-sm font-medium">{x.name}</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {focus.map((t) => (
-                    <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
-                  ))}
-                </div>
-                {newWords.length > 0 && (
-                  <p className="mt-2 text-xs text-muted-foreground">宣传关键词：{newWords.join("、")}</p>
-                )}
-              </div>
-            );
-          })}
+        <h2 className="text-base font-semibold">老板直读结论</h2>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          {bossConclusions.map((c) => (
+            <div key={c.title} className="rounded-lg border p-3">
+              <p className="text-sm font-medium">{c.title}</p>
+              <p className="mt-2 text-sm">{c.text}</p>
+              <p className="mt-2 text-xs text-muted-foreground">证据：{c.evidence}</p>
+            </div>
+          ))}
         </div>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">各竞品主打卖点（去重后）</h2>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {productBullets.map((x) => (
+            <div key={x.name} className="rounded-lg border p-3">
+              <p className="text-sm font-medium">{x.name}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {x.focus.map((t) => (
+                  <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
+                ))}
+              </div>
+              {x.bullets.length > 0 && (
+                <p className="mt-2 text-xs text-muted-foreground">原话关键词：{x.bullets.join("、")}</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <details className="mt-4 rounded-lg border p-3">
+          <summary className="cursor-pointer text-sm font-medium">查看详细对比（原话）</summary>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[760px] border-collapse text-sm">
+              <thead>
+                <tr className="bg-slate-50 text-left text-slate-600">
+                  <th className="border-b px-3 py-2">产品</th>
+                  <th className="border-b px-3 py-2">主打方向</th>
+                  <th className="border-b px-3 py-2">截图原话关键词（去重）</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productBullets.map((x) => (
+                  <tr key={`row-${x.name}`}>
+                    <td className="border-b px-3 py-2 font-medium">{x.name}</td>
+                    <td className="border-b px-3 py-2">{x.focus.join("、") || "-"}</td>
+                    <td className="border-b px-3 py-2 text-muted-foreground">{x.bullets.join("、") || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
       </section>
 
       {competitorPairs.map(({ name, latest, previous, count }) => {
