@@ -180,7 +180,7 @@ export default function AppVersionUpdatesPage() {
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">各产品主打信息</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-2">
+        <div className="mt-3 grid gap-3 md:grid-cols-3 xl:grid-cols-5">
           {productBullets.map((x) => (
             <div key={x.name} className="rounded-lg border p-3">
               <p className="text-sm font-medium">{x.name}</p>
