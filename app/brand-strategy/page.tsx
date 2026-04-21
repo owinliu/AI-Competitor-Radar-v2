@@ -114,7 +114,7 @@ export default function BrandStrategyPage() {
 
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">官网截图（5个产品）</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
           {rows.map((r) => (
             <figure key={`${r.brand}-shot`} className="overflow-hidden rounded-lg border bg-background">
               <img src={`${basePath}${r.screenshot}`} alt={`${r.brand} 官网截图`} className="w-full object-contain bg-slate-50" />
