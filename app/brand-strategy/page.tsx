@@ -14,36 +14,36 @@ const rows = [
   {
     brand: "奇富借条（360借条）",
     site: "https://www.360jie.com.cn/",
-    positioning: "主打大平台风控与便捷借款",
-    heroCopy: "首页首屏信息（已截图，可视化核对）",
-    featureShowcase: "建议结合截图复核具体模块",
-    pricing: "建议结合截图复核",
-    cta: "建议结合截图复核",
-    trust: "建议结合截图复核",
+    positioning: "以“上市系科技信贷平台”形象承接借款转化，强调便捷与安全并重。",
+    heroCopy: "2023年度亚洲银行家中国最佳信贷项目（首屏荣誉露出 + 借款卡片并列）",
+    featureShowcase: "产品优势与借款步骤前置：线上申请、智能风控、便捷借款路径清晰。",
+    pricing: "页面借款卡片露出“最高额度200,000”，定价信息弱于额度信息。",
+    cta: "首屏“立即借款/查看额度”导向明显，后续区域继续承接借款路径。",
+    trust: "荣誉奖项、集团里程碑、安全保障、合作机构与ESG板块完整呈现。",
     status: "已补全页截图",
     screenshot: "/brand-screenshots/qifu-full.png"
   },
   {
     brand: "安逸花",
     site: "https://anyihua.msxf.com/",
-    positioning: "主打普惠借款与便捷服务",
-    heroCopy: "首页首屏信息（已截图，可视化核对）",
-    featureShowcase: "建议结合截图复核具体模块",
-    pricing: "建议结合截图复核",
-    cta: "建议结合截图复核",
-    trust: "建议结合截图复核",
+    positioning: "主打“额度+速度+分期”的普惠借款平台叙事，强调可得性与便捷性。",
+    heroCopy: "首屏主文案“最长可分12期还”，并配下载二维码与导航入口。",
+    featureShowcase: "“安逸花贷款5大优势”清晰列出：额度高、放款快、更灵活、享权益、持牌消金。",
+    pricing: "APP示意卡露出“最高可借200,000”；优势文案含“年化利率(单利)7.2%-24%”。",
+    cta: "扫码下载与借款申请路径并行，导向“下载-申请-放款”闭环。",
+    trust: "“持牌金融机构产品”与企业服务信息（服务热线95090）共同构成信任背书。",
     status: "已补全页截图",
     screenshot: "/brand-screenshots/anyihua-full.png"
   },
   {
     brand: "小赢",
     site: "https://www.xiaoyinggroup.com/",
-    positioning: "上市公司背景下的普惠服务平台，强调服务个体与小微",
-    heroCopy: "页面主视觉偏‘金融权益保障’导向，品牌口号露出较克制",
-    featureShowcase: "官网以公司简介/动态为主，产品功能呈现相对轻",
-    pricing: "首页未见强定价露出，偏品牌与机构背书路径",
-    cta: "客服热线 952592 + 内容入口，转化偏‘咨询型’",
-    trust: "纽交所上市公司背景、投诉热线与公开备案信息",
+    positioning: "集团品牌官网定位，主叙事偏‘金融向善、服务美好数字生活’。",
+    heroCopy: "首屏主文案“科技融汇金融向善 共筑美好数字生活”。",
+    featureShowcase: "首屏以下信息密度较低，当前抓取画面以品牌页框架与底部联系信息为主。",
+    pricing: "未见借款额度/利率等价格型露出。",
+    cta: "页面以品牌信息浏览为主，未见强借款转化按钮前置。",
+    trust: "企业品牌识别、联系方式、二维码等基础信息露出。",
     status: "已补全页截图",
     screenshot: "/brand-screenshots/xiaoying-full.png"
   },
@@ -127,12 +127,12 @@ export default function BrandStrategyPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">本轮关键结论（先给可行动结论）</h2>
+        <h2 className="text-lg font-semibold">本轮关键结论</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-          <li>分期乐在“价格与效率”信息上最前置，属于强转化导向官网结构。</li>
-          <li>度小满以“平台能力 + 生态合作”叙事为主，偏 B 端可信度与综合品牌势能。</li>
-          <li>小赢首页更偏品牌与资讯承接，产品卖点与价格信息前置程度较低。</li>
-          <li>奇富借条、安逸花已补上官网截图，建议你下一步按截图做最终口径复核。</li>
+          <li>分期乐、奇富借条、安逸花的首页均明显前置“额度/借款效率”信息，转化导向更强。</li>
+          <li>度小满以“平台能力+生态合作+社会责任”叙事为主，产品能力展示广但价格信息不前置。</li>
+          <li>小赢集团官网当前首屏以品牌主张为核心，借款产品与价格卖点露出较少。</li>
+          <li>五家官网在信任背书上都较重：奖项、合作机构、资质/合规与品牌历史均有露出。</li>
         </ul>
       </section>
     </div>
