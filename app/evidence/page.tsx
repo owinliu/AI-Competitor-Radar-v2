@@ -76,6 +76,20 @@ function compareNotes(latest?: string, previous?: string) {
   return latestLines.filter((line) => !prevSet.has(line)).slice(0, 4);
 }
 
+function buildPromoThemes(text: string) {
+  const t = text || "";
+  const rules = [
+    { key: "体验流畅", re: /(体验|流畅|性能|稳定|修复|优化|升级)/ },
+    { key: "借款转化", re: /(借款|借钱|额度|分期|申请|放款|提额)/ },
+    { key: "权益优惠", re: /(优惠|免息|券|福利|折扣|活动|奖励)/ },
+    { key: "安全合规", re: /(安全|隐私|风控|认证|合规|保护)/ },
+    { key: "服务运营", re: /(客服|服务|消息|提醒|运营|触达)/ },
+  ];
+
+  const hit = rules.filter((r) => r.re.test(t)).map((r) => r.key);
+  return hit.length ? hit : ["常规维护"];
+}
+
 export default function AppVersionUpdatesPage() {
   const rows = loadTimeline();
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
@@ -98,6 +112,18 @@ export default function AppVersionUpdatesPage() {
     };
   });
 
+  const promoSummary = competitorPairs.map(({ name, latest, previous }) => {
+    const latestText = latest?.releaseNotes || "";
+    const diffText = compareNotes(latest?.releaseNotes, previous?.releaseNotes).join("；");
+    const themes = buildPromoThemes(`${latestText}\n${diffText}`);
+    return {
+      name,
+      themes,
+      signal: diffText || (latestText ? "文案有更新，但差异点不明显" : "暂无文案信息"),
+      screenshotSource: latest?.screenshotSource || "未获取",
+    };
+  });
+
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
@@ -112,6 +138,27 @@ export default function AppVersionUpdatesPage() {
 
       <section className="rounded-xl border bg-card p-5 text-sm text-muted-foreground">
         当前线上静态页已固定展示全部竞品（共 {competitorOptions.length} 个），如需筛选可先用浏览器页面查找（⌘/Ctrl + F）。
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">应用市场宣传重点差异（基于版本更新文案 + 截图来源）</h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          说明：当前差异分析主要来自版本更新文案；截图文案语义分析将在后续加入 OCR 后增强。
+        </p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {promoSummary.map((x) => (
+            <div key={x.name} className="rounded-lg border p-3">
+              <p className="text-sm font-medium">{x.name}</p>
+              <p className="mt-1 text-xs text-muted-foreground">截图来源：{x.screenshotSource}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {x.themes.map((t) => (
+                  <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground line-clamp-3">差异信号：{x.signal}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {competitorPairs.map(({ name, latest, previous, count }) => {
