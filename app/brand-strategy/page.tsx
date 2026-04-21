@@ -8,8 +8,8 @@ const rows = [
     pricing: "明确披露‘年利率低至8%起、新人最长30天免息’",
     cta: "扫码下载、借款入口、客服触点并行，导向下载与转化",
     trust: "ISO认证、0数据泄露纪录、百家银行合作与品牌荣誉",
-    status: "已上传截图",
-    screenshot: "/brand-screenshots/fenqile.jpg"
+    status: "已补全页截图",
+    screenshot: "/brand-screenshots/fenqile-full.png"
   },
   {
     brand: "奇富借条（360借条）",
@@ -20,7 +20,7 @@ const rows = [
     pricing: "建议结合截图复核",
     cta: "建议结合截图复核",
     trust: "建议结合截图复核",
-    status: "已上传截图",
+    status: "截图待补（官网访问超时）",
     screenshot: "/brand-screenshots/qifu.jpg"
   },
   {
@@ -32,7 +32,7 @@ const rows = [
     pricing: "建议结合截图复核",
     cta: "建议结合截图复核",
     trust: "建议结合截图复核",
-    status: "已上传截图",
+    status: "截图待补（官网访问超时）",
     screenshot: "/brand-screenshots/anyihua.jpg"
   },
   {
@@ -44,8 +44,8 @@ const rows = [
     pricing: "首页未见强定价露出，偏品牌与机构背书路径",
     cta: "客服热线 952592 + 内容入口，转化偏‘咨询型’",
     trust: "纽交所上市公司背景、投诉热线与公开备案信息",
-    status: "已上传截图",
-    screenshot: "/brand-screenshots/xiaoying.jpg"
+    status: "已补全页截图",
+    screenshot: "/brand-screenshots/xiaoying-full.png"
   },
   {
     brand: "度小满",
@@ -56,8 +56,8 @@ const rows = [
     pricing: "首页以能力与生态叙事为主，定价信息不前置",
     cta: "在线客服、下载、登录等多入口，偏平台化分流",
     trust: "合作金融机构规模、CSR叙事、资质备案与联系方式完备",
-    status: "已上传截图",
-    screenshot: "/brand-screenshots/duxiaoman.jpg"
+    status: "已补全页截图",
+    screenshot: "/brand-screenshots/duxiaoman-full.png"
   }
 ];
 
@@ -117,7 +117,7 @@ export default function BrandStrategyPage() {
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {rows.map((r) => (
             <figure key={`${r.brand}-shot`} className="overflow-hidden rounded-lg border bg-background">
-              <img src={`${basePath}${r.screenshot}`} alt={`${r.brand} 官网截图`} className="w-full object-cover" />
+              <img src={`${basePath}${r.screenshot}`} alt={`${r.brand} 官网截图`} className="w-full object-contain bg-slate-50" />
               <figcaption className="border-t px-3 py-2 text-xs text-muted-foreground">
                 {r.brand} · {r.site}
               </figcaption>
