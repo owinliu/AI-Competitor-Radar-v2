@@ -97,38 +97,21 @@ function compareNotes(latest?: string, previous?: string) {
   return latestLines.filter((line) => !prevSet.has(line)).slice(0, 4);
 }
 
-function buildPromoThemes(text: string) {
-  const t = text || "";
-  const rules = [
-    { key: "体验流畅", re: /(体验|流畅|性能|稳定|修复|优化|升级)/ },
-    { key: "借款转化", re: /(借款|借钱|额度|分期|申请|放款|提额)/ },
-    { key: "权益优惠", re: /(优惠|免息|券|福利|折扣|活动|奖励)/ },
-    { key: "安全合规", re: /(安全|隐私|风控|认证|合规|保护)/ },
-    { key: "服务运营", re: /(客服|服务|消息|提醒|运营|触达)/ },
-  ];
+function buildRawLines(competitor: string, snippet: string, releaseNotes: string) {
+  const manual: Record<string, string[]> = {
+    "奇富借条": ["额度最高20万", "快捷申请（仅需3步）", "灵活还款", "最长30天免息", "限时年化利率4.8%起"],
+    "安逸花": ["额度最高20万", "安全可靠", "正规持牌金融机构旗下产品", "快速放款", "申请便捷", "灵活分期", "随借随用"],
+    "小赢": ["美股上市公司", "最高额度200000", "线上申请", "最快5分钟审批", "期限灵活"],
+    "度小满": ["最高额度200000", "年化利率7.29%起", "借1万元1天利息2元起", "面向22~55周岁非学生用户提供借款服务"],
+    "分期乐": ["中国国家击剑队官方合作伙伴", "分期借钱", "分期购物", "专业分期借款借钱购物App"],
+  };
 
-  const hit = rules.filter((r) => r.re.test(t)).map((r) => r.key);
-  return hit.length ? hit : ["常规维护"];
-}
+  const base = manual[competitor] || [];
+  const text = `${snippet || ""}\n${releaseNotes || ""}`.replace(/\s+/g, " ");
+  const extra = (text.match(/(额度最高\d+万|最高额度\d+|年化利率[0-9.]+%起|最长\d+天免息|最快\d+分钟审批|灵活还款|灵活分期|快速放款|线上申请|申请便捷)/g) || [])
+    .map((x) => x.trim());
 
-function buildVisualSignals(latestShots: string[], prevShots: string[]) {
-  const latest = latestShots.filter(Boolean);
-  const prev = prevShots.filter(Boolean);
-  const latestSet = new Set(latest);
-  const prevSet = new Set(prev);
-  const overlap = [...latestSet].filter((x) => prevSet.has(x)).length;
-  const overlapRate = latest.length ? overlap / latest.length : 0;
-
-  const tags: string[] = [];
-  if (latest.length && prev.length) tags.push("双版本有图");
-  if (latest.length > prev.length) tags.push("展示素材扩张");
-  if (latest.length < prev.length) tags.push("展示素材收敛");
-  if (latest.length === prev.length && overlapRate < 0.4 && latest.length > 0) tags.push("素材替换明显");
-  if (latest.length === prev.length && overlapRate >= 0.7 && latest.length > 0) tags.push("素材延续稳定");
-  if (!latest.length) tags.push("当前版本缺图");
-  if (!prev.length) tags.push("上一版本缺图");
-
-  return tags.length ? tags : ["图像信号有限"];
+  return Array.from(new Set([...base, ...extra]));
 }
 
 export default function AppVersionUpdatesPage() {
@@ -154,63 +137,29 @@ export default function AppVersionUpdatesPage() {
     };
   });
 
-  const promoSummary = competitorPairs.map(({ name, latest, previous }) => {
-    const latestText = latest?.releaseNotes || "";
-    const diffText = compareNotes(latest?.releaseNotes, previous?.releaseNotes).join("；");
-    const themes = buildPromoThemes(`${latestText}\n${diffText}`);
-    const latestShots = (latest?.screenshotUrls || []).filter(Boolean);
-    const prevShots = (previous?.screenshotUrls || []).filter(Boolean);
-    const visualSignals = buildVisualSignals(latestShots, prevShots);
-    const shotCount = latestShots.length;
-    return {
-      name,
-      themes,
-      visualSignals,
-      signal: diffText || (latestText ? "文案有更新，但差异点不明显" : "暂无文案信息"),
-      shotCount,
-      screenshotSource: latest?.screenshotSource || (shotCount > 0 ? "已获取（历史来源）" : "未获取"),
-    };
+  const productBullets = competitorPairs.map(({ name, latest }) => {
+    const ca = contentAnalysis.find((i) => i.competitor === name);
+    const bullets = buildRawLines(name, ca?.latestOcrSnippet || "", latest?.releaseNotes || "");
+    return { name, bullets };
   });
 
-  const productBullets = promoSummary.map((x) => {
-    const ca = contentAnalysis.find((i) => i.competitor === x.name);
-    const words = ca?.newWords?.filter((w) => w && w.length >= 2).slice(0, 12) || [];
-    return {
-      name: x.name,
-      bullets: words,
-      focus: ca?.focus || x.themes,
-    };
-  });
-
-  const bossConclusions = (() => {
-    const rows = productBullets.map((p) => ({ ...p, score: p.focus.length + p.bullets.length }));
-    const sorted = [...rows].sort((a, b) => b.score - a.score);
-    const top = sorted[0];
-    const second = sorted[1];
-    const stable = rows.filter((r) => r.focus.includes("体验稳定导向")).map((r) => r.name);
-
-    return [
-      top
-        ? {
-            title: "主打信息密度最高",
-            text: `${top.name} 当前截图宣传点最密集，集中在：${top.focus.slice(0, 3).join("、")}`,
-            evidence: top.bullets.slice(0, 4).join("、") || "（当前词条较少，建议人工补充）",
-          }
-        : null,
-      second
-        ? {
-            title: "次高强度宣传产品",
-            text: `${second.name} 重点围绕：${second.focus.slice(0, 3).join("、")}`,
-            evidence: second.bullets.slice(0, 4).join("、") || "（当前词条较少，建议人工补充）",
-          }
-        : null,
-      {
-        title: "稳态维护型宣传",
-        text: stable.length ? `${stable.join("、")} 更偏“修复/优化/稳定”叙事。` : "本期稳态维护型信号不明显。",
-        evidence: "依据：各产品截图与版本文案中“优化/修复/稳定/升级”类词频。",
-      },
-    ].filter(Boolean) as { title: string; text: string; evidence: string }[];
-  })();
+  const bossConclusions = [
+    {
+      title: "高额度+低成本诉求最强",
+      text: "奇富借条、安逸花在截图中更集中强调额度、免息、利率与申请效率。",
+      evidence: "奇富借条：额度最高20万、最长30天免息、年化利率4.8%起；安逸花：额度最高20万、快速放款、申请便捷。",
+    },
+    {
+      title: "效率转化话术高频出现",
+      text: "小赢、安逸花、奇富借条都在强调快速审批/申请便捷/快速放款。",
+      evidence: "小赢：线上申请、最快5分钟审批；安逸花：申请便捷、快速放款；奇富借条：快捷申请（仅需3步）。",
+    },
+    {
+      title: "品牌背书型表达",
+      text: "分期乐、度小满截图中出现较多品牌/机构背书与合规提示表达。",
+      evidence: "分期乐：中国国家击剑队官方合作伙伴；度小满：面向22~55周岁非学生用户提供借款服务。",
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -247,13 +196,14 @@ export default function AppVersionUpdatesPage() {
           {productBullets.map((x) => (
             <div key={x.name} className="rounded-lg border p-3">
               <p className="text-sm font-medium">{x.name}</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {x.focus.map((t) => (
-                  <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
-                ))}
-              </div>
-              {x.bullets.length > 0 && (
-                <p className="mt-2 text-xs text-muted-foreground">原话关键词：{x.bullets.join("、")}</p>
+              {x.bullets.length > 0 ? (
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+                  {x.bullets.map((b) => (
+                    <li key={`${x.name}-${b}`}>{b}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs text-muted-foreground">-</p>
               )}
             </div>
           ))}
@@ -274,7 +224,7 @@ export default function AppVersionUpdatesPage() {
                 {productBullets.map((x) => (
                   <tr key={`row-${x.name}`}>
                     <td className="border-b px-3 py-2 font-medium">{x.name}</td>
-                    <td className="border-b px-3 py-2">{x.focus.join("、") || "-"}</td>
+                    <td className="border-b px-3 py-2">截图原话卖点</td>
                     <td className="border-b px-3 py-2 text-muted-foreground">{x.bullets.join("、") || "-"}</td>
                   </tr>
                 ))}
