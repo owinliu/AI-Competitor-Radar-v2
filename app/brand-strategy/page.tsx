@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 const rows = [
   {
     brand: "分期乐",
@@ -61,19 +64,43 @@ const rows = [
   }
 ];
 
+function loadSnapshots() {
+  const p = path.join(process.cwd(), "data", "monitoring-snapshots.json");
+  if (!fs.existsSync(p)) return [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
+    return Array.isArray(parsed?.snapshots) ? parsed.snapshots : [];
+  } catch {
+    return [];
+  }
+}
+
+function fmtDate(s?: string) {
+  if (!s) return "-";
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? s : d.toLocaleString("zh-CN", { hour12: false });
+}
+
 export default function BrandStrategyPage() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  const snapshots = loadSnapshots();
+  const latestSnap = snapshots[snapshots.length - 1];
+  const prevSnap = snapshots[snapshots.length - 2];
+  const prev2Snap = snapshots[snapshots.length - 3];
 
   return (
     <div className="space-y-6">
       <section className="rounded-xl border bg-card p-6">
         <h1 className="text-2xl font-semibold">品牌策略分析</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          对比对象：分期乐、奇富借条、安逸花、小赢、度小满。维度覆盖：品牌定位、首屏文案、功能展示、定价策略、CTA 转化、信任背书。
-        </p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          数据来源：官网首页自动访问与页面截图（本轮抓取时间：2026-04-09）。
-        </p>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">时间基线对比</h2>
+        <div className="mt-3 grid gap-3 md:grid-cols-3 text-sm">
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T（本期）</p><p>官网截图完成：{latestSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{latestSnap?.brandStrategy?.competitors ?? 0}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-1（上期）</p><p>官网截图完成：{prevSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{prevSnap?.brandStrategy?.competitors ?? 0}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-2（两期前）</p><p>官网截图完成：{prev2Snap?.brandStrategy?.resolvedScreenshots ?? 0}/{prev2Snap?.brandStrategy?.competitors ?? 0}</p></div>
+        </div>
       </section>
 
       <section className="rounded-xl border bg-card p-4 md:p-6 overflow-x-auto">
@@ -129,6 +156,20 @@ export default function BrandStrategyPage() {
             <li><span className="font-medium text-foreground">平台品牌型：</span>度小满、小赢（品牌主张、机构能力、企业叙事占比更高）。</li>
             <li><span className="font-medium text-foreground">信任背书共性：</span>五家均重视奖项、机构合作、资质/合规等可信度信息。</li>
           </ul>
+        </div>
+      </section>
+
+      <section className="rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold">快照归档</h2>
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[680px] text-sm">
+            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">快照</th><th className="px-2 py-2">时间</th><th className="px-2 py-2">截图完成</th><th className="px-2 py-2">待补</th></tr></thead>
+            <tbody>
+              {[...snapshots].reverse().map((s: any) => (
+                <tr key={s.id} className="border-b"><td className="px-2 py-2">{s.id}</td><td className="px-2 py-2">{fmtDate(s.createdAt)}</td><td className="px-2 py-2">{s.brandStrategy?.resolvedScreenshots ?? 0}/{s.brandStrategy?.competitors ?? 0}</td><td className="px-2 py-2">{s.brandStrategy?.pendingScreenshots ?? 0}</td></tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 

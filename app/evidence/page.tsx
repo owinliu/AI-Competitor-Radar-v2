@@ -51,6 +51,17 @@ function loadContentAnalysis(): ContentAnalysisItem[] {
   }
 }
 
+function loadSnapshots(): any[] {
+  const p = path.join(process.cwd(), "data", "monitoring-snapshots.json");
+  if (!fs.existsSync(p)) return [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(p, "utf8"));
+    return Array.isArray(parsed?.snapshots) ? parsed.snapshots : [];
+  } catch {
+    return [];
+  }
+}
+
 function toTime(s?: string) {
   if (!s) return 0;
   const t = new Date(s).getTime();
@@ -117,6 +128,10 @@ function buildRawLines(competitor: string, snippet: string, releaseNotes: string
 export default function AppVersionUpdatesPage() {
   const rows = loadTimeline();
   const contentAnalysis = loadContentAnalysis();
+  const snapshots = loadSnapshots();
+  const latestSnap = snapshots[snapshots.length - 1];
+  const prevSnap = snapshots[snapshots.length - 2];
+  const prev2Snap = snapshots[snapshots.length - 3];
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
   const filtered = rows;
 
@@ -170,6 +185,15 @@ export default function AppVersionUpdatesPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">时间基线对比</h2>
+        <div className="mt-3 grid gap-3 md:grid-cols-3 text-sm">
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T（本期）</p><p>版本变更竞品：{latestSnap?.appUpdates?.changedCompetitors ?? 0}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-1（上期）</p><p>版本变更竞品：{prevSnap?.appUpdates?.changedCompetitors ?? 0}</p></div>
+          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-2（两期前）</p><p>版本变更竞品：{prev2Snap?.appUpdates?.changedCompetitors ?? 0}</p></div>
+        </div>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">重点结论</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm">
           <li><span className="font-medium">高额度/低成本主打：</span>奇富借条、安逸花</li>
@@ -220,6 +244,20 @@ export default function AppVersionUpdatesPage() {
             </table>
           </div>
         </details>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">快照归档</h2>
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[680px] text-sm">
+            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">快照</th><th className="px-2 py-2">时间</th><th className="px-2 py-2">版本变更竞品数</th><th className="px-2 py-2">记录数</th></tr></thead>
+            <tbody>
+              {[...snapshots].reverse().map((s: any) => (
+                <tr key={s.id} className="border-b"><td className="px-2 py-2">{s.id}</td><td className="px-2 py-2">{fmtDate(s.createdAt)}</td><td className="px-2 py-2">{s.appUpdates?.changedCompetitors ?? 0}</td><td className="px-2 py-2">{s.appUpdates?.totalRecords ?? 0}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {competitorPairs.map(({ name, latest, previous, count }) => {

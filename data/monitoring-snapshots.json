@@ -1,0 +1,26 @@
+{
+  "snapshots": [
+    {
+      "id": "2026-04-21-001",
+      "createdAt": "2026-04-21T14:22:40.650Z",
+      "appUpdates": {
+        "competitors": 5,
+        "withVersion": 5,
+        "changedCompetitors": 5,
+        "totalRecords": 10
+      },
+      "brandStrategy": {
+        "competitors": 5,
+        "resolvedScreenshots": 5,
+        "pendingScreenshots": 0,
+        "screenshotHashes": {
+          "/brand-screenshots/fenqile-full.png": "4902843bf865f90ee415c6060c8048a7",
+          "/brand-screenshots/qifu-full.png": "1e7f0fe03d64c4ef47a603c8d9743d81",
+          "/brand-screenshots/anyihua-full.png": "baf05b4157fe301512de52d29512c475",
+          "/brand-screenshots/xiaoying-full.png": "dc1398441d8f3a8970a2bfd5ef1f0e4c",
+          "/brand-screenshots/duxiaoman-full.png": "4a81f054c50b924bab80eda542eb614b"
+        }
+      }
+    }
+  ]
+}
