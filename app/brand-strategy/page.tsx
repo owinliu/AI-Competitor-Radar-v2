@@ -113,6 +113,24 @@ export default function BrandStrategyPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold">本轮关键结论</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+          <li>分期乐、奇富借条、安逸花首页均前置“额度/借款效率”信息，转化导向更强。</li>
+          <li>度小满以“平台能力+生态合作+社会责任”叙事为主，产品能力展示广但价格信息不前置。</li>
+          <li>小赢集团官网当前首屏以品牌主张为核心，借款产品与价格卖点露出较少。</li>
+        </ul>
+      </section>
+
+      <section className="rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold">差异总结</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+          <li><span className="font-medium text-foreground">强转化型：</span>分期乐、奇富借条、安逸花（额度、利率、申请效率前置）。</li>
+          <li><span className="font-medium text-foreground">平台品牌型：</span>度小满、小赢（品牌主张、机构能力、企业叙事占比更高）。</li>
+          <li><span className="font-medium text-foreground">信任背书共性：</span>五家均重视奖项、机构合作、资质/合规等可信度信息。</li>
+        </ul>
+      </section>
+
+      <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">官网截图（5个产品）</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {rows.map((r) => (
@@ -124,16 +142,6 @@ export default function BrandStrategyPage() {
             </figure>
           ))}
         </div>
-      </section>
-
-      <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">本轮关键结论</h2>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-          <li>分期乐、奇富借条、安逸花的首页均明显前置“额度/借款效率”信息，转化导向更强。</li>
-          <li>度小满以“平台能力+生态合作+社会责任”叙事为主，产品能力展示广但价格信息不前置。</li>
-          <li>小赢集团官网当前首屏以品牌主张为核心，借款产品与价格卖点露出较少。</li>
-          <li>五家官网在信任背书上都较重：奖项、合作机构、资质/合规与品牌历史均有露出。</li>
-        </ul>
       </section>
     </div>
   );
