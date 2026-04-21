@@ -116,11 +116,13 @@ export default function AppVersionUpdatesPage() {
     const latestText = latest?.releaseNotes || "";
     const diffText = compareNotes(latest?.releaseNotes, previous?.releaseNotes).join("；");
     const themes = buildPromoThemes(`${latestText}\n${diffText}`);
+    const shotCount = (latest?.screenshotUrls || []).filter(Boolean).length;
     return {
       name,
       themes,
       signal: diffText || (latestText ? "文案有更新，但差异点不明显" : "暂无文案信息"),
-      screenshotSource: latest?.screenshotSource || "未获取",
+      shotCount,
+      screenshotSource: latest?.screenshotSource || (shotCount > 0 ? "已获取（历史来源）" : "未获取"),
     };
   });
 
@@ -149,7 +151,7 @@ export default function AppVersionUpdatesPage() {
           {promoSummary.map((x) => (
             <div key={x.name} className="rounded-lg border p-3">
               <p className="text-sm font-medium">{x.name}</p>
-              <p className="mt-1 text-xs text-muted-foreground">截图来源：{x.screenshotSource}</p>
+              <p className="mt-1 text-xs text-muted-foreground">截图状态：{x.shotCount > 0 ? `已获取 ${x.shotCount} 张` : "未获取"}（来源：{x.screenshotSource}）</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {x.themes.map((t) => (
                   <span key={t} className="rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-700">{t}</span>
