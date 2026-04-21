@@ -1,0 +1,36 @@
+[
+  {
+    "competitor": "分期乐",
+    "trackId": 906611031,
+    "platform": "iOS",
+    "market": "App Store CN"
+  },
+  {
+    "competitor": "度小满",
+    "trackId": 1521217278,
+    "platform": "iOS",
+    "market": "App Store CN"
+  },
+  {
+    "competitor": "安逸花",
+    "trackId": 1098542282,
+    "platform": "iOS",
+    "market": "App Store CN",
+    "androidMarketUrl": "https://sj.qq.com/appdetail/com.msxf.ayh",
+    "miDetailId": 329292
+  },
+  {
+    "competitor": "小赢",
+    "trackId": 1144413884,
+    "platform": "iOS",
+    "market": "App Store CN",
+    "androidMarketUrl": "https://sj.qq.com/appdetail/com.xiaoying.cardloan",
+    "miDetailId": 432142
+  },
+  {
+    "competitor": "奇富借条",
+    "trackId": 1178856715,
+    "platform": "iOS",
+    "market": "App Store CN"
+  }
+]

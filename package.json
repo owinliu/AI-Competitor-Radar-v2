@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "report:new": "node scripts/new-weekly-report.mjs",
-    "report:scan-conflicts": "node scripts/scan-conflicts.mjs"
+    "report:scan-conflicts": "node scripts/scan-conflicts.mjs",
+    "market:fetch": "node scripts/fetch-appstore-versions.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -30,6 +31,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
+    "playwright": "^1.59.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2"
