@@ -25,15 +25,15 @@ const rows = [
   },
   {
     brand: "安逸花",
-    site: "https://www.anyihua.com",
+    site: "https://anyihua.msxf.com/",
     positioning: "主打普惠借款与便捷服务",
     heroCopy: "首页首屏信息（已截图，可视化核对）",
     featureShowcase: "建议结合截图复核具体模块",
     pricing: "建议结合截图复核",
     cta: "建议结合截图复核",
     trust: "建议结合截图复核",
-    status: "截图待补（官网访问超时）",
-    screenshot: "/brand-screenshots/anyihua.jpg"
+    status: "已补全页截图",
+    screenshot: "/brand-screenshots/anyihua-full.png"
   },
   {
     brand: "小赢",
