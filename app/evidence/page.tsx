@@ -1,9 +1,6 @@
 import fs from "fs";
 import path from "path";
 
-type Search = {
-  competitor?: string;
-};
 
 type VersionItem = {
   competitor: string;
@@ -79,12 +76,10 @@ function compareNotes(latest?: string, previous?: string) {
   return latestLines.filter((line) => !prevSet.has(line)).slice(0, 4);
 }
 
-export default function AppVersionUpdatesPage({ searchParams }: { searchParams?: Search }) {
+export default function AppVersionUpdatesPage() {
   const rows = loadTimeline();
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
-
-  const competitor = searchParams?.competitor || "全部";
-  const filtered = competitor === "全部" ? rows : rows.filter((r) => r.competitor === competitor);
+  const filtered = rows;
 
   const grouped = new Map<string, VersionItem[]>();
   for (const row of filtered) {
@@ -115,26 +110,8 @@ export default function AppVersionUpdatesPage({ searchParams }: { searchParams?:
         </p>
       </section>
 
-      <section className="rounded-xl border bg-card p-5">
-        <form className="flex flex-wrap items-end gap-3">
-          <label className="text-sm">
-            <span className="mb-1 block text-xs text-muted-foreground">竞品筛选</span>
-            <select name="competitor" defaultValue={competitor} className="min-w-[220px] rounded-md border bg-background px-3 py-2 text-sm">
-              <option value="全部">全部</option>
-              {competitorOptions.map((x) => (
-                <option key={x} value={x}>
-                  {x}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button type="submit" className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
-            应用筛选
-          </button>
-          <a href="/evidence" className="rounded-md border px-4 py-2 text-sm">
-            重置
-          </a>
-        </form>
+      <section className="rounded-xl border bg-card p-5 text-sm text-muted-foreground">
+        当前线上静态页已固定展示全部竞品（共 {competitorOptions.length} 个），如需筛选可先用浏览器页面查找（⌘/Ctrl + F）。
       </section>
 
       {competitorPairs.map(({ name, latest, previous, count }) => {
