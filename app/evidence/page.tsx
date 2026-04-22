@@ -180,16 +180,21 @@ export default function AppVersionUpdatesPage() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border bg-card p-6">
+      <section className="rounded-xl bg-card p-6">
         <h1 className="text-2xl font-semibold">APP版本更新</h1>
-      </section>
-
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">时间基线对比</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-3 text-sm">
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T（本期）</p><p>版本变更竞品：{latestSnap?.appUpdates?.changedCompetitors ?? 0}</p></div>
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-1（上期）</p><p>版本变更竞品：{prevSnap?.appUpdates?.changedCompetitors ?? 0}</p></div>
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-2（两期前）</p><p>版本变更竞品：{prev2Snap?.appUpdates?.changedCompetitors ?? 0}</p></div>
+        <div className="mt-4 grid gap-3 text-sm md:grid-cols-3">
+          <div className="rounded-lg bg-slate-50 p-3">
+            <p className="text-xs text-muted-foreground">T（本期）</p>
+            <p>版本变更竞品：{latestSnap?.appUpdates?.changedCompetitors ?? 0}</p>
+          </div>
+          <div className="rounded-lg bg-slate-50 p-3">
+            <p className="text-xs text-muted-foreground">T-1（上期）</p>
+            <p>版本变更竞品：{prevSnap?.appUpdates?.changedCompetitors ?? 0}</p>
+          </div>
+          <div className="rounded-lg bg-slate-50 p-3">
+            <p className="text-xs text-muted-foreground">T-2（两期前）</p>
+            <p>版本变更竞品：{prev2Snap?.appUpdates?.changedCompetitors ?? 0}</p>
+          </div>
         </div>
       </section>
 
