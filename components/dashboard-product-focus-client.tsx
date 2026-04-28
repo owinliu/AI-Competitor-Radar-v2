@@ -64,7 +64,7 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
         })}
       </div>
 
-      <div className="rounded-md border border-[#e5edf5] bg-white p-4 shadow-[0_18px_36px_-18px_rgba(0,0,0,0.1),0_30px_45px_-30px_rgba(50,50,93,0.25)]">
+      <div className="rounded-md border border-[#e5edf5] bg-white p-4">
         <p className="text-sm font-semibold">{selectedItem.competitor} · 维度构成与关键变化</p>
         <div className="mt-3 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
