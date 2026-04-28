@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消费信贷平台竞品分析报告 | 分期乐 · 度小满 · 安逸花 · 奇富借条 · 拍拍贷</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', '"PingFang SC"', '"Hiragino Sans GB"', '"Microsoft YaHei"', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #0a0a0a;
+            --card-hover: #111111;
+            --border: #1a1a1a;
+            --border-light: #262626;
+            --fg: #e5e5e5;
+            --fg-muted: #737373;
+            --accent-fqle: #f59e0b;
+            --accent-dxm: #3b82f6;
+            --accent-ayh: #a855f7;
+            --accent-qfjt: #ef4444;
+            --accent-ppd: #10b981;
+        }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            background: var(--card-hover);
+            border-color: var(--border-light);
+        }
+        .brand-fqle { --brand: var(--accent-fqle); }
+        .brand-dxm { --brand: var(--accent-dxm); }
+        .brand-ayh { --brand: var(--accent-ayh); }
+        .brand-qfjt { --brand: var(--accent-qfjt); }
+        .brand-ppd { --brand: var(--accent-ppd); }
+        .brand-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--brand);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .brand-bar {
+            height: 3px; border-radius: 2px;
+            background: var(--brand);
+        }
+        .brand-border-left {
+            border-left: 3px solid var(--brand);
+        }
+        .rating-bar {
+            height: 6px; border-radius: 3px; background: #1a1a1a;
+            overflow: hidden;
+        }
+        .rating-fill {
+            height: 100%; border-radius: 3px;
+            background: var(--brand);
+            transition: width 1s ease;
+        }
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #262626, transparent);
+        }
+        .glow-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--brand, #f59e0b), transparent);
+        }
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+        .tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 10px; border-radius: 999px;
+            font-size: 12px; font-weight: 500;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .comparison-table th {
+            color: var(--fg-muted);
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            z-index: 10;
+        }
+        .comparison-table td {
+            color: var(--fg);
+        }
+        .comparison-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        .nav-link {
+            color: var(--fg-muted);
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--fg);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero-gradient {
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245,158,11,0.12), transparent);
+        }
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fg-muted);
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover {
+            color: var(--fg);
+            background: rgba(255,255,255,0.04);
+        }
+        .tab-btn.active {
+            color: var(--fg);
+            background: rgba(255,255,255,0.06);
+            border-color: var(--border-light);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        @media (max-width: 768px) {
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-[#1a1a1a]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-amber-500 pulse-glow"></div>
+                    <span class="text-sm font-semibold tracking-wide">竞品分析报告</span>
+                </div>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#overview" class="nav-link">市场概览</a>
+                    <a href="#profiles" class="nav-link">产品画像</a>
+                    <a href="#comparison" class="nav-link">核心对比</a>
+                    <a href="#dimensions" class="nav-link">维度分析</a>
+                    <a href="#strategy" class="nav-link">战略洞察</a>
+                </div>
+                <div class="text-xs text-neutral-600">2025年度</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <header id="overview" class="hero-gradient pt-24 pb-16 sm:pt-32 sm:pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="tag">消费信贷</span>
+                    <span class="tag">竞品研究</span>
+                    <span class="tag">2025</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6">
+                    五大消费信贷平台<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-red-400">竞品分析报告</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-neutral-400 leading-relaxed mb-10 max-w-2xl">
+                    深度对比分期乐、度小满、安逸花、奇富借条、拍拍贷五大平台的产品定位、功能差异、利率定价与风控策略，洞察消费信贷市场的竞争格局与演进趋势。
+                </p>
+                <div class="flex flex-wrap gap-3 mb-12">
+                    <div class="brand-fqle flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                        <span class="brand-dot"></span>
+                        <span class="text-sm font-medium">分期乐</span>
+                    </div>
+                    <div class="brand-dxm flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                        <span class="brand-dot"></span>
+                        <span class="text-sm font-medium">度小满</span>
+                    </div>
+                    <div class="brand-ayh flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                        <span class="brand-dot"></span>
+                        <span class="text-sm font-medium">安逸花</span>
+                    </div>
+                    <div class="brand-qfjt flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20">
+                        <span class="brand-dot"></span>
+                        <span class="text-sm font-medium">奇富借条</span>
+                    </div>
+                    <div class="brand-ppd flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                        <span class="brand-dot"></span>
+                        <span class="text-sm font-medium">拍拍贷</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心指标卡片 -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                <div class="card p-4 sm:p-5 brand-fqle brand-border-left">
+                    <div class="text-xs text-neutral-500 mb-1">母公司</div>
+                    <div class="text-sm font-semibold mb-3">乐信</div>
+                    <div class="text-xs text-neutral-500 mb-1">目标用户</div>
+                    <div class="text-sm">年轻消费群体</div>
+                </div>
+                <div class="card p-4 sm:p-5 brand-dxm brand-border-left">
+                    <div class="text-xs text-neutral-500 mb-1">母公司</div>
+                    <div class="text-sm font-semibold mb-3">百度</div>
+                    <div class="text-xs text-neutral-500 mb-1">目标用户</div>
+                    <div class="text-sm">大众信贷需求</div>
+                </div>
+                <div class="card p-4 sm:p-5 brand-ayh brand-border-left">
+                    <div class="text-xs text-neutral-500 mb-1">母公司</div>
+                    <div class="text-sm font-semibold mb-3">马上消费金融</div>
+                    <div class="text-xs text-neutral-500 mb-1">目标用户</div>
+                    <div class="text-sm">普惠金融人群</div>
+                </div>
+                <div class="card p-4 sm:p-5 brand-qfjt brand-border-left">
+                    <div class="text-xs text-neutral-500 mb-1">母公司</div>
+                    <div class="text-sm font-semibold mb-3">奇富科技(360)</div>
+                    <div class="text-xs text-neutral-500 mb-1">目标用户</div>
+                    <div class="text-sm">借贷需求用户</div>
+                </div>
+                <div class="card p-4 sm:p-5 brand-ppd brand-border-left">
+                    <div class="text-xs text-neutral-500 mb-1">母公司</div>
+                    <div class="text-sm font-semibold mb-3">信也科技</div>
+                    <div class="text-xs text-neutral-500 mb-1">目标用户</div>
+                    <div class="text-sm">中小微及个人</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="section-divider"></div>
+
+    <!-- 市场概览 -->
+    <section class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-[2px] bg-amber-500"></div>
+                    <span class="text-xs text-neutral-500 uppercase tracking-widest">Market Overview</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">市场概览</h2>
+                <p class="text-neutral-400 max-w-2xl mb-12">中国消费信贷市场持续增长，五大平台各依托不同背景切入细分赛道，形成差异化竞争格局。</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6 mb-12">
+                <!-- 市场规模趋势 -->
+                <div class="card p-5 sm:p-6 fade-in">
+                    <h3 class="text-base font-semibold mb-1">消费信贷市场规模趋势</h3>
+                    <p class="text-xs text-neutral-500 mb-6">中国互联网消费信贷余额（万亿元）</p>
+                    <div class="h-64">
+                        <canvas id="marketTrendChart"></canvas>
+                    </div>
+                </div>
+                <!-- 市场份额 -->
+                <div class="card p-5 sm:p-6 fade-in">
+                    <h3 class="text-base font-semibold mb-1">五大平台市场份额分布</h3>
+                    <p class="text-xs text-neutral-500 mb-6">基于2024年贷款撮合规模估算</p>
+                    <div class="h-64">
+                        <canvas id="marketShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 市场关键数据 -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 fade-in">
+                <div class="card p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold stat-number text-amber-400">3.2亿+</div>
+                    <div class="text-xs text-neutral-500 mt-2">互联网信贷用户规模</div>
+                </div>
+                <div class="card p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold stat-number text-blue-400">17.8%</div>
+                    <div class="text-xs text-neutral-500 mt-2">市场年均增长率</div>
+                </div>
+                <div class="card p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold stat-number text-purple-400">5家</div>
+                    <div class="text-xs text-neutral-500 mt-2">头部上市平台</div>
+                </div>
+                <div class="card p-4 sm:p-5 text-center">
+                    <div class="text-2xl sm:text-3xl font-bold stat-number text-emerald-400">3.6%~24%</div>
+                    <div class="text-xs text-neutral-500 mt-2">行业年化利率区间</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 产品画像 -->
+    <section id="profiles" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-[2px] bg-amber-500"></div>
+                    <span class="text-xs text-neutral-500 uppercase tracking-widest">Product Profiles</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">产品画像</h2>
+                <p class="text-neutral-400 max-w-2xl mb-12">五大平台的核心定位、业务模式与用户群体深度拆解。</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                <!-- 分期乐 -->
+                <div class="card p-5 sm:p-6 brand-fqle fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
+                            <span class="text-amber-400 font-bold text-sm">分期</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">分期乐</h3>
+                            <p class="text-xs text-neutral-500">乐信旗下</p>
+                        </div>
+                    </div>
+                    <div class="glow-line mb-4" style="--brand: var(--accent-fqle)"></div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-neutral-500 text-xs">核心定位</span>
+                            <p class="mt-1">年轻人分期消费与借贷平台，以"先消费、后付款"模式切入市场</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">业务模式</span>
+                            <p class="mt-1">电商分期 + 现金借贷双轮驱动，自建商城场景</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">目标用户</span>
+                            <p class="mt-1">18-30岁年轻群体，以大学生和初入职场人群为主</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">差异化优势</span>
+                            <p class="mt-1">消费场景内嵌，用户粘性高；乐信生态协同</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="tag text-amber-400 border-amber-500/20">场景金融</span>
+                            <span class="tag text-amber-400 border-amber-500/20">电商分期</span>
+                            <span class="tag text-amber-400 border-amber-500/20">年轻客群</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 度小满 -->
+                <div class="card p-5 sm:p-6 brand-dxm fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
+                            <span class="text-blue-400 font-bold text-sm">度小</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">度小满</h3>
+                            <p class="text-xs text-neutral-500">百度旗下</p>
+                        </div>
+                    </div>
+                    <div class="glow-line mb-4" style="--brand: var(--accent-dxm)"></div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-neutral-500 text-xs">核心定位</span>
+                            <p class="mt-1">百度旗下金融科技平台，提供信贷与理财综合服务</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">业务模式</span>
+                            <p class="mt-1">纯借贷撮合为主，AI智能风控匹配资金方</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">目标用户</span>
+                            <p class="mt-1">广泛的大众信贷需求者，年龄覆盖25-45岁</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">差异化优势</span>
+                            <p class="mt-1">百度搜索流量入口；AI风控技术领先</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="tag text-blue-400 border-blue-500/20">AI风控</span>
+                            <span class="tag text-blue-400 border-blue-500/20">流量入口</span>
+                            <span class="tag text-blue-400 border-blue-500/20">综合金融</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安逸花 -->
+                <div class="card p-5 sm:p-6 brand-ayh fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center">
+                            <span class="text-purple-400 font-bold text-sm">安逸</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">安逸花</h3>
+                            <p class="text-xs text-neutral-500">马上消费金融</p>
+                        </div>
+                    </div>
+                    <div class="glow-line mb-4" style="--brand: var(--accent-ayh)"></div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-neutral-500 text-xs">核心定位</span>
+                            <p class="mt-1">持牌消费金融公司产品，主打便捷小额信贷</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">业务模式</span>
+                            <p class="mt-1">自营放贷为主，持牌合规经营，循环额度模式</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">目标用户</span>
+                            <p class="mt-1">普惠金融人群，下沉市场与信用卡覆盖不到的群体</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">差异化优势</span>
+                            <p class="mt-1">持牌合规优势显著；资金成本较低；审批速度快</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="tag text-purple-400 border-purple-500/20">持牌合规</span>
+                            <span class="tag text-purple-400 border-purple-500/20">自营放贷</span>
+                            <span class="tag text-purple-400 border-purple-500/20">普惠金融</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 奇富借条 -->
+                <div class="card p-5 sm:p-6 brand-qfjt fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
+                            <span class="text-red-400 font-bold text-sm">奇富</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">奇富借条</h3>
+                            <p class="text-xs text-neutral-500">奇富科技(360)</p>
+                        </div>
+                    </div>
+                    <div class="glow-line mb-4" style="--brand: var(--accent-qfjt)"></div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-neutral-500 text-xs">核心定位</span>
+                            <p class="mt-1">360数科更名后品牌，主打借贷信息撮合服务</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">业务模式</span>
+                            <p class="mt-1">轻资本平台模式为主，撮合助贷+风险服务费</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">目标用户</span>
+                            <p class="mt-1">有借贷需求的广泛人群，偏重次优客户群体</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">差异化优势</span>
+                            <p class="mt-1">360安全品牌背书；大规模用户基数；技术输出能力</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="tag text-red-400 border-red-500/20">安全品牌</span>
+                            <span class="tag text-red-400 border-red-500/20">轻资本</span>
+                            <span class="tag text-red-400 border-red-500/20">技术输出</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 拍拍贷 -->
+                <div class="card p-5 sm:p-6 brand-ppd fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center">
+                            <span class="text-emerald-400 font-bold text-sm">拍拍</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">拍拍贷</h3>
+                            <p class="text-xs text-neutral-500">信也科技</p>
+                        </div>
+                    </div>
+                    <div class="glow-line mb-4" style="--brand: var(--accent-ppd)"></div>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-neutral-500 text-xs">核心定位</span>
+                            <p class="mt-1">国内最早P2P平台转型，现为主流智能信贷平台</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">业务模式</span>
+                            <p class="mt-1">助贷撮合+技术赋能双模式，国际业务拓展中</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">目标用户</span>
+                            <p class="mt-1">中小微企业主及个人借款人，小额分散</p>
+                        </div>
+                        <div>
+                            <span class="text-neutral-500 text-xs">差异化优势</span>
+                            <p class="mt-1">行业资历深厚；国际化布局领先；小微场景切入</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="tag text-emerald-400 border-emerald-500/20">行业老兵</span>
+                            <span class="tag text-emerald-400 border-emerald-500/20">国际布局</span>
+                            <span class="tag text-emerald-400 border-emerald-500/20">小微金融</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资质对比概要 -->
+                <div class="card p-5 sm:p-6 fade-in flex flex-col justify-center">
+                    <h3 class="font-bold text-base mb-4">持牌资质一览</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-neutral-400">分期乐</span>
+                            <span class="text-amber-400 text-xs">网络小贷牌照</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-neutral-400">度小满</span>
+                            <span class="text-blue-400 text-xs">网络小贷牌照</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-neutral-400">安逸花</span>
+                            <span class="text-purple-400 text-xs">消费金融牌照</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-neutral-400">奇富借条</span>
+                            <span class="text-red-400 text-xs">融资担保+小贷</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-neutral-400">拍拍贷</span>
+                            <span class="text-emerald-400 text-xs">网络小贷牌照</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-[#1a1a1a]">
+                        <p class="text-xs text-neutral-500">安逸花为唯一持消费金融牌照的产品，在资金来源和杠杆率方面具有监管优势。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 核心对比 -->
+    <section id="comparison" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-[2px] bg-amber-500"></div>
+                    <span class="text-xs text-neutral-500 uppercase tracking-widest">Core Comparison</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">核心指标对比</h2>
+                <p class="text-neutral-400 max-w-2xl mb-12">从额度、利率、期限、放款速度等维度横向对比五大平台的核心产品参数。</p>
+            </div>
+
+            <!-- 对比表格 -->
+            <div class="card overflow-hidden mb-10 fade-in">
+                <div class="overflow-x-auto">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>对比维度</th>
+                                <th>
+                                    <div class="flex items-center gap-2">
+                                        <span class="brand-dot brand-fqle"></span>分期乐
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex items-center gap-2">
+                                        <span class="brand-dot brand-dxm"></span>度小满
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex items-center gap-2">
+                                        <span class="brand-dot brand-ayh"></span>安逸花
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex items-center gap-2">
+                                        <span class="brand-dot brand-qfjt"></span>奇富借条
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="flex items-center gap-2">
+                                        <span class="brand-dot brand-ppd"></span>拍拍贷
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">最高额度</td>
+                                <td>20万</td>
+                                <td>20万</td>
+                                <td>20万</td>
+                                <td>20万</td>
+                                <td>20万</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">年化利率</td>
+                                <td>7.2%~24%</td>
+                                <td>7.2%~24%</td>
+                                <td>7.2%~24%</td>
+                                <td>6%~24%</td>
+                                <td>6%~24%</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">借款期限</td>
+                                <td>3~36期</td>
+                                <td>3~24期</td>
+                                <td>3~12期</td>
+                                <td>3~24期</td>
+                                <td>3~12期</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">放款速度</td>
+                                <td>最快5分钟</td>
+                                <td>最快3分钟</td>
+                                <td>最快1分钟</td>
+                                <td>最快5分钟</td>
+                                <td>最快5分钟</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">还款方式</td>
+                                <td>等额本息/等额本金</td>
+                                <td>等额本息</td>
+                                <td>等额本息/先息后本</td>
+                                <td>等额本息</td>
+                                <td>等额本息</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">提前还款</td>
+                                <td>支持，收违约金</td>
+                                <td>支持，收违约金</td>
+                                <td>支持，收违约金</td>
+                                <td>支持，收违约金</td>
+                                <td>支持，收违约金</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">核心场景</td>
+                                <td>电商消费分期</td>
+                                <td>现金借贷</td>
+                                <td>现金借贷</td>
+                                <td>现金借贷</td>
+                                <td>现金借贷</td>
+                            </tr>
+                            <tr>
+                                <td class="text-neutral-400 font-medium">持牌类型</td>
+                                <td>网络小贷</td>
+                                <td>网络小贷</td>
+                                <td class="text-purple-400 font-medium">消费金融</td>
+                                <td>融资担保+小贷</td>
+                                <td>网络小贷</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 利率区间可视化 -->
+            <div class="card p-5 sm:p-6 fade-in">
+                <h3 class="text-base font-semibold mb-1">年化利率区间对比</h3>
+                <p class="text-xs text-neutral-500 mb-6">各平台最低/最高年化利率范围</p>
+                <div class="space-y-5">
+                    <div class="brand-fqle">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-medium">分期乐</span>
+                            </div>
+                            <span class="text-xs text-neutral-400">7.2% — 24%</span>
+                        </div>
+                        <div class="h-3 rounded-full bg-[#1a1a1a] overflow-hidden relative">
+                            <div class="absolute left-[7.2/24*100]% right-0 top-0 bottom-0 rounded-full" style="background: linear-gradient(90deg, #f59e0b, #f59e0b44); left: 0; width: 100%;"></div>
+                            <div class="absolute top-0 bottom-0 rounded-full" style="left: 0; width: 30%; background: #f59e0b;"></div>
+                        </div>
+                    </div>
+                    <div class="brand-dxm">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-medium">度小满</span>
+                            </div>
+                            <span class="text-xs text-neutral-400">7.2% — 24%</span>
+                        </div>
+                        <div class="h-3 rounded-full bg-[#1a1a1a] overflow-hidden relative">
+                            <div class="absolute top-0 bottom-0 rounded-full" style="left: 0; width: 30%; background: #3b82f6;"></div>
+                        </div>
+                    </div>
+                    <div class="brand-ayh">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-medium">安逸花</span>
+                            </div>
+                            <span class="text-xs text-neutral-400">7.2% — 24%</span>
+                        </div>
+                        <div class="h-3 rounded-full bg-[#1a1a1a] overflow-hidden relative">
+                            <div class="absolute top-0 bottom-0 rounded-full" style="left: 0; width: 30%; background: #a855f7;"></div>
+                        </div>
+                    </div>
+                    <div class="brand-qfjt">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-medium">奇富借条</span>
+                            </div>
+                            <span class="text-xs text-neutral-400">6% — 24%</span>
+                        </div>
+                        <div class="h-3 rounded-full bg-[#1a1a1a] overflow-hidden relative">
+                            <div class="absolute top-0 bottom-0 rounded-full" style="left: 0; width: 25%; background: #ef4444;"></div>
+                        </div>
+                    </div>
+                    <div class="brand-ppd">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-medium">拍拍贷</span>
+                            </div>
+                            <span class="text-xs text-neutral-400">6% — 24%</span>
+                        </div>
+                        <div class="h-3 rounded-full bg-[#1a1a1a] overflow-hidden relative">
+                            <div class="absolute top-0 bottom-0 rounded-full" style="left: 0; width: 25%; background: #10b981;"></div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-neutral-600 mt-2">* 深色部分表示各平台宣称的最低利率区间，实际利率以审批结果为准。奇富借条和拍拍贷最低利率可达6%。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 维度分析 -->
+    <section id="dimensions" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-[2px] bg-amber-500"></div>
+                    <span class="text-xs text-neutral-500 uppercase tracking-widest">Dimension Analysis</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">多维度深度分析</h2>
+                <p class="text-neutral-400 max-w-2xl mb-10">从风控能力、用户体验、场景覆盖、合规水平四大维度进行量化评估。</p>
+            </div>
+
+            <!-- Tab切换 -->
+            <div class="flex flex-wrap gap-2 mb-8 fade-in" id="dimTabs">
+                <button class="tab-btn active" data-tab="radar">综合雷达图</button>
+                <button class="tab-btn" data-tab="risk">风控能力</button>
+                <button class="tab-btn" data-tab="ux">用户体验</button>
+                <button class="tab-btn" data-tab="scene">场景覆盖</button>
+                <button class="tab-btn" data-tab="compliance">合规水平</button>
+            </div>
+
+            <!-- 雷达图 -->
+            <div class="tab-content active" id="tab-radar">
+                <div class="grid lg:grid-cols-5 gap-4">
+                    <div class="lg:col-span-3 card p-5 sm:p-6 fade-in">
+                        <h3 class="text-base font-semibold mb-1">综合能力雷达图</h3>
+                        <p class="text-xs text-neutral-500 mb-4">五大平台四维能力对比</p>
+                        <div class="h-80 sm:h-96">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-3 fade-in">
+                        <div class="card p-4 brand-fqle brand-border-left">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">分期乐</span>
+                                <span class="text-xs text-neutral-500 ml-auto">综合 78</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">场景覆盖突出，电商生态构建了高粘性用户关系，但风控独立性相对偏弱。</p>
+                        </div>
+                        <div class="card p-4 brand-dxm brand-border-left">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">度小满</span>
+                                <span class="text-xs text-neutral-500 ml-auto">综合 83</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">AI风控技术领先，百度流量入口优势明显，综合能力最为均衡。</p>
+                        </div>
+                        <div class="card p-4 brand-ayh brand-border-left">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">安逸花</span>
+                                <span class="text-xs text-neutral-500 ml-auto">综合 80</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">持牌合规优势显著，资金成本较低，但场景覆盖和用户规模受限。</p>
+                        </div>
+                        <div class="card p-4 brand-qfjt brand-border-left">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">奇富借条</span>
+                                <span class="text-xs text-neutral-500 ml-auto">综合 82</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">用户基数庞大，技术输出能力强，轻资本模式降低风险敞口。</p>
+                        </div>
+                        <div class="card p-4 brand-ppd brand-border-left">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">拍拍贷</span>
+                                <span class="text-xs text-neutral-500 ml-auto">综合 76</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">行业经验丰富，国际化布局领先，但国内品牌认知度有所下滑。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 风控能力 -->
+            <div class="tab-content" id="tab-risk">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card p-5 brand-fqle fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>分期乐</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">风控模型成熟度</span><span class="text-amber-400">8.0</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">数据维度丰富度</span><span class="text-amber-400">7.5</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">反欺诈能力</span><span class="text-amber-400">7.5</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">不良率控制</span><span class="text-amber-400">7.0</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:70%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">依托电商交易数据+乐信征信，风控数据维度丰富，但年轻客群风险偏高。</p>
+                    </div>
+                    <div class="card p-5 brand-dxm fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>度小满</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">风控模型成熟度</span><span class="text-blue-400">9.0</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:90%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">数据维度丰富度</span><span class="text-blue-400">9.0</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:90%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">反欺诈能力</span><span class="text-blue-400">8.5</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">不良率控制</span><span class="text-blue-400">8.0</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:80%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">百度AI技术赋能，搜索+位置+行为多维数据，风控能力行业领先。</p>
+                    </div>
+                    <div class="card p-5 brand-ayh fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>安逸花</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">风控模型成熟度</span><span class="text-purple-400">8.5</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">数据维度丰富度</span><span class="text-purple-400">7.5</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">反欺诈能力</span><span class="text-purple-400">8.0</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">不良率控制</span><span class="text-purple-400">8.5</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:85%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">持牌机构风控标准严格，不良率控制较好，但数据维度依赖外部合作。</p>
+                    </div>
+                    <div class="card p-5 brand-qfjt fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>奇富借条</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">风控模型成熟度</span><span class="text-red-400">8.5</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">数据维度丰富度</span><span class="text-red-400">8.5</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">反欺诈能力</span><span class="text-red-400">9.0</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:90%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">不良率控制</span><span class="text-red-400">7.5</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:75%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">360安全基因加持，反欺诈能力突出；轻资本模式转移风险但影响定价权。</p>
+                    </div>
+                    <div class="card p-5 brand-ppd fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>拍拍贷</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">风控模型成熟度</span><span class="text-emerald-400">8.0</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">数据维度丰富度</span><span class="text-emerald-400">7.5</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">反欺诈能力</span><span class="text-emerald-400">7.5</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">不良率控制</span><span class="text-emerald-400">7.0</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:70%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">多年数据积累，风控经验丰富，但P2P转型期间品牌信任度仍需修复。</p>
+                    </div>
+                    <div class="card p-5 fade-in flex flex-col justify-center">
+                        <h4 class="font-semibold text-sm mb-3">风控维度小结</h4>
+                        <div class="space-y-2 text-xs text-neutral-400">
+                            <p>1. 度小满AI风控综合评分最高，百度技术底座优势明显</p>
+                            <p>2. 奇富借条反欺诈能力突出，360安全品牌赋能</p>
+                            <p>3. 安逸花持牌优势体现在不良率控制上</p>
+                            <p>4. 分期乐电商数据维度独特但年轻客群风险偏高</p>
+                            <p>5. 拍拍贷历史数据积累深厚但品牌转型仍在进行中</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户体验 -->
+            <div class="tab-content" id="tab-ux">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card p-5 brand-fqle fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>分期乐</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">注册便捷度</span><span class="text-amber-400">8.0</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">审批速度</span><span class="text-amber-400">7.5</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">界面体验</span><span class="text-amber-400">8.5</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">客服响应</span><span class="text-amber-400">7.0</span></div><div class="rating-bar brand-fqle"><div class="rating-fill" style="width:70%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">商城+金融一体化UI设计流畅，电商体验提升整体感知。</p>
+                    </div>
+                    <div class="card p-5 brand-dxm fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>度小满</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">注册便捷度</span><span class="text-blue-400">8.5</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">审批速度</span><span class="text-blue-400">8.5</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:85%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">界面体验</span><span class="text-blue-400">8.0</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">客服响应</span><span class="text-blue-400">7.5</span></div><div class="rating-bar brand-dxm"><div class="rating-fill" style="width:75%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">百度账号体系打通，注册流畅；AI审批速度快，体验高效。</p>
+                    </div>
+                    <div class="card p-5 brand-ayh fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>安逸花</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">注册便捷度</span><span class="text-purple-400">8.0</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">审批速度</span><span class="text-purple-400">9.0</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:90%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">界面体验</span><span class="text-purple-400">7.5</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">客服响应</span><span class="text-purple-400">8.0</span></div><div class="rating-bar brand-ayh"><div class="rating-fill" style="width:80%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">审批速度最快（1分钟），持牌体系下客服规范性较好。</p>
+                    </div>
+                    <div class="card p-5 brand-qfjt fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>奇富借条</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">注册便捷度</span><span class="text-red-400">8.0</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">审批速度</span><span class="text-red-400">8.0</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:80%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">界面体验</span><span class="text-red-400">7.5</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">客服响应</span><span class="text-red-400">7.0</span></div><div class="rating-bar brand-qfjt"><div class="rating-fill" style="width:70%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">品牌更名后用户认知需要重建，界面功能偏工具化。</p>
+                    </div>
+                    <div class="card p-5 brand-ppd fade-in">
+                        <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>拍拍贷</h4>
+                        <div class="space-y-3">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">注册便捷度</span><span class="text-emerald-400">7.5</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">审批速度</span><span class="text-emerald-400">7.5</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:75%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">界面体验</span><span class="text-emerald-400">7.0</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:70%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-neutral-400">客服响应</span><span class="text-emerald-400">7.0</span></div><div class="rating-bar brand-ppd"><div class="rating-fill" style="width:70%"></div></div></div>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-3">功能完整但界面设计偏传统，用户活跃度和体验感有提升空间。</p>
+                    </div>
+                    <div class="card p-5 fade-in flex flex-col justify-center">
+                        <h4 class="font-semibold text-sm mb-3">用户体验小结</h4>
+                        <div class="space-y-2 text-xs text-neutral-400">
+                            <p>1. 安逸花审批速度最快，持牌体系保障服务规范性</p>
+                            <p>2. 度小满百度账号打通+AI审批，全流程效率高</p>
+                            <p>3. 分期乐电商一体化界面体验最佳</p>
+                            <p>4. 奇富借条品牌更名期存在认知断层</p>
+                            <p>5. 拍拍贷界面设计偏传统，需现代化升级</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 场景覆盖 -->
+            <div class="tab-content" id="tab-scene">
+                <div class="grid lg:grid-cols-2 gap-4">
+                    <div class="card p-5 sm:p-6 fade-in">
+                        <h3 class="text-base font-semibold mb-1">场景覆盖度评分</h3>
+                        <p class="text-xs text-neutral-500 mb-6">各平台消费场景与金融服务覆盖广度</p>
+                        <div class="h-64">
+                            <canvas id="sceneChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-3 fade-in">
+                        <div class="card p-4 brand-fqle brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">分期乐</span>
+                                <span class="tag text-amber-400 border-amber-500/20 ml-2">场景覆盖 9.0</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">唯一自建电商场景的平台，3C数码、教育培训、生活服务等多场景覆盖，场景金融深度最强。</p>
+                        </div>
+                        <div class="card p-4 brand-dxm brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">度小满</span>
+                                <span class="tag text-blue-400 border-blue-500/20 ml-2">场景覆盖 7.0</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">以现金借贷为主，教育分期、医美分期等场景合作模式，场景深度有限但覆盖面广。</p>
+                        </div>
+                        <div class="card p-4 brand-ayh brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">安逸花</span>
+                                <span class="tag text-purple-400 border-purple-500/20 ml-2">场景覆盖 6.0</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">纯现金借贷产品，场景覆盖主要依赖合作方导流，缺乏自有场景。</p>
+                        </div>
+                        <div class="card p-4 brand-qfjt brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">奇富借条</span>
+                                <span class="tag text-red-400 border-red-500/20 ml-2">场景覆盖 6.5</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">以借贷撮合为核心，360生态提供部分场景入口，但场景金融深度不足。</p>
+                        </div>
+                        <div class="card p-4 brand-ppd brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">拍拍贷</span>
+                                <span class="tag text-emerald-400 border-emerald-500/20 ml-2">场景覆盖 5.5</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">纯平台撮合模式，场景覆盖最弱，正在向小微企业场景拓展。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 合规水平 -->
+            <div class="tab-content" id="tab-compliance">
+                <div class="grid lg:grid-cols-2 gap-4">
+                    <div class="card p-5 sm:p-6 fade-in">
+                        <h3 class="text-base font-semibold mb-1">合规水平评估</h3>
+                        <p class="text-xs text-neutral-500 mb-6">持牌资质、监管合规、信息披露等维度</p>
+                        <div class="h-64">
+                            <canvas id="complianceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-3 fade-in">
+                        <div class="card p-4 brand-ayh brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">安逸花</span>
+                                <span class="tag text-purple-400 border-purple-500/20 ml-2">合规评分 9.5</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">唯一持有消费金融牌照，受银保监会监管，资本充足率要求严格，合规壁垒最高。</p>
+                        </div>
+                        <div class="card p-4 brand-dxm brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">度小满</span>
+                                <span class="tag text-blue-400 border-blue-500/20 ml-2">合规评分 8.5</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">百度背景加持，持网络小贷牌照，合规意识强，信息披露规范。</p>
+                        </div>
+                        <div class="card p-4 brand-fqle brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">分期乐</span>
+                                <span class="tag text-amber-400 border-amber-500/20 ml-2">合规评分 8.0</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">乐信美股上市，信息披露规范，网络小贷牌照覆盖，但年轻客群合规风险需关注。</p>
+                        </div>
+                        <div class="card p-4 brand-qfjt brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">奇富借条</span>
+                                <span class="tag text-red-400 border-red-500/20 ml-2">合规评分 8.0</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">纳斯达克上市，持融资担保+小贷双牌照，轻资本模式合规风险较低。</p>
+                        </div>
+                        <div class="card p-4 brand-ppd brand-border-left">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="brand-dot"></span>
+                                <span class="text-sm font-semibold">拍拍贷</span>
+                                <span class="tag text-emerald-400 border-emerald-500/20 ml-2">合规评分 7.5</span>
+                            </div>
+                            <p class="text-xs text-neutral-400">P2P转型历史遗留问题影响品牌信任，纽交所上市信息披露规范，合规持续改善中。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 战略洞察 -->
+    <section id="strategy" class="py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-[2px] bg-amber-500"></div>
+                    <span class="text-xs text-neutral-500 uppercase tracking-widest">Strategic Insights</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">战略洞察与建议</h2>
+                <p class="text-neutral-400 max-w-2xl mb-12">基于竞品分析的竞争策略建议与行业趋势判断。</p>
+            </div>
+
+            <!-- 竞争格局矩阵 -->
+            <div class="card p-5 sm:p-6 mb-8 fade-in">
+                <h3 class="text-base font-semibold mb-1">竞争格局定位矩阵</h3>
+                <p class="text-xs text-neutral-500 mb-6">场景深度 × 技术能力双维度定位</p>
+                <div class="relative h-72 sm:h-80">
+                    <canvas id="matrixChart"></canvas>
+                </div>
+            </div>
+
+            <!-- SWOT分析 -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+                <div class="card p-4 brand-fqle fade-in">
+                    <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>分期乐</h4>
+                    <div class="space-y-2 text-xs">
+                        <div><span class="text-amber-400 font-medium">S 优势：</span><span class="text-neutral-400">场景金融深度第一，用户粘性高</span></div>
+                        <div><span class="text-red-400 font-medium">W 劣势：</span><span class="text-neutral-400">客群年龄偏小，风险偏高</span></div>
+                        <div><span class="text-emerald-400 font-medium">O 机会：</span><span class="text-neutral-400">消费升级，年轻群体信贷需求增长</span></div>
+                        <div><span class="text-purple-400 font-medium">T 威胁：</span><span class="text-neutral-400">校园贷监管趋严，场景被巨头渗透</span></div>
+                    </div>
+                </div>
+                <div class="card p-4 brand-dxm fade-in">
+                    <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>度小满</h4>
+                    <div class="space-y-2 text-xs">
+                        <div><span class="text-amber-400 font-medium">S 优势：</span><span class="text-neutral-400">AI技术领先，百度流量入口</span></div>
+                        <div><span class="text-red-400 font-medium">W 劣势：</span><span class="text-neutral-400">缺乏自有消费场景</span></div>
+                        <div><span class="text-emerald-400 font-medium">O 机会：</span><span class="text-neutral-400">AI+金融深化，技术输出市场</span></div>
+                        <div><span class="text-purple-400 font-medium">T 威胁：</span><span class="text-neutral-400">百度流量红利见顶</span></div>
+                    </div>
+                </div>
+                <div class="card p-4 brand-ayh fade-in">
+                    <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>安逸花</h4>
+                    <div class="space-y-2 text-xs">
+                        <div><span class="text-amber-400 font-medium">S 优势：</span><span class="text-neutral-400">持牌合规壁垒，资金成本低</span></div>
+                        <div><span class="text-red-400 font-medium">W 劣势：</span><span class="text-neutral-400">场景缺失，用户规模受限</span></div>
+                        <div><span class="text-emerald-400 font-medium">O 机会：</span><span class="text-neutral-400">监管趋严利好持牌机构</span></div>
+                        <div><span class="text-purple-400 font-medium">T 威胁：</span><span class="text-neutral-400">杠杆率约束增长天花板</span></div>
+                    </div>
+                </div>
+                <div class="card p-4 brand-qfjt fade-in">
+                    <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>奇富借条</h4>
+                    <div class="space-y-2 text-xs">
+                        <div><span class="text-amber-400 font-medium">S 优势：</span><span class="text-neutral-400">用户基数大，安全品牌背书</span></div>
+                        <div><span class="text-red-400 font-medium">W 劣势：</span><span class="text-neutral-400">品牌更名认知断层</span></div>
+                        <div><span class="text-emerald-400 font-medium">O 机会：</span><span class="text-neutral-400">轻资本模式扩展，技术输出</span></div>
+                        <div><span class="text-purple-400 font-medium">T 威胁：</span><span class="text-neutral-400">助贷监管政策不确定性</span></div>
+                    </div>
+                </div>
+                <div class="card p-4 brand-ppd fade-in">
+                    <h4 class="font-semibold text-sm mb-3 flex items-center gap-2"><span class="brand-dot"></span>拍拍贷</h4>
+                    <div class="space-y-2 text-xs">
+                        <div><span class="text-amber-400 font-medium">S 优势：</span><span class="text-neutral-400">行业资历深，国际化领先</span></div>
+                        <div><span class="text-red-400 font-medium">W 劣势：</span><span class="text-neutral-400">品牌信任度待修复</span></div>
+                        <div><span class="text-emerald-400 font-medium">O 机会：</span><span class="text-neutral-400">小微金融蓝海，东南亚市场</span></div>
+                        <div><span class="text-purple-400 font-medium">T 威胁：</span><span class="text-neutral-400">国内竞争加剧，利润空间压缩</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 行业趋势与建议 -->
+            <div class="grid lg:grid-cols-2 gap-4">
+                <div class="card p-5 sm:p-6 fade-in">
+                    <h3 class="text-base font-semibold mb-4">行业趋势判断</h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-amber-400 text-sm font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium mb-1">监管持续趋严，持牌优势凸显</h4>
+                                <p class="text-xs text-neutral-400">消费金融牌照价值持续提升，网络小贷监管趋同银行标准，无牌平台生存空间收窄。安逸花的持牌优势将越来越明显。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-blue-400 text-sm font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium mb-1">AI驱动的精准风控成为核心竞争力</h4>
+                                <p class="text-xs text-neutral-400">大模型在风控、客服、营销等环节的应用深化，度小满的AI技术领先优势将进一步放大。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-purple-400 text-sm font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium mb-1">场景金融与现金借贷走向融合</h4>
+                                <p class="text-xs text-neutral-400">纯现金借贷平台向场景延伸，场景平台向现金借贷拓展，分期乐的"场景+金融"模式被更多平台效仿。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-emerald-400 text-sm font-bold">4</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium mb-1">轻资本模式成为行业共识</h4>
+                                <p class="text-xs text-neutral-400">奇富借条引领的轻资本平台模式降低风险敞口，更多平台从重资本向轻资本转型。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-red-400 text-sm font-bold">5</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium mb-1">国际化成为第二增长曲线</h4>
+                                <p class="text-xs text-neutral-400">拍拍贷在东南亚的布局领先，国内市场红海竞争下，出海成为头部平台的共同选择。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-5 sm:p-6 fade-in">
+                    <h3 class="text-base font-semibold mb-4">竞争策略建议</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 rounded-lg bg-amber-500/5 border border-amber-500/10">
+                            <h4 class="text-sm font-medium text-amber-400 mb-1">如为分期乐</h4>
+                            <p class="text-xs text-neutral-400">深化场景壁垒，拓展生活服务类场景；提升风控独立性，降低对年轻客群的依赖；探索持牌升级路径。</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
+                            <h4 class="text-sm font-medium text-blue-400 mb-1">如为度小满</h4>
+                            <p class="text-xs text-neutral-400">持续加大AI技术投入保持领先；补齐场景短板，通过合作或自建增强场景能力；技术输出商业化加速。</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-purple-500/5 border border-purple-500/10">
+                            <h4 class="text-sm font-medium text-purple-400 mb-1">如为安逸花</h4>
+                            <p class="text-xs text-neutral-400">最大化持牌优势，利用低资金成本扩大规模；加强场景合作拓展用户触达；探索小微企业信贷。</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                            <h4 class="text-sm font-medium text-red-400 mb-1">如为奇富借条</h4>
+                            <p class="text-xs text-neutral-400">加速品牌认知重建，消除更名影响；深化轻资本模式，提升技术输出收入占比；加强合规储备。</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+                            <h4 class="text-sm font-medium text-emerald-400 mb-1">如为拍拍贷</h4>
+                            <p class="text-xs text-neutral-400">聚焦小微金融差异化定位；加速国际化布局对冲国内竞争；品牌重塑修复用户信任。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 数据声明 -->
+    <footer class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="card p-5 sm:p-6">
+                <h3 class="text-sm font-semibold mb-3">数据来源与免责声明</h3>
+                <div class="space-y-2 text-xs text-neutral-500">
+                    <p>本报告数据来源于公开信息整理，包括各平台官网披露信息、上市公司财报、行业研究报告及公开媒体报道。</p>
+                    <p>各平台年化利率、额度等参数以官方最新披露为准，本报告数据仅反映截至2025年初的公开信息，可能存在时效性差异。</p>
+                    <p>评分数据基于公开信息综合评估，仅供参考，不构成任何投资建议或产品推荐。</p>
+                    <p>部分维度因公开数据有限，评估结果可能存在偏差，建议结合更多一手数据深化分析。</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-[#1a1a1a] flex flex-wrap items-center justify-between gap-2">
+                    <span class="text-xs text-neutral-600">消费信贷平台竞品分析报告 | 2025</span>
+                    <span class="text-xs text-neutral-600">基于公开数据整理</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ====== 滚动动画 ======
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ====== Tab切换 ======
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ====== 导航高亮 ======
+        const sections = document.querySelectorAll('section[id], header[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ====== Chart.js全局配置 ======
+        Chart.defaults.color = '#737373';
+        Chart.defaults.borderColor = '#1a1a1a';
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif';
+        Chart.defaults.font.size = 11;
+
+        // ====== 市场规模趋势图 ======
+        new Chart(document.getElementById('marketTrendChart'), {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025E'],
+                datasets: [{
+                    label: '市场规模（万亿）',
+                    data: [4.8, 5.6, 6.5, 7.3, 8.2, 9.3],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245,158,11,0.08)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#f59e0b',
+                    pointBorderColor: '#000',
+                    pointBorderWidth: 2,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#111',
+                        titleColor: '#e5e5e5',
+                        bodyColor: '#a3a3a3',
+                        borderColor: '#262626',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: ctx => ctx.parsed.y + ' 万亿元'
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#525252' } },
+                    y: { grid: { color: '#1a1a1a' }, ticks: { color: '#525252', callback: v => v + '万亿' } }
+                }
+            }
+        });
+
+        // ====== 市场份额饼图 ======
+        new Chart(document.getElementById('marketShareChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['奇富借条', '度小满', '分期乐', '安逸花', '拍拍贷', '其他'],
+                datasets: [{
+                    data: [22, 20, 17, 15, 10, 16],
+                    backgroundColor: ['#ef4444', '#3b82f6', '#f59e0b', '#a855f7', '#10b981', '#262626'],
+                    borderColor: '#0a0a0a',
+                    borderWidth: 2,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#a3a3a3', padding: 12, usePointStyle: true, pointStyleWidth: 8, font: { size: 11 } }
+                    },
+                    tooltip: {
+                        backgroundColor: '#111',
+                        titleColor: '#e5e5e5',
+                        bodyColor: '#a3a3a3',
+                        borderColor: '#262626',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: ctx => ctx.label + '：' + ctx.parsed + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ====== 雷达图 ======
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['风控能力', '用户体验', '场景覆盖', '合规水平'],
+                datasets: [
+                    { label: '分期乐', data: [7.5, 8.0, 9.0, 8.0], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', pointBackgroundColor: '#f59e0b', borderWidth: 2, pointRadius: 3 },
+                    { label: '度小满', data: [8.5, 8.5, 7.0, 8.5], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.08)', pointBackgroundColor: '#3b82f6', borderWidth: 2, pointRadius: 3 },
+                    { label: '安逸花', data: [8.0, 8.5, 6.0, 9.5], borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.08)', pointBackgroundColor: '#a855f7', borderWidth: 2, pointRadius: 3 },
+                    { label: '奇富借条', data: [8.5, 7.5, 6.5, 8.0], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)', pointBackgroundColor: '#ef4444', borderWidth: 2, pointRadius: 3 },
+                    { label: '拍拍贷', data: [7.5, 7.0, 5.5, 7.5], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', pointBackgroundColor: '#10b981', borderWidth: 2, pointRadius: 3 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#a3a3a3', padding: 16, usePointStyle: true, pointStyleWidth: 8, font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: { stepSize: 2, color: '#525252', backdropColor: 'transparent', font: { size: 10 } },
+                        grid: { color: '#1a1a1a' },
+                        angleLines: { color: '#1a1a1a' },
+                        pointLabels: { color: '#a3a3a3', font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // ====== 场景覆盖柱状图 ======
+        new Chart(document.getElementById('sceneChart'), {
+            type: 'bar',
+            data: {
+                labels: ['分期乐', '度小满', '奇富借条', '安逸花', '拍拍贷'],
+                datasets: [{
+                    label: '场景覆盖评分',
+                    data: [9.0, 7.0, 6.5, 6.0, 5.5],
+                    backgroundColor: ['rgba(245,158,11,0.6)', 'rgba(59,130,246,0.6)', 'rgba(239,68,68,0.6)', 'rgba(168,85,247,0.6)', 'rgba(16,185,129,0.6)'],
+                    borderColor: ['#f59e0b', '#3b82f6', '#ef4444', '#a855f7', '#10b981'],
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    maxBarThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#111',
+                        titleColor: '#e5e5e5',
+                        bodyColor: '#a3a3a3',
+                        borderColor: '#262626',
+                        borderWidth: 1,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: { max: 10, grid: { color: '#1a1a1a' }, ticks: { color: '#525252' } },
+                    y: { grid: { display: false }, ticks: { color: '#a3a3a3' } }
+                }
+            }
+        });
+
+        // ====== 合规水平柱状图 ======
+        new Chart(document.getElementById('complianceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['安逸花', '度小满', '分期乐', '奇富借条', '拍拍贷'],
+                datasets: [{
+                    label: '合规评分',
+                    data: [9.5, 8.5, 8.0, 8.0, 7.5],
+                    backgroundColor: ['rgba(168,85,247,0.6)', 'rgba(59,130,246,0.6)', 'rgba(245,158,11,0.6)', 'rgba(239,68,68,0.6)', 'rgba(16,185,129,0.6)'],
+                    borderColor: ['#a855f7', '#3b82f6', '#f59e0b', '#ef4444', '#10b981'],
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    maxBarThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#111',
+                        titleColor: '#e5e5e5',
+                        bodyColor: '#a3a3a3',
+                        borderColor: '#262626',
+                        borderWidth: 1,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: { max: 10, grid: { color: '#1a1a1a' }, ticks: { color: '#525252' } },
+                    y: { grid: { display: false }, ticks: { color: '#a3a3a3' } }
+                }
+            }
+        });
+
+        // ====== 竞争格局散点图 ======
+        new Chart(document.getElementById('matrixChart'), {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: '分期乐',
+                        data: [{ x: 9.0, y: 7.5, r: 16 }],
+                        backgroundColor: 'rgba(245,158,11,0.5)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '度小满',
+                        data: [{ x: 7.0, y: 8.5, r: 18 }],
+                        backgroundColor: 'rgba(59,130,246,0.5)',
+                        borderColor: '#3b82f6',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '安逸花',
+                        data: [{ x: 6.0, y: 8.0, r: 14 }],
+                        backgroundColor: 'rgba(168,85,247,0.5)',
+                        borderColor: '#a855f7',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '奇富借条',
+                        data: [{ x: 6.5, y: 8.5, r: 20 }],
+                        backgroundColor: 'rgba(239,68,68,0.5)',
+                        borderColor: '#ef4444',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '拍拍贷',
+                        data: [{ x: 5.5, y: 7.5, r: 12 }],
+                        backgroundColor: 'rgba(16,185,129,0.5)',
+                        borderColor: '#10b981',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#a3a3a3', padding: 16, usePointStyle: true, pointStyleWidth: 8, font: { size: 11 } }
+                    },
+                    tooltip: {
+                        backgroundColor: '#111',
+                        titleColor: '#e5e5e5',
+                        bodyColor: '#a3a3a3',
+                        borderColor: '#262626',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: ctx => {
+                                const d = ctx.raw;
+                                return ctx.dataset.label + '：场景深度 ' + d.x + '，技术能力 ' + d.y;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        min: 4, max: 10,
+                        title: { display: true, text: '场景深度 →', color: '#737373', font: { size: 11 } },
+                        grid: { color: '#1a1a1a' },
+                        ticks: { color: '#525252' }
+                    },
+                    y: {
+                        min: 6, max: 10,
+                        title: { display: true, text: '技术能力 →', color: '#737373', font: { size: 11 } },
+                        grid: { color: '#1a1a1a' },
+                        ticks: { color: '#525252' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
