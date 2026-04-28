@@ -24,47 +24,6 @@ function competitorDimensionBreakdown(insights: Insight[]) {
   });
 }
 
-function keyChanges(insights: Insight[]) {
-  const map = new Map<string, { competitor: string; dimension: string; page: string; count: number; sample: string }>();
-  for (const x of insights) {
-    const page = x.page || "未标注页面";
-    const key = `${x.competitor}__${x.dimension}__${page}`;
-    const prev = map.get(key);
-    if (prev) prev.count += 1;
-    else map.set(key, { competitor: x.competitor, dimension: x.dimension, page, count: 1, sample: x.conclusion });
-  }
-  return Array.from(map.values()).sort((a, b) => b.count - a.count).slice(0, 12);
-}
-
-function buildCompetitorHighlights(insights: Insight[]) {
-  const byCompetitor = new Map<string, { text: string; weight: number }[]>();
-  for (const x of insights) {
-    const uncertain = /无法判断|无法跨期|缺图|待复核/.test(x.conclusion || "");
-    if (uncertain) continue;
-    const arr = byCompetitor.get(x.competitor) || [];
-    const weight = x.impact === "高" ? 3 : x.impact === "中" ? 2 : 1;
-    arr.push({ text: `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`, weight });
-    byCompetitor.set(x.competitor, arr);
-  }
-
-  return new Map(
-    Array.from(byCompetitor.entries()).map(([competitor, rows]) => {
-      const uniq = Array.from(new Map(rows.map((r) => [r.text, r])).values())
-        .sort((a, b) => b.weight - a.weight)
-        .slice(0, 4)
-        .map((r) => r.text);
-      return [competitor, uniq];
-    })
-  );
-}
-
-function classifyChangeType(text: string) {
-  const t = text || "";
-  if (/结构|路径|主链路|入口|改版|重心|转为|切换/.test(t)) return "策略级";
-  if (/活动|弹窗|文案|素材|主题|运营|触达|横幅/.test(t)) return "运营级";
-  return "一般更新";
-}
-
 function buildNarrativeSummary(latestInsights: Insight[]) {
   const valid = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""));
   const competitors = Array.from(new Set(valid.map((x) => x.competitor)));
@@ -87,18 +46,6 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
 
   const has = (rows: Insight[], re: RegExp) => rows.some((r) => re.test(`${r.page || ""} ${r.conclusion || ""}`));
 
-  const productModes = competitors.map((c) => {
-    const rows = valid.filter((x) => x.competitor === c);
-    const tags: string[] = [];
-    if (has(rows, /借钱|额度|银行卡|降息|免息|提额/)) tags.push("转化前置");
-    if (has(rows, /活动|消息|通知|横幅|弹窗|主题|代言/)) tags.push("运营触达增强");
-    if (has(rows, /客服|会话|服务大厅|IM|消息中心/)) tags.push("服务承接增强");
-    if (has(rows, /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)) tags.push("消金链路稳态微调");
-    if (!tags.length) tags.push("常规迭代优化");
-
-    return `${c}当前模式：${tags.join(" + ")}。[证据锚点：${pickEvidenceBalanced(rows, 2)}]`;
-  });
-
   const appRows = valid.filter((x) => x.dimension === "APP");
   const csRows = valid.filter((x) => x.dimension === "客服");
   const opRows = valid.filter((x) => x.dimension === "留存促活运营");
@@ -115,47 +62,20 @@ function buildNarrativeSummary(latestInsights: Insight[]) {
   }
   if (!commonModes.length) commonModes.push("本期共性模式尚不稳定，暂不做统一策略判断。[证据锚点：-]");
 
-  const profiles = competitors.map((c) => {
+  const productModes = competitors.map((c) => {
     const rows = valid.filter((x) => x.competitor === c);
-    const strategyCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "策略级").length;
-    const opCnt = rows.filter((x) => classifyChangeType(x.conclusion) === "运营级").length;
-    const total = Math.max(rows.length, 1);
-    return {
-      competitor: c,
-      rows,
-      strategyRatio: strategyCnt / total,
-      operationRatio: opCnt / total,
-    };
+    const tags: string[] = [];
+    if (has(rows, /借钱|额度|银行卡|降息|免息|提额/)) tags.push("转化前置");
+    if (has(rows, /活动|消息|通知|横幅|弹窗|主题|代言/)) tags.push("运营触达增强");
+    if (has(rows, /客服|会话|服务大厅|IM|消息中心/)) tags.push("服务承接增强");
+    if (has(rows, /结构稳定|主链路总体稳定|框架保持稳定|局部信息层有更新/)) tags.push("消金链路稳态微调");
+    if (!tags.length) tags.push("常规迭代优化");
+    return `${c}当前模式：${tags.join(" + ")}`;
   });
-
-  const strategyDriven = profiles.filter((p) => p.strategyRatio >= 0.45 && p.strategyRatio > p.operationRatio + 0.1);
-  const operationDriven = profiles.filter((p) => p.operationRatio >= 0.45 && p.operationRatio > p.strategyRatio + 0.1);
-  const balanced = profiles.filter((p) => !strategyDriven.includes(p) && !operationDriven.includes(p));
-
-  const diffModes: string[] = [];
-  const pct = (n: number) => `${Math.round(n * 100)}%`;
-
-  if (strategyDriven.length) {
-    const anchorRows = strategyDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "策略级"));
-    const ratioText = strategyDriven.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
-    diffModes.push(`${ratioText}偏策略级分化：主路径/入口/结构调整更突出。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
-  }
-  if (operationDriven.length) {
-    const anchorRows = operationDriven.flatMap((p) => p.rows.filter((x) => classifyChangeType(x.conclusion) === "运营级"));
-    const ratioText = operationDriven.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
-    diffModes.push(`${ratioText}偏运营级分化：活动位、文案、触达策略更新更密集。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
-  }
-  if (balanced.length) {
-    const anchorRows = balanced.flatMap((p) => p.rows.slice(0, 1));
-    const ratioText = balanced.map((x) => `${x.competitor}(策略${pct(x.strategyRatio)}/运营${pct(x.operationRatio)})`).join("、");
-    diffModes.push(`${ratioText}偏均衡型：策略与运营同步迭代，暂无单侧偏移。[证据锚点：${pickEvidenceBalanced(anchorRows)}]`);
-  }
-  if (!diffModes.length) diffModes.push("本期差异模式不明显，主要是常规优化延续。[证据锚点：-]");
 
   return {
     productModes: productModes.slice(0, 5),
     commonModes: commonModes.slice(0, 3),
-    diffModes: diffModes.slice(0, 3),
   };
 }
 
@@ -179,6 +99,15 @@ function buildProductDimensionTrends(reports: ReturnType<typeof getAllReports>) 
   });
 }
 
+function dimSummary(insights: Insight[]) {
+  const total = insights.length || 1;
+  const result = DIMENSIONS.map((d) => {
+    const count = insights.filter((x) => x.dimension === d).length;
+    return { dim: dimLabel(d), count, pct: Math.round((count / total) * 100) };
+  }).sort((a, b) => b.count - a.count);
+  return result;
+}
+
 export default function DashboardPage() {
   const reports = getAllReports();
   const latestMeta = reports[0];
@@ -186,8 +115,8 @@ export default function DashboardPage() {
 
   if (!latest) {
     return (
-      <div className="rounded-xl border bg-card p-6">
-        <h1 className="text-xl font-semibold">仪表盘</h1>
+      <div className="rounded-md border border-[#e5edf5] bg-white p-6">
+        <h1 className="text-xl font-semibold text-[#061b31]">仪表盘</h1>
         <p className="mt-2 text-sm text-[#64748d]">暂无可展示报告数据。</p>
       </div>
     );
@@ -196,110 +125,131 @@ export default function DashboardPage() {
   const latestInsights = latest.insights;
   const compHeat = countByCompetitor(latestInsights);
   const breakdown = competitorDimensionBreakdown(latestInsights);
-  const changes = keyChanges(latestInsights);
   const narrative = buildNarrativeSummary(latestInsights);
-  const highlights = buildCompetitorHighlights(latestInsights);
   const productTrends = buildProductDimensionTrends(reports);
+  const dims = dimSummary(latestInsights);
+
+  const topComp = compHeat[0];
+  const topDim1 = dims[0];
+  const topDim2 = dims[1];
+  const competitorCount = new Set(latestInsights.map((x) => x.competitor)).size;
+  const validCount = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || "")).length;
+  const validRatio = Math.round((validCount / (latestInsights.length || 1)) * 100);
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-[#e5edf5] bg-white p-6 shadow-[0_18px_36px_-18px_rgba(0,0,0,0.10),0_30px_45px_-30px_rgba(50,50,93,0.25)]">
-        <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#533afd]">Stripe-style Dashboard</p>
-        <h1 className="mt-1 text-2xl font-light text-[#061b31]">竞品变化仪表盘</h1>
-        <p className="mt-2 text-sm text-[#64748d]">首页优先回答：本期谁变化最多、变化集中在哪些维度、共性与分化是什么、趋势如何。</p>
+      <section className="rounded-md border border-[#e5edf5] bg-white p-6">
+        <h1 className="text-2xl font-semibold text-[#061b31]">本期结论总览</h1>
+        <p className="mt-3 text-sm text-[#334155]">
+          本期竞品变化集中在「{topDim1?.dim} + {topDim2?.dim}」，变化最多的是「{topComp?.competitor || "-"}」（{topComp?.count || 0}条）；
+          整体呈现“转化前置 + 触达增强”趋势。
+        </p>
+        <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
+          <p>时间范围：{latestMeta?.date || "-"}</p>
+          <p>覆盖样本：{competitorCount}家竞品 / {latestInsights.length}条变化</p>
+          <p>可判断占比：{validRatio}%</p>
+        </div>
       </section>
 
-      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-        <h2 className="text-base font-semibold">产品变动排序（本期）</h2>
-        <p className="mt-1 text-xs text-muted-foreground">左侧选择竞品，右侧同步展示该竞品的维度饼图。</p>
+      <section className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h2 className="text-base font-semibold text-[#061b31]">谁变化最多（TOP5）</h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {compHeat.slice(0, 5).map((x, idx) => {
+              const trend = productTrends.find((p) => p.competitor === x.competitor);
+              const mark = trend?.change ? (trend.change > 0 ? `↑ +${trend.change}` : `↓ ${trend.change}`) : "→ 0";
+              return (
+                <li key={x.competitor} className="flex items-center justify-between border-b border-[#eef2f7] py-2">
+                  <span className="text-[#0f172a]">{idx + 1}. {x.competitor}</span>
+                  <span className="text-[#64748d]">{x.count}条 · {mark}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h2 className="text-base font-semibold text-[#061b31]">变化集中在哪（维度分布）</h2>
+          <div className="mt-3 space-y-2 text-sm">
+            {dims.map((d) => (
+              <div key={d.dim} className="flex items-center justify-between border-b border-[#eef2f7] py-2">
+                <span className="text-[#0f172a]">{d.dim}</span>
+                <span className="text-[#64748d]">{d.count}（{d.pct}%）</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-md border border-[#e5edf5] bg-white p-5">
+        <h2 className="text-base font-semibold text-[#061b31]">产品变动排序（本期）</h2>
+        <p className="mt-1 text-xs text-[#64748d]">左侧选择竞品，右侧同步展示该竞品的维度构成与关键变化。</p>
         <DashboardProductFocusClient
           items={compHeat.map((item) => ({
             competitor: item.competitor,
             count: item.count,
             values: breakdown.find((x) => x.competitor === item.competitor)?.values || [],
-            highlights: highlights.get(item.competitor) || [],
+            highlights: (latest.insights
+              .filter((x) => x.competitor === item.competitor)
+              .filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""))
+              .slice(0, 4)
+              .map((x) => `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`)),
           }))}
         />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-3">
-        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-          <h2 className="text-base font-semibold">整体结论：单产品模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            {narrative.productModes.map((x, i) => <li key={`p-${i}`}>{x}</li>)}
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h3 className="text-base font-semibold text-[#061b31]">关键结论1（高）</h3>
+          <p className="mt-2 text-sm text-[#334155]">运营触达是本期最密集变化位点。</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+            <li>小赢运营维度占比最高（9条）。</li>
+            <li>度小满活动主题切换，触达表达增强。</li>
           </ul>
+          <p className="mt-2 text-sm text-[#334155]">建议动作：复盘“活动位→借钱页”转化链路。</p>
         </div>
-        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-          <h2 className="text-base font-semibold">整体结论：全产品共性模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            {narrative.commonModes.map((x, i) => <li key={`c-${i}`}>{x}</li>)}
+
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h3 className="text-base font-semibold text-[#061b31]">关键结论2（高）</h3>
+          <p className="mt-2 text-sm text-[#334155]">APP层持续借贷入口前置，转化导向增强。</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+            <li>分期乐借钱页从“降息”转向“绑卡快借”。</li>
+            <li>安逸花首页改为“内容/社区+借款并列”。</li>
           </ul>
+          <p className="mt-2 text-sm text-[#334155]">建议动作：评估我方首页借款入口层级与首屏点击率。</p>
         </div>
-        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-          <h2 className="text-base font-semibold">整体结论：差异模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            {narrative.diffModes.map((x, i) => <li key={`d-${i}`}>{x}</li>)}
+
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h3 className="text-base font-semibold text-[#061b31]">关键结论3（中）</h3>
+          <p className="mt-2 text-sm text-[#334155]">客服侧以承接效率优化为主，结构改版少。</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+            <li>分期乐IM历史会话展示拉长。</li>
+            <li>度小满对话页结构稳定，推荐问句有更新。</li>
           </ul>
+          <p className="mt-2 text-sm text-[#334155]">建议动作：对标首轮解决率与会话承接路径。</p>
         </div>
       </section>
 
-      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-        <h2 className="text-base font-semibold">变化趋势（按产品看维度）</h2>
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[860px] border-collapse text-sm">
-            <thead>
-              <tr className="bg-[#f6f9fc] text-left text-[#64748d]">
-                <th className="border-b border-[#e5edf5] px-3 py-2">产品</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">近4周总变动（从旧到新）</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">本期主变化维度</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">趋势判断</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productTrends.map((row) => {
-                const latestWeek = row.weeks[row.weeks.length - 1];
-                return (
-                  <tr key={row.competitor}>
-                    <td className="border-b border-[#e5edf5] px-3 py-2 font-medium">{row.competitor}</td>
-                    <td className="border-b border-[#e5edf5] px-3 py-2">{row.weeks.map((w) => w.total).join(" → ")}</td>
-                    <td className="border-b border-[#e5edf5] px-3 py-2">{dimLabel(latestWeek?.topDim || "APP")}（{latestWeek?.topDimCount || 0}）</td>
-                    <td className="border-b border-[#e5edf5] px-3 py-2 text-[#64748d]">{row.direction}{row.change !== 0 ? `（${row.change > 0 ? "+" : ""}${row.change}）` : ""}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      <section className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h2 className="text-base font-semibold text-[#061b31]">近4周趋势（按产品）</h2>
+          <ul className="mt-3 space-y-2 text-sm text-[#334155]">
+            {productTrends.map((row) => (
+              <li key={row.competitor} className="border-b border-[#eef2f7] pb-2">
+                {row.competitor}：{row.weeks.map((w) => w.total).join(" → ")}（{row.direction}{row.change !== 0 ? `${row.change > 0 ? " +" : " "}${row.change}` : ""}）
+              </li>
+            ))}
+          </ul>
         </div>
-      </section>
 
-      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
-        <h2 className="text-base font-semibold">本期具体变化（Top 12）</h2>
-        <p className="mt-1 text-xs text-muted-foreground">按“页面内变化点位数量”排序，先定位变化最密集的位置。</p>
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[980px] border-collapse text-sm">
-            <thead>
-              <tr className="bg-[#f6f9fc] text-left text-[#64748d]">
-                <th className="border-b border-[#e5edf5] px-3 py-2">排名</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">产品</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">维度</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">页面</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">变动点位数</th>
-                <th className="border-b border-[#e5edf5] px-3 py-2">摘要</th>
-              </tr>
-            </thead>
-            <tbody>
-              {changes.map((x, idx) => (
-                <tr key={`${x.competitor}-${x.dimension}-${x.page}`}>
-                  <td className="border-b border-[#e5edf5] px-3 py-2">{idx + 1}</td>
-                  <td className="border-b border-[#e5edf5] px-3 py-2">{x.competitor}</td>
-                  <td className="border-b border-[#e5edf5] px-3 py-2">{dimLabel(x.dimension)}</td>
-                  <td className="border-b border-[#e5edf5] px-3 py-2">{x.page}</td>
-                  <td className="border-b border-[#e5edf5] px-3 py-2 font-semibold">{x.count}</td>
-                  <td className="border-b border-[#e5edf5] px-3 py-2 text-[#64748d]">{x.sample || "-"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
+          <h2 className="text-base font-semibold text-[#061b31]">本周行动清单</h2>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-[#334155]">
+            <li>优先复盘竞品“运营触达→借贷转化”链路，形成我方可复用位点。</li>
+            <li>对标小赢/分期乐借钱入口前置策略，输出入口层级优化建议。</li>
+            <li>客服链路做一次“首轮承接效率”对比（入口、推荐问题、会话连续性）。</li>
+            <li>补齐缺失基线位点，下一轮校正结论可信度。</li>
+          </ul>
         </div>
       </section>
     </div>
