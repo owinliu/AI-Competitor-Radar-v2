@@ -87,7 +87,7 @@ export default function BrandStrategyPage() {
         <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
           <p>时间范围：{latestSnap?.id || "本期"}</p>
           <p>覆盖样本：{rows.length}家品牌官网</p>
-          <p>数据说明：已截图5张</p>
+          <p>数据说明：已截官网图5张。</p>
         </div>
         <p className="mt-4 text-sm text-[#334155]">
           本轮品牌策略呈现“两极分化”：分期乐/奇富借条/安逸花偏强转化导向，度小满/小赢偏平台品牌叙事导向。
