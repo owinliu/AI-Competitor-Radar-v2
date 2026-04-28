@@ -99,15 +99,6 @@ function buildProductDimensionTrends(reports: ReturnType<typeof getAllReports>) 
   });
 }
 
-function dimSummary(insights: Insight[]) {
-  const total = insights.length || 1;
-  const result = DIMENSIONS.map((d) => {
-    const count = insights.filter((x) => x.dimension === d).length;
-    return { dim: dimLabel(d), count, pct: Math.round((count / total) * 100) };
-  }).sort((a, b) => b.count - a.count);
-  return result;
-}
-
 export default function DashboardPage() {
   const reports = getAllReports();
   const latestMeta = reports[0];
@@ -127,11 +118,6 @@ export default function DashboardPage() {
   const breakdown = competitorDimensionBreakdown(latestInsights);
   const narrative = buildNarrativeSummary(latestInsights);
   const productTrends = buildProductDimensionTrends(reports);
-  const dims = dimSummary(latestInsights);
-
-  const topComp = compHeat[0];
-  const topDim1 = dims[0];
-  const topDim2 = dims[1];
   const competitorCount = new Set(latestInsights.map((x) => x.competitor)).size;
   const validCount = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || "")).length;
   const validRatio = Math.round((validCount / (latestInsights.length || 1)) * 100);
@@ -141,8 +127,7 @@ export default function DashboardPage() {
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
         <h1 className="text-2xl font-semibold text-[#061b31]">本期结论总览</h1>
         <p className="mt-3 text-sm text-[#334155]">
-          本期竞品变化集中在「{topDim1?.dim} + {topDim2?.dim}」，变化最多的是「{topComp?.competitor || "-"}」（{topComp?.count || 0}条）；
-          整体呈现“转化前置 + 触达增强”趋势。
+          本期竞品整体呈现“转化前置 + 触达增强”趋势，建议优先关注高影响变化项与可执行动作。
         </p>
         <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
           <p>时间范围：{latestMeta?.date || "-"}</p>
@@ -151,35 +136,6 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
-          <h2 className="text-base font-semibold text-[#061b31]">谁变化最多（TOP5）</h2>
-          <ul className="mt-3 space-y-2 text-sm">
-            {compHeat.slice(0, 5).map((x, idx) => {
-              const trend = productTrends.find((p) => p.competitor === x.competitor);
-              const mark = trend?.change ? (trend.change > 0 ? `↑ +${trend.change}` : `↓ ${trend.change}`) : "→ 0";
-              return (
-                <li key={x.competitor} className="flex items-center justify-between border-b border-[#eef2f7] py-2">
-                  <span className="text-[#0f172a]">{idx + 1}. {x.competitor}</span>
-                  <span className="text-[#64748d]">{x.count}条 · {mark}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
-          <h2 className="text-base font-semibold text-[#061b31]">变化集中在哪（维度分布）</h2>
-          <div className="mt-3 space-y-2 text-sm">
-            {dims.map((d) => (
-              <div key={d.dim} className="flex items-center justify-between border-b border-[#eef2f7] py-2">
-                <span className="text-[#0f172a]">{d.dim}</span>
-                <span className="text-[#64748d]">{d.count}（{d.pct}%）</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="rounded-md border border-[#e5edf5] bg-white p-5">
         <h2 className="text-base font-semibold text-[#061b31]">产品变动排序（本期）</h2>
