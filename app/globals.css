@@ -7,16 +7,16 @@ body { margin: 0; }
 
 @layer base {
   :root {
-    --background: 255 255 255;
-    --foreground: 15 23 42;
-    --card: 255 255 255;
-    --card-foreground: 15 23 42;
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --primary: 37 99 235;
-    --primary-foreground: 255 255 255;
+    --background: 2 6 23;
+    --foreground: 226 232 240;
+    --card: 15 23 42;
+    --card-foreground: 226 232 240;
+    --muted: 30 41 59;
+    --muted-foreground: 148 163 184;
+    --border: 51 65 85;
+    --input: 51 65 85;
+    --primary: 56 189 248;
+    --primary-foreground: 2 6 23;
     --radius: 0.625rem;
   }
   * { @apply border-border; }
@@ -31,12 +31,12 @@ body { margin: 0; }
   overflow-x: auto;
 }
 .prose th, .prose td {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #334155;
   padding: 8px;
   vertical-align: top;
 }
 .prose thead th {
-  background: #f8fafc;
+  background: #0f172a;
   position: sticky;
   top: 0;
 }
@@ -44,5 +44,5 @@ body { margin: 0; }
   width: 180px;
   max-width: 100%;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #334155;
 }

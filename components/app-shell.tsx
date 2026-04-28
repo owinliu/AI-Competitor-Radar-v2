@@ -11,7 +11,7 @@ const mainNav = [
   { href: "/reports", label: "周报中心", icon: FileText },
   { href: "/brand-strategy", label: "品牌策略分析", icon: Target },
   { href: "/evidence", label: "APP版本更新", icon: Smartphone },
-  { href: "/web-global-search", label: "网络全局搜索", icon: Globe },
+  { href: "/web-global-search", label: "全局分析", icon: Globe },
   { href: "/settings", label: "配置", icon: Settings },
 ];
 
