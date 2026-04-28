@@ -75,31 +75,42 @@ function loadSnapshots() {
   }
 }
 
-function fmtDate(s?: string) {
-  if (!s) return "-";
-  const d = new Date(s);
-  return Number.isNaN(d.getTime()) ? s : d.toLocaleString("zh-CN", { hour12: false });
-}
-
 export default function BrandStrategyPage() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   const snapshots = loadSnapshots();
   const latestSnap = snapshots[snapshots.length - 1];
-  const prevSnap = snapshots[snapshots.length - 2];
-  const prev2Snap = snapshots[snapshots.length - 3];
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border bg-card p-6">
-        <h1 className="text-2xl font-semibold">品牌策略分析</h1>
-      </section>
+      <section className="rounded-md border border-[#e5edf5] bg-white p-6">
+        <h2 className="text-2xl font-semibold text-[#061b31]">品牌策略分析｜本轮关键结论与差异总结</h2>
+        <p className="mt-3 text-sm text-[#334155]">
+          本轮品牌策略呈现“两极分化”：分期乐/奇富借条/安逸花偏强转化导向，度小满/小赢偏平台品牌叙事导向。
+        </p>
+        <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
+          <p>时间范围：{latestSnap?.id || "本期"}</p>
+          <p>覆盖样本：{rows.length}家品牌官网</p>
+          <p>截图完成：{latestSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{latestSnap?.brandStrategy?.competitors ?? rows.length}</p>
+        </div>
 
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">时间基线对比</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-3 text-sm">
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T（本期）</p><p>官网截图完成：{latestSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{latestSnap?.brandStrategy?.competitors ?? 0}</p></div>
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-1（上期）</p><p>官网截图完成：{prevSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{prevSnap?.brandStrategy?.competitors ?? 0}</p></div>
-          <div className="rounded border p-3"><p className="text-xs text-muted-foreground">T-2（两期前）</p><p>官网截图完成：{prev2Snap?.brandStrategy?.resolvedScreenshots ?? 0}/{prev2Snap?.brandStrategy?.competitors ?? 0}</p></div>
+        <div className="mt-5 grid gap-4 lg:grid-cols-2">
+          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
+            <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
+            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">
+              <li>分期乐、奇富借条、安逸花首页均前置“额度/借款效率”信息，转化导向更强。</li>
+              <li>度小满以“平台能力+生态合作+社会责任”叙事为主，产品能力展示广但价格信息不前置。</li>
+              <li>小赢集团官网当前首屏以品牌主张为核心，借款产品与价格卖点露出较少。</li>
+            </ul>
+          </div>
+
+          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
+            <h3 className="text-base font-semibold text-[#061b31]">差异总结</h3>
+            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">
+              <li><span className="font-medium text-[#061b31]">强转化型：</span>分期乐、奇富借条、安逸花（额度、利率、申请效率前置）。</li>
+              <li><span className="font-medium text-[#061b31]">平台品牌型：</span>度小满、小赢（品牌主张、机构能力、企业叙事占比更高）。</li>
+              <li><span className="font-medium text-[#061b31]">信任背书共性：</span>五家均重视奖项、机构合作、资质/合规等可信度信息。</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -139,51 +150,6 @@ export default function BrandStrategyPage() {
         </table>
       </section>
 
-      <section className="rounded-md border border-[#e5edf5] bg-white p-6">
-        <h2 className="text-2xl font-semibold text-[#061b31]">品牌策略分析｜本轮关键结论与差异总结</h2>
-        <p className="mt-3 text-sm text-[#334155]">
-          本轮品牌策略呈现“两极分化”：分期乐/奇富借条/安逸花偏强转化导向，度小满/小赢偏平台品牌叙事导向。
-        </p>
-        <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：{latestSnap?.id || "本期"}</p>
-          <p>覆盖样本：{rows.length}家品牌官网</p>
-          <p>截图完成：{latestSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{latestSnap?.brandStrategy?.competitors ?? rows.length}</p>
-        </div>
-
-        <div className="mt-5 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
-            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">
-              <li>分期乐、奇富借条、安逸花首页均前置“额度/借款效率”信息，转化导向更强。</li>
-              <li>度小满以“平台能力+生态合作+社会责任”叙事为主，产品能力展示广但价格信息不前置。</li>
-              <li>小赢集团官网当前首屏以品牌主张为核心，借款产品与价格卖点露出较少。</li>
-            </ul>
-          </div>
-
-          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">差异总结</h3>
-            <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">
-              <li><span className="font-medium text-[#061b31]">强转化型：</span>分期乐、奇富借条、安逸花（额度、利率、申请效率前置）。</li>
-              <li><span className="font-medium text-[#061b31]">平台品牌型：</span>度小满、小赢（品牌主张、机构能力、企业叙事占比更高）。</li>
-              <li><span className="font-medium text-[#061b31]">信任背书共性：</span>五家均重视奖项、机构合作、资质/合规等可信度信息。</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">快照归档</h2>
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[680px] text-sm">
-            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">快照</th><th className="px-2 py-2">时间</th><th className="px-2 py-2">截图完成</th><th className="px-2 py-2">待补</th></tr></thead>
-            <tbody>
-              {[...snapshots].reverse().map((s: any) => (
-                <tr key={s.id} className="border-b"><td className="px-2 py-2">{s.id}</td><td className="px-2 py-2">{fmtDate(s.createdAt)}</td><td className="px-2 py-2">{s.brandStrategy?.resolvedScreenshots ?? 0}/{s.brandStrategy?.competitors ?? 0}</td><td className="px-2 py-2">{s.brandStrategy?.pendingScreenshots ?? 0}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
       <section className="rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">官网截图（5个产品）</h2>
