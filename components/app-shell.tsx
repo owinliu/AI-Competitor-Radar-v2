@@ -20,7 +20,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" style={{ backgroundColor: "rgb(var(--background))" }}>
       <header className="sticky top-0 z-40 border-b border-neutral-800 bg-black">
         <div className="flex h-14 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-3">

@@ -7,20 +7,22 @@ body { margin: 0; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaH
 
 @layer base {
   :root {
-    --background: 0 0 0;
-    --foreground: 255 255 255;
-    --card: 10 10 10;
-    --card-foreground: 255 255 255;
-    --muted: 23 23 23;
-    --muted-foreground: 163 163 163;
-    --border: 38 38 38;
-    --input: 38 38 38;
-    --primary: 255 255 255;
-    --primary-foreground: 0 0 0;
-    --radius: 0.25rem;
+    --background: 8 8 10;
+    --foreground: 245 245 245;
+    --card: 14 14 18;
+    --card-foreground: 245 245 245;
+    --muted: 24 24 27;
+    --muted-foreground: 161 161 170;
+    --border: 39 39 42;
+    --input: 39 39 42;
+    --primary: 212 212 216;
+    --primary-foreground: 10 10 12;
+    --radius: 0.5rem;
   }
   * { @apply border-border; }
   body { @apply bg-background text-foreground; }
+  html, body, #__next { background-color: rgb(var(--background)); }
+  main { background-color: rgb(var(--background)); }
 }
 
 .prose table {
