@@ -93,7 +93,7 @@ export default function BrandStrategyPage() {
           <p>截图完成：{latestSnap?.brandStrategy?.resolvedScreenshots ?? 0}/{latestSnap?.brandStrategy?.competitors ?? rows.length}</p>
         </div>
 
-        <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <div className="mt-5 grid gap-4">
           <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
             <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
             <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">
