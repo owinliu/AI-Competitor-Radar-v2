@@ -1,0 +1,105 @@
+{
+  "pageIntent": {
+    "type": "unknown",
+    "confidence": 0,
+    "path": "/reports/task/4605d41f-97b3-48df-ae16-3ea7c5810511",
+    "title": "",
+    "description": "",
+    "signals": [],
+    "alternates": [],
+    "needsSmart": true
+  },
+  "sectionRoles": {
+    "sections": [
+      {
+        "index": 0,
+        "tag": "header",
+        "role": "nav",
+        "subrole": null,
+        "confidence": 0.4,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 57
+        },
+        "buttonCount": 5,
+        "cardCount": 11,
+        "slots": {
+          "ctaCount": 5,
+          "lede": "Revelens AI\nUse Cases\nPricing\nResources\n中\nLogin"
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 1,
+        "tag": "main",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1280,
+          "h": 800
+        },
+        "buttonCount": 1,
+        "cardCount": 2,
+        "slots": {
+          "ctaCount": 1
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 2,
+        "tag": "main",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 57,
+          "w": 1280,
+          "h": 743
+        },
+        "buttonCount": 1,
+        "cardCount": 2,
+        "slots": {
+          "ctaCount": 1
+        },
+        "needsSmart": true
+      },
+      {
+        "index": 3,
+        "tag": "section",
+        "role": "content",
+        "subrole": null,
+        "confidence": 0.3,
+        "heading": null,
+        "bounds": {
+          "x": 0,
+          "y": 800,
+          "w": 1280,
+          "h": 0
+        },
+        "buttonCount": 0,
+        "cardCount": 0,
+        "slots": {},
+        "needsSmart": true
+      }
+    ],
+    "counts": {
+      "nav": 1,
+      "content": 3
+    },
+    "readingOrder": [
+      "nav",
+      "content",
+      "content",
+      "content"
+    ]
+  }
+}

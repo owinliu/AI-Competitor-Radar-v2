@@ -1,0 +1,306 @@
+{
+  "colors": {
+    "all": [
+      {
+        "hex": "#ffffff",
+        "rgb": {
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 100
+        },
+        "count": 85,
+        "contexts": [
+          "text",
+          "border",
+          "background"
+        ]
+      },
+      {
+        "hex": "#262626",
+        "rgb": {
+          "r": 38,
+          "g": 38,
+          "b": 38,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 15
+        },
+        "count": 82,
+        "contexts": [
+          "border"
+        ]
+      },
+      {
+        "hex": "#000000",
+        "rgb": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0
+        },
+        "count": 5,
+        "contexts": [
+          "background"
+        ]
+      },
+      {
+        "hex": "#171717",
+        "rgb": {
+          "r": 23,
+          "g": 23,
+          "b": 23,
+          "a": 1
+        },
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 9
+        },
+        "count": 3,
+        "contexts": [
+          "text"
+        ]
+      }
+    ]
+  },
+  "regions": [
+    {
+      "role": "nav",
+      "tag": "header",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 57
+      },
+      "heading": null,
+      "buttonCount": 5,
+      "cardCount": 11,
+      "className": "fixed left-0 top-0 z-50 w-full translate-y-[-1rem] animate-fade-in border-b opacity-0 backdrop-blur-[12px] [--animation-delay:600ms]"
+    },
+    {
+      "role": "content",
+      "tag": "main",
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "heading": null,
+      "buttonCount": 1,
+      "cardCount": 2,
+      "className": "pt-[var(--navigation-height)] task-execute-page-main"
+    },
+    {
+      "role": "content",
+      "tag": "main",
+      "bounds": {
+        "x": 0,
+        "y": 57,
+        "w": 1280,
+        "h": 743
+      },
+      "heading": null,
+      "buttonCount": 1,
+      "cardCount": 2,
+      "className": "w-full bg-background min-h-[calc(100dvh-var(--navigation-height))]"
+    },
+    {
+      "role": "content",
+      "tag": "section",
+      "bounds": {
+        "x": 0,
+        "y": 800,
+        "w": 1280,
+        "h": 0
+      },
+      "heading": null,
+      "buttonCount": 0,
+      "cardCount": 0,
+      "className": null
+    }
+  ],
+  "componentClusters": [
+    {
+      "kind": "button",
+      "structuralHash": "button",
+      "instanceCount": 4,
+      "variants": [
+        {
+          "css": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(250, 250, 250)",
+            "padding": "8px 16px 8px 16px",
+            "borderRadius": "6px",
+            "border": "0px solid rgb(38, 38, 38)",
+            "fontSize": "14px",
+            "fontWeight": "500"
+          },
+          "instanceCount": 2
+        },
+        {
+          "css": {
+            "background": "rgb(250, 250, 250)",
+            "color": "rgb(23, 23, 23)",
+            "padding": "8px 16px 8px 16px",
+            "borderRadius": "6px",
+            "border": "0px solid rgb(38, 38, 38)",
+            "fontSize": "14px",
+            "fontWeight": "500"
+          },
+          "instanceCount": 2
+        }
+      ]
+    },
+    {
+      "kind": "button",
+      "structuralHash": "button>svg",
+      "instanceCount": 2,
+      "variants": [
+        {
+          "css": {
+            "background": "rgba(0, 0, 0, 0)",
+            "color": "rgb(250, 250, 250)",
+            "padding": "0px 12px 0px 12px",
+            "borderRadius": "6px",
+            "border": "0px solid rgb(38, 38, 38)",
+            "fontSize": "12px",
+            "fontWeight": "500"
+          },
+          "instanceCount": 2
+        }
+      ]
+    }
+  ],
+  "accessibility": {
+    "remediation": []
+  },
+  "cssHealth": {
+    "sheets": [
+      {
+        "url": "https://revelensai.com/_next/static/css/305d769ae2e4108f.css",
+        "totalBytes": 159188,
+        "usedBytes": 9845,
+        "unusedBytes": 149343,
+        "unusedPercent": 94
+      },
+      {
+        "url": "https://revelensai.com/reports/task/4605d41f-97b3-48df-ae16-3ea7c5810511",
+        "totalBytes": 2458,
+        "usedBytes": 1605,
+        "unusedBytes": 853,
+        "unusedPercent": 35
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap",
+        "totalBytes": 695117,
+        "usedBytes": 0,
+        "unusedBytes": 695117,
+        "unusedPercent": 100
+      }
+    ],
+    "totalBytes": 856763,
+    "usedBytes": 11450,
+    "unusedBytes": 845313,
+    "unusedPercent": 99,
+    "importantCount": 37,
+    "duplicates": 5021,
+    "vendorPrefixes": {
+      "webkit": 46,
+      "moz": 15,
+      "ms": 1,
+      "o": 5
+    },
+    "keyframes": [
+      {
+        "name": "fade-in",
+        "steps": 2
+      },
+      {
+        "name": "fade-up",
+        "steps": 2
+      },
+      {
+        "name": "marquee",
+        "steps": 2
+      },
+      {
+        "name": "marquee-vertical",
+        "steps": 2
+      },
+      {
+        "name": "pulse",
+        "steps": 1
+      },
+      {
+        "name": "shimmer",
+        "steps": 2
+      },
+      {
+        "name": "spin",
+        "steps": 1
+      },
+      {
+        "name": "enter",
+        "steps": 1
+      },
+      {
+        "name": "exit",
+        "steps": 1
+      },
+      {
+        "name": "image-glow",
+        "steps": 3
+      },
+      {
+        "name": "border-beam",
+        "steps": 1
+      },
+      {
+        "name": "accordion-up",
+        "steps": 2
+      },
+      {
+        "name": "accordion-down",
+        "steps": 2
+      },
+      {
+        "name": "fade-in",
+        "steps": 2
+      }
+    ],
+    "specificity": {
+      "max": [
+        1,
+        7,
+        51
+      ],
+      "average": [
+        0,
+        1.81,
+        0.52
+      ],
+      "count": 1976
+    },
+    "issues": [
+      "37 !important rules",
+      "5021 duplicate declarations",
+      "99% unused CSS"
+    ]
+  }
+}

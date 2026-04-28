@@ -1,0 +1,51 @@
+{
+  "tone": "neutral",
+  "pronoun": "third-person",
+  "headingStyle": "unknown",
+  "headingLengthClass": "tight",
+  "ctaVerbs": [
+    {
+      "value": "reject",
+      "count": 1
+    },
+    {
+      "value": "allow",
+      "count": 1
+    },
+    {
+      "value": "resources",
+      "count": 1
+    },
+    {
+      "value": "login",
+      "count": 1
+    }
+  ],
+  "buttonPatterns": [
+    {
+      "value": "reject",
+      "count": 1
+    },
+    {
+      "value": "allow",
+      "count": 1
+    },
+    {
+      "value": "resources",
+      "count": 1
+    },
+    {
+      "value": "中",
+      "count": 1
+    },
+    {
+      "value": "login",
+      "count": 1
+    }
+  ],
+  "sampleHeadings": [],
+  "stats": {
+    "buttons": 5,
+    "headings": 0
+  }
+}

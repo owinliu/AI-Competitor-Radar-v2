@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "color": {
+      "palette": [
+        {
+          "slug": "neutral-1",
+          "color": "#ffffff",
+          "name": "Neutral 1"
+        },
+        {
+          "slug": "neutral-2",
+          "color": "#262626",
+          "name": "Neutral 2"
+        },
+        {
+          "slug": "neutral-3",
+          "color": "#000000",
+          "name": "Neutral 3"
+        },
+        {
+          "slug": "neutral-4",
+          "color": "#171717",
+          "name": "Neutral 4"
+        },
+        {
+          "slug": "bg-000000",
+          "color": "#000000",
+          "name": "Background #000000"
+        }
+      ],
+      "gradients": [
+        {
+          "slug": "gradient-1",
+          "gradient": "linear-gradient(rgba(20, 20, 20, 0.88), rgba(20, 20, 20, 0.78))",
+          "name": "Gradient 1"
+        }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "Times",
+          "slug": "times",
+          "name": "Times"
+        }
+      ],
+      "fontSizes": [
+        {
+          "size": "16px",
+          "slug": "size-16",
+          "name": "16px"
+        },
+        {
+          "size": "14px",
+          "slug": "size-14",
+          "name": "14px"
+        },
+        {
+          "size": "12px",
+          "slug": "size-12",
+          "name": "12px"
+        }
+      ]
+    },
+    "spacing": {
+      "spacingSizes": [
+        {
+          "size": "4px",
+          "slug": "spacing-4",
+          "name": "4px"
+        },
+        {
+          "size": "32px",
+          "slug": "spacing-32",
+          "name": "32px"
+        },
+        {
+          "size": "57px",
+          "slug": "spacing-57",
+          "name": "57px"
+        }
+      ]
+    },
+    "layout": {
+      "contentSize": "1200px",
+      "wideSize": "1400px"
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#000000",
+      "text": "#ffffff"
+    },
+    "typography": {
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "fontFamily": "Times"
+    },
+    "spacing": {}
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "$metadata": {
+    "generator": "designlang",
+    "version": "7.0.0",
+    "spec": "https://design-tokens.github.io/community-group/format/",
+    "source": "https://revelensai.com/reports/task/4605d41f-97b3-48df-ae16-3ea7c5810511",
+    "generatedAt": "2026-04-28T08:20:36.817Z"
+  },
+  "primitive": {
+    "color": {
+      "brand": {
+        "primary": {
+          "$value": "#ffffff",
+          "$type": "color"
+        }
+      },
+      "neutral": {
+        "n100": {
+          "$value": "#ffffff",
+          "$type": "color"
+        },
+        "n200": {
+          "$value": "#262626",
+          "$type": "color"
+        },
+        "n300": {
+          "$value": "#000000",
+          "$type": "color"
+        },
+        "n400": {
+          "$value": "#171717",
+          "$type": "color"
+        }
+      },
+      "background": {
+        "bg0": {
+          "$value": "#000000",
+          "$type": "color"
+        }
+      },
+      "text": {
+        "text0": {
+          "$value": "#ffffff",
+          "$type": "color"
+        },
+        "text1": {
+          "$value": "#fafafa",
+          "$type": "color"
+        },
+        "text2": {
+          "$value": "#171717",
+          "$type": "color"
+        }
+      }
+    },
+    "spacing": {
+      "s0": {
+        "$value": "4px",
+        "$type": "dimension"
+      },
+      "s1": {
+        "$value": "32px",
+        "$type": "dimension"
+      },
+      "s2": {
+        "$value": "57px",
+        "$type": "dimension"
+      }
+    },
+    "radius": {
+      "r0": {
+        "$value": "4px",
+        "$type": "dimension"
+      },
+      "r1": {
+        "$value": "12px",
+        "$type": "dimension"
+      }
+    },
+    "shadow": {
+      "sh0": {
+        "$value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+        "$type": "shadow"
+      },
+      "sh1": {
+        "$value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+        "$type": "shadow"
+      },
+      "sh2": {
+        "$value": "rgba(0, 0, 0, 0.45) 0px 8px 24px 0px, rgba(0, 0, 0, 0.3) 0px 2px 8px 0px",
+        "$type": "shadow"
+      }
+    },
+    "fontFamily": {
+      "f0": {
+        "$value": "Times",
+        "$type": "fontFamily"
+      }
+    }
+  },
+  "semantic": {
+    "color": {
+      "action": {
+        "primary": {
+          "$value": "{primitive.color.brand.primary}",
+          "$type": "color"
+        }
+      },
+      "surface": {
+        "default": {
+          "$value": "{primitive.color.background.bg0}",
+          "$type": "color"
+        }
+      },
+      "text": {
+        "body": {
+          "$value": "{primitive.color.text.text0}",
+          "$type": "color"
+        }
+      }
+    },
+    "typography": {
+      "body": {
+        "$value": {
+          "fontFamily": "Times",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px"
+        },
+        "$type": "typography"
+      }
+    },
+    "radius": {
+      "control": {
+        "$value": "{primitive.radius.r0}",
+        "$type": "dimension"
+      }
+    },
+    "shadow": {
+      "elevated": {
+        "$value": "{primitive.shadow.sh0}",
+        "$type": "shadow"
+      }
+    }
+  }
+}

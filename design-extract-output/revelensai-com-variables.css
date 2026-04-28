@@ -1,0 +1,128 @@
+:root {
+  /* Colors — Primary */
+
+  /* Colors — Neutrals */
+  --color-neutral-50: #ffffff;
+  --color-neutral-100: #262626;
+  --color-neutral-200: #000000;
+  --color-neutral-300: #171717;
+
+  /* Colors — Backgrounds */
+  --color-bg: #000000;
+
+  /* Colors — Text */
+  --color-text: #ffffff;
+  --color-text-1: #fafafa;
+  --color-text-2: #171717;
+
+  /* Typography — Families */
+  --font-body: 'Times', sans-serif;
+
+  /* Typography — Scale */
+  --font-size-16: 16px;
+  --font-size-14: 14px;
+  --font-size-12: 12px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-32: 32px;
+  --spacing-57: 57px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-lg: 12px;
+
+  /* Box Shadows */
+  --shadow-sm: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+  --shadow-sm: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  --shadow-lg: rgba(0, 0, 0, 0.45) 0px 8px 24px 0px, rgba(0, 0, 0, 0.3) 0px 2px 8px 0px;
+
+  /* Original Site Variables */
+  /* — colors — */
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
+  --color-one: #ffbd7a;
+  --color-two: #fe8bbb;
+  --color-three: #9e7aff;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-inset: ;
+  --tw-border-spacing-x: 0;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-color: #fff;
+  --tw-ring-offset-width: 0px;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-border-spacing-y: 0;
+  /* — spacing — */
+  --tw-numeric-spacing: ;
+  --tw-contain-size: ;
+  /* — shadows — */
+  --tw-drop-shadow: ;
+  --tw-shadow: 0 0 #0000;
+  /* — radii — */
+  --radius: 0.5rem;
+  /* — other — */
+  --background: 0 0% 100%;
+  --input: 0 0% 89.8%;
+  --navigation-height: 3.5rem;
+  --tw-backdrop-sepia: ;
+  --tw-sepia: ;
+  --tw-ordinal: ;
+  --tw-backdrop-saturate: ;
+  --tw-contain-style: ;
+  --tw-backdrop-invert: ;
+  --tw-brightness: ;
+  --tw-backdrop-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-scale-y: 1;
+  --tw-pan-y: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-brightness: ;
+  --tw-pan-x: ;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-contrast: ;
+  --tw-skew-x: 0;
+  --tw-backdrop-blur: ;
+  --tw-translate-x: 0;
+  --tw-gradient-via-position: ;
+  --tw-saturate: ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-grayscale: ;
+  --tw-scale-x: 1;
+  --tw-backdrop-hue-rotate: ;
+  --aca-sticky-top: 57px;
+  --tw-gradient-to-position: ;
+  --tw-numeric-fraction: ;
+  --tw-skew-y: 0;
+  --tw-slashed-zero: ;
+  --tw-blur: ;
+  --tw-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-gradient-from-position: ;
+  --tw-numeric-figure: ;
+  --tw-pinch-zoom: ;
+  --tw-contain-paint: ;
+  --tw-contain-layout: ;
+  /* — semantic — */
+  success: [object Object];
+  warning: [object Object];
+  error: [object Object];
+  info: [object Object];
+
+}

@@ -1,0 +1,19 @@
+Build a unknown page with this exact visual language.
+COLORS:
+  #ffffff
+  #262626
+  #000000
+  #171717
+FONTS: [object Object]
+SPACING: 4, 32, 57
+RADIUS: 4, 12
+SHADOWS: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px | rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px | rgba(0, 0, 0, 0.45) 0px 8px 24px 0px, rgba(0, 0, 0, 0.3) 0px 2px 8px 0px
+MATERIAL LANGUAGE: flat
+VOICE: Tone: neutral · Headings: unknown · CTA verbs: [object Object], [object Object], [object Object], [object Object]
+LIBRARY: Use shadcn/ui components (Button, Card, Dialog, Input, Sheet, Tabs). Pair with Tailwind.
+SECTIONS (in order):
+- hero
+- features
+- cta
+- footer
+Use Tailwind. Match these tokens exactly. Keep the material language consistent.

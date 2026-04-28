@@ -1,0 +1,55 @@
+{
+  "openGraph": {},
+  "twitter": {},
+  "description": null,
+  "canonical": null,
+  "themeColor": null,
+  "viewport": "width=device-width, initial-scale=1",
+  "favicons": [
+    {
+      "rel": "shortcut icon",
+      "href": "https://revelensai.com/favicon.ico",
+      "sizes": "",
+      "type": ""
+    },
+    {
+      "rel": "icon",
+      "href": "https://revelensai.com/static/icons/icon-192.png",
+      "sizes": "",
+      "type": ""
+    },
+    {
+      "rel": "apple-touch-icon",
+      "href": "https://revelensai.com/apple-icon.png",
+      "sizes": "",
+      "type": ""
+    }
+  ],
+  "manifest": "https://revelensai.com/manifest.json",
+  "structuredData": [
+    {
+      "type": "Organization",
+      "name": "RevelensAI",
+      "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"name\":\"RevelensAI\",\"alternateName\":\"Competitor Analysis AI\",\"url\":\"https://revelensai.com\",\"logo\":\"https://revelensai.com/icon.png\",\"description\":\"RevelensAI is a professional AI-powered competitor analysis tool that helps businesses automatically collect and analyze competitor features, pricing, user reviews, and generate comprehensive trac"
+    },
+    {
+      "type": "SoftwareApplication",
+      "name": "RevelensAI",
+      "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"SoftwareApplication\",\"name\":\"RevelensAI\",\"applicationCategory\":\"BusinessApplication\",\"operatingSystem\":\"Web\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"CNY\"},\"featureList\":[\"Automated competitor data collection\",\"AI-powered analysis\",\"Feature comparison matrix\",\"Pricing strategy analysis\",\"User review aggregation\",\"SWOT analysis\",\"Team collabor"
+    },
+    {
+      "type": "WebSite",
+      "name": "RevelensAI",
+      "sample": "{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"RevelensAI\",\"url\":\"https://revelensai.com\",\"description\":\"AI-powered competitor analysis tool for automated competitive intelligence\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":\"https://revelensai.com/search?q={search_term_string}\",\"query-input\":\"required name=search_term_string\"}}"
+    }
+  ],
+  "score": {
+    "hasOg": false,
+    "hasTwitter": false,
+    "hasDescription": false,
+    "hasCanonical": false,
+    "hasStructuredData": true,
+    "hasFavicon": true,
+    "hasThemeColor": false
+  }
+}

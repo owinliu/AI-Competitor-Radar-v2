@@ -1,0 +1,87 @@
+{
+  "components": [
+    {
+      "cluster": "button--outline--md",
+      "variant": 0,
+      "path": "screenshots/button-outline-md-0.png",
+      "bounds": {
+        "w": 68,
+        "h": 36
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "md",
+      "retina": true
+    },
+    {
+      "cluster": "button--outline--md",
+      "variant": 1,
+      "path": "screenshots/button-outline-md-1.png",
+      "bounds": {
+        "w": 67,
+        "h": 36
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "md",
+      "retina": true
+    },
+    {
+      "cluster": "button--outline--md",
+      "variant": 2,
+      "path": "screenshots/button-outline-md-2.png",
+      "bounds": {
+        "w": 36,
+        "h": 36
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "md",
+      "retina": true
+    },
+    {
+      "cluster": "button--outline--medium",
+      "variant": 0,
+      "path": "screenshots/button-outline-medium-0.png",
+      "bounds": {
+        "w": 93,
+        "h": 32
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "medium",
+      "retina": true
+    },
+    {
+      "cluster": "button--outline--medium",
+      "variant": 1,
+      "path": "screenshots/button-outline-medium-1.png",
+      "bounds": {
+        "w": 64,
+        "h": 32
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "medium",
+      "retina": true
+    },
+    {
+      "cluster": "button--outline--medium",
+      "variant": 2,
+      "path": "screenshots/button-outline-medium-2.png",
+      "bounds": {
+        "w": 53,
+        "h": 32
+      },
+      "kind": "button",
+      "variantHint": "outline",
+      "sizeHint": "medium",
+      "retina": true
+    }
+  ],
+  "fullPage": {
+    "path": "screenshots/full-page.png",
+    "retina": true
+  },
+  "count": 6
+}

@@ -1,0 +1,13 @@
+/* shadcn/ui Theme — extracted from https://revelensai.com/reports/task/4605d41f-97b3-48df-ae16-3ea7c5810511 */
+/* Paste into your globals.css */
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 100%;
+    --border: 0 0% 9%;
+    --radius: 4px;
+  }
+}

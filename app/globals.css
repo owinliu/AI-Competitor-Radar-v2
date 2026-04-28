@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 * { box-sizing: border-box; }
-body { margin: 0; }
+body { margin: 0; font-family: Times, "Times New Roman", serif; }
 
 @layer base {
   :root {
-    --background: 2 6 23;
-    --foreground: 226 232 240;
-    --card: 15 23 42;
-    --card-foreground: 226 232 240;
-    --muted: 30 41 59;
-    --muted-foreground: 148 163 184;
-    --border: 51 65 85;
-    --input: 51 65 85;
-    --primary: 56 189 248;
-    --primary-foreground: 2 6 23;
-    --radius: 0.625rem;
+    --background: 0 0 0;
+    --foreground: 255 255 255;
+    --card: 10 10 10;
+    --card-foreground: 255 255 255;
+    --muted: 23 23 23;
+    --muted-foreground: 163 163 163;
+    --border: 38 38 38;
+    --input: 38 38 38;
+    --primary: 255 255 255;
+    --primary-foreground: 0 0 0;
+    --radius: 0.25rem;
   }
   * { @apply border-border; }
   body { @apply bg-background text-foreground; }
