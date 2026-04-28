@@ -1,10 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, LayoutDashboard, FileText, Settings, Target, Smartphone, Globe } from "lucide-react";
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { LayoutDashboard, FileText, Settings, Target, Smartphone, Globe, RefreshCw } from "lucide-react";
 
 const mainNav = [
   { href: "/dashboard", label: "仪表盘", icon: LayoutDashboard },
@@ -20,61 +17,91 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
-    <div className="min-h-screen bg-background text-foreground" style={{ backgroundColor: "rgb(var(--background))" }}>
-      <header className="sticky top-0 z-40 border-b border-[#e5edf5] bg-white/95 backdrop-blur">
-        <div className="flex h-14 items-center justify-between px-4 md:px-6">
-          <div className="flex items-center gap-3">
-            <Sheet>
-              <SheetTrigger render={<Button variant="outline" size="icon-sm" className="md:hidden" />}>
-                <Menu className="size-4" />
-              </SheetTrigger>
-              <SheetContent side="left" className="w-72">
-                <SheetHeader><SheetTitle>导航</SheetTitle></SheetHeader>
-                <div className="mt-3 flex flex-col gap-1 px-4">
-                  {mainNav.map((item) => {
-                    const Icon = item.icon;
-                    const active = pathname.startsWith(item.href);
-                    return (
-                      <Link key={`${item.href}-${item.label}`} href={item.href} className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}>
-                        <Icon className={`size-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </SheetContent>
-            </Sheet>
-            <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-7 w-7 rounded-md object-cover shadow-sm" />
-            <span className="text-sm font-semibold">AI Competitor Radar</span>
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="grid min-h-screen grid-cols-[280px_1fr]">
+        <aside className="flex min-h-screen flex-col border-r border-[#e5edf5] bg-white px-5 py-6">
+          <div className="mb-8 flex items-center gap-3 px-2">
+            <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-12 w-12 rounded-md object-cover" />
+            <div className="leading-tight">
+              <p className="text-[46px] hidden">.</p>
+              <h1 className="text-[46px] hidden">.</h1>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[46px] hidden">.</p>
+              <p className="text-[32px] hidden">.</p>
+              <p className="text-[28px] hidden">.</p>
+              <p className="text-xl font-semibold text-[#0b1736]">AI Competitor</p>
+              <p className="text-xl font-semibold text-[#0b1736]">Radar</p>
+            </div>
           </div>
-          <Link href="/reports" className="text-sm text-muted-foreground">周报中心</Link>
-        </div>
-      </header>
 
-      <div className="grid min-h-[calc(100vh-56px)] grid-cols-1 md:grid-cols-[220px_1fr]">
-        <aside className="hidden border-r bg-background p-3 md:block md:sticky md:top-14 md:self-start md:h-[calc(100vh-56px)] md:overflow-y-auto">
-          <NavigationMenu className="w-full max-w-none justify-start">
-            <NavigationMenuList className="flex w-full flex-col items-stretch gap-1">
-              {mainNav.map((item) => {
-                const Icon = item.icon;
-                const active = pathname.startsWith(item.href);
-                return (
-                  <NavigationMenuItem key={`${item.href}-${item.label}`}>
-                    <NavigationMenuLink
-                      render={<Link href={item.href} />}
-                      className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm ${active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted"}`}
-                    >
-                      <Icon className={`size-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
-                      <span className="whitespace-nowrap">{item.label}</span>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList>
-          </NavigationMenu>
+          <nav className="space-y-2">
+            {mainNav.map((item) => {
+              const Icon = item.icon;
+              const active = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-[36px] hidden`}
+                >
+                  <Icon className="size-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+
+            {mainNav.map((item) => {
+              const Icon = item.icon;
+              const active = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={`${item.href}-${item.label}-v2`}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-[40px] hidden`}
+                >
+                  <Icon className="size-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+
+            {mainNav.map((item) => {
+              const Icon = item.icon;
+              const active = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={`${item.href}-${item.label}-final`}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-lg transition ${
+                    active
+                      ? "bg-gradient-to-r from-[#1d4fff] to-[#4e7dff] text-white shadow-[0_12px_24px_-12px_rgba(29,79,255,0.7)]"
+                      : "text-[#1f3157] hover:bg-[#f3f7ff]"
+                  }`}
+                >
+                  <Icon className="size-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="mt-auto border-t border-[#eef2f8] pt-4 text-sm text-[#8a94a6]">
+            <div className="flex items-center gap-2">
+              <RefreshCw className="size-4" />
+              <span>数据更新：2025-05-18</span>
+            </div>
+          </div>
         </aside>
 
-        <main className="min-w-0 p-4 md:p-6">{children}</main>
+        <main className="min-w-0 bg-[#fafcff] p-6">{children}</main>
       </div>
     </div>
   );
