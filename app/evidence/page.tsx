@@ -179,15 +179,16 @@ export default function AppVersionUpdatesPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
-        <h1 className="text-2xl font-semibold text-[#061b31]">APP版本更新｜本轮关键变化总览</h1>
+        <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
         <p className="mt-3 text-sm text-[#334155]">
-          本轮五家竞品在APP层面总体呈现“借贷入口前置 + 运营触达增强 + 服务承接优化”三条主线；
-          其中小赢与奇富借条变化密度较高，分期乐在借钱/首页转化表达调整更明显。
+          本轮五家竞品整体呈现“APP主导策略调整 + 运营放大触达转化”的双主线。
+          其中，分期乐、安逸花、度小满在APP侧的首屏与借贷入口表达变化更明显；奇富借条在运营侧延续高频活动触达；小赢保持“活动驱动 + 转化导向”并行节奏。
+          从业务含义看，行业竞争重点继续前移到“入口效率”与“触达效率”两项核心能力。
         </p>
         <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：{latestSnap?.id || "本期"}</p>
-          <p>覆盖样本：5家产品 / APP相关变化位点</p>
-          <p>数据说明：部分位点仍存在基线缺口，已标注待补图</p>
+          <p>时间范围：2026-W15（0408重读）</p>
+          <p>覆盖样本：5家产品 / APP</p>
+          <p>数据说明：当前结论基于已纳入可比证据，缺口位点继续标注待补图</p>
         </div>
       </section>
 
