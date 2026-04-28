@@ -11,11 +11,11 @@ function dimLabel(dim: string) {
 
 function buildConic(values: DimValue[]) {
   const palette: Record<string, string> = {
-    APP: "#334155",
-    风控: "#7c3aed",
-    客服: "#0f766e",
-    消金: "#b45309",
-    留存促活运营: "#be123c",
+    APP: "#533afd",
+    风控: "#665efd",
+    客服: "#2b91df",
+    消金: "#9b6829",
+    留存促活运营: "#ea2261",
   };
   const total = values.reduce((n, x) => n + x.count, 0) || 1;
   let start = 0;
@@ -50,21 +50,21 @@ export default function DashboardProductFocusClient({ items }: { items: Item[] }
               key={item.competitor}
               type="button"
               onClick={() => setSelected(item.competitor)}
-              className={`w-full rounded border p-3 text-left ${active ? "border-slate-900 bg-slate-50" : "hover:bg-muted/30"}`}
+              className={`w-full rounded-md border p-3 text-left transition ${active ? "border-[#b9b9f9] bg-[#f6f3ff]" : "border-[#e5edf5] bg-white hover:bg-[#fafbff]"}`}
             >
               <div className="mb-1 flex items-center justify-between text-sm">
                 <span className="font-medium">{item.competitor}</span>
                 <span className="text-muted-foreground">{item.count}</span>
               </div>
-              <div className="h-2 rounded bg-slate-100">
-                <div className="h-2 rounded bg-slate-800" style={{ width }} />
+              <div className="h-2 rounded bg-[#eef2ff]">
+                <div className="h-2 rounded bg-[#533afd]" style={{ width }} />
               </div>
             </button>
           );
         })}
       </div>
 
-      <div className="rounded border bg-white p-4">
+      <div className="rounded-md border border-[#e5edf5] bg-white p-4 shadow-[0_18px_36px_-18px_rgba(0,0,0,0.1),0_30px_45px_-30px_rgba(50,50,93,0.25)]">
         <p className="text-sm font-semibold">{selectedItem.competitor} · 维度构成与关键变化</p>
         <div className="mt-3 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div>

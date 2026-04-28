@@ -188,7 +188,7 @@ export default function DashboardPage() {
     return (
       <div className="rounded-xl border bg-card p-6">
         <h1 className="text-xl font-semibold">仪表盘</h1>
-        <p className="mt-2 text-sm text-muted-foreground">暂无可展示报告数据。</p>
+        <p className="mt-2 text-sm text-[#64748d]">暂无可展示报告数据。</p>
       </div>
     );
   }
@@ -203,12 +203,13 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border bg-card p-6">
-        <h1 className="text-2xl font-semibold">竞品变化仪表盘</h1>
-        <p className="mt-2 text-sm text-muted-foreground">首页优先回答：本期谁变化最多、变化集中在哪些维度、共性与分化是什么、趋势如何。</p>
+      <section className="rounded-lg border border-[#e5edf5] bg-white p-6 shadow-[0_18px_36px_-18px_rgba(0,0,0,0.10),0_30px_45px_-30px_rgba(50,50,93,0.25)]">
+        <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#533afd]">Stripe-style Dashboard</p>
+        <h1 className="mt-1 text-2xl font-light text-[#061b31]">竞品变化仪表盘</h1>
+        <p className="mt-2 text-sm text-[#64748d]">首页优先回答：本期谁变化最多、变化集中在哪些维度、共性与分化是什么、趋势如何。</p>
       </section>
 
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
         <h2 className="text-base font-semibold">产品变动排序（本期）</h2>
         <p className="mt-1 text-xs text-muted-foreground">左侧选择竞品，右侧同步展示该竞品的维度饼图。</p>
         <DashboardProductFocusClient
@@ -222,36 +223,36 @@ export default function DashboardPage() {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-3">
-        <div className="rounded-xl border bg-card p-5">
+        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
           <h2 className="text-base font-semibold">整体结论：单产品模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
             {narrative.productModes.map((x, i) => <li key={`p-${i}`}>{x}</li>)}
           </ul>
         </div>
-        <div className="rounded-xl border bg-card p-5">
+        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
           <h2 className="text-base font-semibold">整体结论：全产品共性模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
             {narrative.commonModes.map((x, i) => <li key={`c-${i}`}>{x}</li>)}
           </ul>
         </div>
-        <div className="rounded-xl border bg-card p-5">
+        <div className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
           <h2 className="text-base font-semibold">整体结论：差异模式</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
             {narrative.diffModes.map((x, i) => <li key={`d-${i}`}>{x}</li>)}
           </ul>
         </div>
       </section>
 
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
         <h2 className="text-base font-semibold">变化趋势（按产品看维度）</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[860px] border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50 text-left text-slate-600">
-                <th className="border-b px-3 py-2">产品</th>
-                <th className="border-b px-3 py-2">近4周总变动（从旧到新）</th>
-                <th className="border-b px-3 py-2">本期主变化维度</th>
-                <th className="border-b px-3 py-2">趋势判断</th>
+              <tr className="bg-[#f6f9fc] text-left text-[#64748d]">
+                <th className="border-b border-[#e5edf5] px-3 py-2">产品</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">近4周总变动（从旧到新）</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">本期主变化维度</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">趋势判断</th>
               </tr>
             </thead>
             <tbody>
@@ -259,10 +260,10 @@ export default function DashboardPage() {
                 const latestWeek = row.weeks[row.weeks.length - 1];
                 return (
                   <tr key={row.competitor}>
-                    <td className="border-b px-3 py-2 font-medium">{row.competitor}</td>
-                    <td className="border-b px-3 py-2">{row.weeks.map((w) => w.total).join(" → ")}</td>
-                    <td className="border-b px-3 py-2">{dimLabel(latestWeek?.topDim || "APP")}（{latestWeek?.topDimCount || 0}）</td>
-                    <td className="border-b px-3 py-2 text-muted-foreground">{row.direction}{row.change !== 0 ? `（${row.change > 0 ? "+" : ""}${row.change}）` : ""}</td>
+                    <td className="border-b border-[#e5edf5] px-3 py-2 font-medium">{row.competitor}</td>
+                    <td className="border-b border-[#e5edf5] px-3 py-2">{row.weeks.map((w) => w.total).join(" → ")}</td>
+                    <td className="border-b border-[#e5edf5] px-3 py-2">{dimLabel(latestWeek?.topDim || "APP")}（{latestWeek?.topDimCount || 0}）</td>
+                    <td className="border-b border-[#e5edf5] px-3 py-2 text-[#64748d]">{row.direction}{row.change !== 0 ? `（${row.change > 0 ? "+" : ""}${row.change}）` : ""}</td>
                   </tr>
                 );
               })}
@@ -271,30 +272,30 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-lg border border-[#e5edf5] bg-white p-5 shadow-[0_10px_30px_-18px_rgba(50,50,93,0.25)]">
         <h2 className="text-base font-semibold">本期具体变化（Top 12）</h2>
         <p className="mt-1 text-xs text-muted-foreground">按“页面内变化点位数量”排序，先定位变化最密集的位置。</p>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[980px] border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50 text-left text-slate-600">
-                <th className="border-b px-3 py-2">排名</th>
-                <th className="border-b px-3 py-2">产品</th>
-                <th className="border-b px-3 py-2">维度</th>
-                <th className="border-b px-3 py-2">页面</th>
-                <th className="border-b px-3 py-2">变动点位数</th>
-                <th className="border-b px-3 py-2">摘要</th>
+              <tr className="bg-[#f6f9fc] text-left text-[#64748d]">
+                <th className="border-b border-[#e5edf5] px-3 py-2">排名</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">产品</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">维度</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">页面</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">变动点位数</th>
+                <th className="border-b border-[#e5edf5] px-3 py-2">摘要</th>
               </tr>
             </thead>
             <tbody>
               {changes.map((x, idx) => (
                 <tr key={`${x.competitor}-${x.dimension}-${x.page}`}>
-                  <td className="border-b px-3 py-2">{idx + 1}</td>
-                  <td className="border-b px-3 py-2">{x.competitor}</td>
-                  <td className="border-b px-3 py-2">{dimLabel(x.dimension)}</td>
-                  <td className="border-b px-3 py-2">{x.page}</td>
-                  <td className="border-b px-3 py-2 font-semibold">{x.count}</td>
-                  <td className="border-b px-3 py-2 text-muted-foreground">{x.sample || "-"}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2">{idx + 1}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2">{x.competitor}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2">{dimLabel(x.dimension)}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2">{x.page}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2 font-semibold">{x.count}</td>
+                  <td className="border-b border-[#e5edf5] px-3 py-2 text-[#64748d]">{x.sample || "-"}</td>
                 </tr>
               ))}
             </tbody>
