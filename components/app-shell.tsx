@@ -21,22 +21,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="grid min-h-screen grid-cols-[280px_1fr]">
         <aside className="flex min-h-screen flex-col border-r border-[#e5edf5] bg-white px-5 py-6">
           <div className="mb-8 flex items-center gap-3 px-2">
-            <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-12 w-12 rounded-md object-cover" />
+            <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-12 w-12 object-contain" />
             <div className="leading-tight">
-              <p className="text-[46px] hidden">.</p>
-              <h1 className="text-[46px] hidden">.</h1>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[46px] hidden">.</p>
-              <p className="text-[32px] hidden">.</p>
-              <p className="text-[28px] hidden">.</p>
               <p className="text-xl font-semibold text-[#0b1736]">AI Competitor</p>
               <p className="text-xl font-semibold text-[#0b1736]">Radar</p>
             </div>
@@ -50,40 +36,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <Link
                   key={`${item.href}-${item.label}`}
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-[36px] hidden`}
-                >
-                  <Icon className="size-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-
-            {mainNav.map((item) => {
-              const Icon = item.icon;
-              const active = pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={`${item.href}-${item.label}-v2`}
-                  href={item.href}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-[40px] hidden`}
-                >
-                  <Icon className="size-5" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-
-            {mainNav.map((item) => {
-              const Icon = item.icon;
-              const active = pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={`${item.href}-${item.label}-final`}
-                  href={item.href}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-lg transition ${
-                    active
-                      ? "bg-gradient-to-r from-[#1d4fff] to-[#4e7dff] text-white shadow-[0_12px_24px_-12px_rgba(29,79,255,0.7)]"
-                      : "text-[#1f3157] hover:bg-[#f3f7ff]"
+                  className={`flex items-center gap-3 rounded-md px-4 py-3 text-base transition ${
+                    active ? "bg-[#1d4fff] text-white" : "text-[#1f3157] hover:bg-[#f3f7ff]"
                   }`}
                 >
                   <Icon className="size-5" />
