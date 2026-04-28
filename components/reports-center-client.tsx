@@ -20,14 +20,18 @@ function dimLabel(d: string) {
 }
 
 export default function ReportsCenterClient({ reports }: { reports: Report[] }) {
-  const detailReport = reports[0];
-  const insights = detailReport?.insights || [];
-
+  const [period, setPeriod] = useState("全部");
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [impact, setImpact] = useState("高");
-  const [changedOnly, setChangedOnly] = useState("全部");
-  const [reviewOnly, setReviewOnly] = useState("全部");
+
+  const periodOptions = useMemo(
+    () => Array.from(new Set(reports.map((r) => r.period).filter(Boolean) as string[])),
+    [reports]
+  );
+
+  const detailReport = period === "全部" ? reports[0] : reports.find((r) => r.period === period) || reports[0];
+  const insights = detailReport?.insights || [];
 
   const competitors = useMemo(
     () => Array.from(new Set(insights.map((i) => i.competitor))).filter(Boolean),
@@ -66,13 +70,9 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       if (competitor !== "全部" && r.competitor !== competitor) return false;
       if (dimension !== "全部" && dimLabel(r.dimension) !== dimension) return false;
       if (impact !== "全部" && r.impact !== impact) return false;
-      const changed = /变化|新增|增强|切换|调整|升级/.test(`${r.conclusion}${r.compare}`);
-      if (changedOnly === "仅变化明显" && !changed) return false;
-      const needReview = String(r.confidence || "").includes("是");
-      if (reviewOnly === "仅建议人工复核" && !needReview) return false;
       return true;
     });
-  }, [insights, competitor, dimension, impact, changedOnly, reviewOnly]);
+  }, [insights, competitor, dimension, impact]);
 
   return (
     <div className="space-y-6">
@@ -116,21 +116,18 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">全局筛选器</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-5 text-sm">
+        <div className="mt-3 grid gap-3 md:grid-cols-4 text-sm">
           <select value={competitor} onChange={(e) => setCompetitor(e.target.value)} className="rounded border px-2 py-2">
             <option>全部</option>{competitors.map((c) => <option key={c}>{c}</option>)}
           </select>
           <select value={dimension} onChange={(e) => setDimension(e.target.value)} className="rounded border px-2 py-2">
             <option>全部</option><option>APP</option><option>客服</option><option>消金</option><option>运营</option><option>风控</option>
           </select>
+          <select value={period} onChange={(e) => setPeriod(e.target.value)} className="rounded border px-2 py-2">
+            <option>全部</option>{periodOptions.map((p) => <option key={p}>{p}</option>)}
+          </select>
           <select value={impact} onChange={(e) => setImpact(e.target.value)} className="rounded border px-2 py-2">
             <option>高</option><option>全部</option><option>中</option><option>低</option>
-          </select>
-          <select value={changedOnly} onChange={(e) => setChangedOnly(e.target.value)} className="rounded border px-2 py-2">
-            <option>全部</option><option>仅变化明显</option>
-          </select>
-          <select value={reviewOnly} onChange={(e) => setReviewOnly(e.target.value)} className="rounded border px-2 py-2">
-            <option>全部</option><option>仅建议人工复核</option>
           </select>
         </div>
       </section>
