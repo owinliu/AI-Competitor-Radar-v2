@@ -130,8 +130,6 @@ export default function AppVersionUpdatesPage() {
   const contentAnalysis = loadContentAnalysis();
   const snapshots = loadSnapshots();
   const latestSnap = snapshots[snapshots.length - 1];
-  const prevSnap = snapshots[snapshots.length - 2];
-  const prev2Snap = snapshots[snapshots.length - 3];
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
   const filtered = rows;
 
@@ -180,21 +178,16 @@ export default function AppVersionUpdatesPage() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl bg-card p-6">
-        <h1 className="text-2xl font-semibold">APP版本更新</h1>
-        <div className="mt-4 grid gap-3 text-sm md:grid-cols-3">
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-xs text-muted-foreground">T（本期）</p>
-            <p>版本变更竞品：{latestSnap?.appUpdates?.changedCompetitors ?? 0}</p>
-          </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-xs text-muted-foreground">T-1（上期）</p>
-            <p>版本变更竞品：{prevSnap?.appUpdates?.changedCompetitors ?? 0}</p>
-          </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-xs text-muted-foreground">T-2（两期前）</p>
-            <p>版本变更竞品：{prev2Snap?.appUpdates?.changedCompetitors ?? 0}</p>
-          </div>
+      <section className="rounded-md border border-[#e5edf5] bg-white p-6">
+        <h1 className="text-2xl font-semibold text-[#061b31]">APP版本更新｜本轮关键变化总览</h1>
+        <p className="mt-3 text-sm text-[#334155]">
+          本轮五家竞品在APP层面总体呈现“借贷入口前置 + 运营触达增强 + 服务承接优化”三条主线；
+          其中小赢与奇富借条变化密度较高，分期乐在借钱/首页转化表达调整更明显。
+        </p>
+        <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
+          <p>时间范围：{latestSnap?.id || "本期"}</p>
+          <p>覆盖样本：5家产品 / APP相关变化位点</p>
+          <p>数据说明：部分位点仍存在基线缺口，已标注待补图</p>
         </div>
       </section>
 
