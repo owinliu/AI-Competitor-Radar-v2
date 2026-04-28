@@ -134,6 +134,38 @@ export default function DashboardPage() {
           <p>覆盖样本：{competitorCount}家竞品 / {latestInsights.length}条变化</p>
           <p>可判断占比：{validRatio}%</p>
         </div>
+
+        <div className="mt-5 grid gap-4 lg:grid-cols-3">
+          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
+            <h3 className="text-base font-semibold text-[#061b31]">关键结论1（高）</h3>
+            <p className="mt-2 text-sm text-[#334155]">运营触达是本期最密集变化位点。</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+              <li>小赢运营维度占比最高（9条）。</li>
+              <li>度小满活动主题切换，触达表达增强。</li>
+            </ul>
+            <p className="mt-2 text-sm text-[#334155]">建议动作：复盘“活动位→借钱页”转化链路。</p>
+          </div>
+
+          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
+            <h3 className="text-base font-semibold text-[#061b31]">关键结论2（高）</h3>
+            <p className="mt-2 text-sm text-[#334155]">APP层持续借贷入口前置，转化导向增强。</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+              <li>分期乐借钱页从“降息”转向“绑卡快借”。</li>
+              <li>安逸花首页改为“内容/社区+借款并列”。</li>
+            </ul>
+            <p className="mt-2 text-sm text-[#334155]">建议动作：评估我方首页借款入口层级与首屏点击率。</p>
+          </div>
+
+          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
+            <h3 className="text-base font-semibold text-[#061b31]">关键结论3（中）</h3>
+            <p className="mt-2 text-sm text-[#334155]">客服侧以承接效率优化为主，结构改版少。</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
+              <li>分期乐IM历史会话展示拉长。</li>
+              <li>度小满对话页结构稳定，推荐问句有更新。</li>
+            </ul>
+            <p className="mt-2 text-sm text-[#334155]">建议动作：对标首轮解决率与会话承接路径。</p>
+          </div>
+        </div>
       </section>
 
 
@@ -154,37 +186,6 @@ export default function DashboardPage() {
         />
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-3">
-        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
-          <h3 className="text-base font-semibold text-[#061b31]">关键结论1（高）</h3>
-          <p className="mt-2 text-sm text-[#334155]">运营触达是本期最密集变化位点。</p>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            <li>小赢运营维度占比最高（9条）。</li>
-            <li>度小满活动主题切换，触达表达增强。</li>
-          </ul>
-          <p className="mt-2 text-sm text-[#334155]">建议动作：复盘“活动位→借钱页”转化链路。</p>
-        </div>
-
-        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
-          <h3 className="text-base font-semibold text-[#061b31]">关键结论2（高）</h3>
-          <p className="mt-2 text-sm text-[#334155]">APP层持续借贷入口前置，转化导向增强。</p>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            <li>分期乐借钱页从“降息”转向“绑卡快借”。</li>
-            <li>安逸花首页改为“内容/社区+借款并列”。</li>
-          </ul>
-          <p className="mt-2 text-sm text-[#334155]">建议动作：评估我方首页借款入口层级与首屏点击率。</p>
-        </div>
-
-        <div className="rounded-md border border-[#e5edf5] bg-white p-5">
-          <h3 className="text-base font-semibold text-[#061b31]">关键结论3（中）</h3>
-          <p className="mt-2 text-sm text-[#334155]">客服侧以承接效率优化为主，结构改版少。</p>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-            <li>分期乐IM历史会话展示拉长。</li>
-            <li>度小满对话页结构稳定，推荐问句有更新。</li>
-          </ul>
-          <p className="mt-2 text-sm text-[#334155]">建议动作：对标首轮解决率与会话承接路径。</p>
-        </div>
-      </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-md border border-[#e5edf5] bg-white p-5">
