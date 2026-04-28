@@ -5,7 +5,7 @@ import { LayoutDashboard, FileText, Settings, Target, Smartphone, Globe, Refresh
 
 const mainNav = [
   { href: "/dashboard", label: "仪表盘", icon: LayoutDashboard },
-  { href: "/reports", label: "周报中心", icon: FileText },
+  { href: "/reports", label: "详细追踪分析", icon: FileText },
   { href: "/brand-strategy", label: "品牌策略分析", icon: Target },
   { href: "/evidence", label: "APP版本更新", icon: Smartphone },
   { href: "/web-global-search", label: "全局分析", icon: Globe },
