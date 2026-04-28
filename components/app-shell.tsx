@@ -21,7 +21,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ backgroundColor: "rgb(var(--background))" }}>
-      <header className="sticky top-0 z-40 border-b border-neutral-800 bg-black">
+      <header className="sticky top-0 z-40 border-b border-[#e5edf5] bg-white/95 backdrop-blur">
         <div className="flex h-14 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-3">
             <Sheet>
