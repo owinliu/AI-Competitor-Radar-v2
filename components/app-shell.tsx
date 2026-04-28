@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, LayoutDashboard, FileText, Settings, Target, Smartphone } from "lucide-react";
+import { Menu, LayoutDashboard, FileText, Settings, Target, Smartphone, Globe } from "lucide-react";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ const mainNav = [
   { href: "/reports", label: "周报中心", icon: FileText },
   { href: "/brand-strategy", label: "品牌策略分析", icon: Target },
   { href: "/evidence", label: "APP版本更新", icon: Smartphone },
+  { href: "/web-global-search", label: "网络全局搜索", icon: Globe },
   { href: "/settings", label: "配置", icon: Settings },
 ];
 
