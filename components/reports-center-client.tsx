@@ -38,7 +38,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
     return competitors.map((name) => {
       const rows = insights.filter((i) => i.competitor === name);
       const comparable = rows.filter((r) => (r.prevEvidence?.length || 0) > 0 || (r.currEvidence?.length || 0) > 0).length;
-      const coverage = `已纳入 ${comparable} 个可比位点`;
+      const coverage = String(comparable);
 
       const byDim = (d: string) => rows.filter((r) => r.dimension === d);
       const firstConclusion = (arr: Insight[]) => arr.find((x) => x.conclusion)?.conclusion || "—";
@@ -82,8 +82,8 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
           <table className="w-full min-w-[1700px] border-collapse text-sm">
             <thead>
               <tr className="bg-slate-50 text-left">
-                <th className="border-b px-3 py-2">产品</th>
-                <th className="border-b px-3 py-2">证据覆盖度</th>
+                <th className="border-b px-3 py-2 whitespace-nowrap min-w-[5em]">产品</th>
+                <th className="border-b px-3 py-2 whitespace-nowrap">截图变化数</th>
                 <th className="border-b px-3 py-2">主策略变化</th>
                 <th className="border-b px-3 py-2">APP</th>
                 <th className="border-b px-3 py-2">客服</th>
@@ -97,8 +97,8 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
             <tbody>
               {summaryRows.map((r) => (
                 <tr key={r.name} className="align-top">
-                  <td className="border-b px-3 py-2 font-medium">{r.name}</td>
-                  <td className="border-b px-3 py-2">{r.coverage}</td>
+                  <td className="border-b px-3 py-2 font-medium whitespace-nowrap min-w-[5em]">{r.name}</td>
+                  <td className="border-b px-3 py-2 whitespace-nowrap">{r.coverage}</td>
                   <td className="border-b px-3 py-2">{r.strategy}</td>
                   <td className="border-b px-3 py-2">{r.app}</td>
                   <td className="border-b px-3 py-2">{r.cs}</td>
