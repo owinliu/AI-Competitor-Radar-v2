@@ -104,12 +104,12 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       const risk = neutral(firstConclusion(highByDim("风控")));
 
       const highConclusions = highRows.map((r) => neutral(r.conclusion)).filter(Boolean);
-      const strategy = highConclusions[0] || "—";
+      const strategy = highConclusions[0] || "本期未识别到可比高影响变化。";
       const biz = highConclusions.length > 1 ? highConclusions.slice(0, 2).join("；") : strategy;
 
       const dimCounts = DIMS.map((d) => ({ d, c: highRows.filter((r) => r.dimension === d).length }));
       const top = dimCounts.sort((a, b) => b.c - a.c)[0];
-      const oneLine = top?.c ? `${name}本期高影响变化主要集中在${dimLabel(top.d)}维度。` : `${name}本期暂无高影响变化。`;
+      const oneLine = top?.c ? `${name}本期高影响变化主要集中在${dimLabel(top.d)}维度。` : `${name}本期未出现可比高影响变化（如新增活动/入口替换）。`;
 
       return { name, coverage, strategy, app, cs, fin, ops, risk, biz, oneLine };
     });
