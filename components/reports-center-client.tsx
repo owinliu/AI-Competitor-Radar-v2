@@ -103,7 +103,15 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       const ops = neutral(firstConclusion(highByDim("留存促活运营")));
       const risk = neutral(firstConclusion(highByDim("风控")));
 
-      const highConclusions = highRows.map((r) => neutral(r.conclusion)).filter(Boolean);
+      const rewriteConclusion = (c: string) => {
+        const s = neutral(c || "");
+        if (/仅有\d{4}/.test(s) || /缺少\d{4}基线/.test(s)) {
+          if (/活动\d+/.test(s) || /活动/.test(s)) return "新增活动位（新周期出现），用于活动触达与转化引导。";
+          return "新增展示位（新周期出现），用于运营触达与转化引导。";
+        }
+        return s;
+      };
+      const highConclusions = highRows.map((r) => rewriteConclusion(r.conclusion)).filter(Boolean);
       const strategy = highConclusions[0] || "本期未识别到可比高影响变化。";
       const biz = highConclusions.length > 1 ? highConclusions.slice(0, 2).join("；") : strategy;
 
