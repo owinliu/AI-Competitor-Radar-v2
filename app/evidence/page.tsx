@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { getReportBySlug } from "@/lib/reports";
 
 
 type ContentAnalysisItem = {
@@ -181,23 +180,30 @@ export default function AppVersionUpdatesPage() {
   ];
 
   const totalScreenshotCount = competitorPairs.reduce((sum, x) => sum + (x.latest?.screenshotUrls?.length || 0), 0);
-  const latestReport = getReportBySlug("2026-04-08-weekly-competitor-radar-reread") || getReportBySlug("2026-04-07-weekly-competitor-radar-full-refresh");
-  const appInsights = (latestReport?.insights || []).filter((x) => x.dimension === "APP");
+  function buildMarketScreenshotConclusion(prevList: string[], latestList: string[]) {
+    if (!prevList.length && latestList.length) return `仅抓取到本期${latestList.length}张截图，缺少上期对照，暂判为新增观察。`;
+    if (prevList.length && !latestList.length) return `仅抓取到上期${prevList.length}张截图，本期截图缺失，无法完成有效对比。`;
+
+    const prevSet = new Set(prevList);
+    const latestSet = new Set(latestList);
+    const kept = prevList.filter((u) => latestSet.has(u)).length;
+    const replaced = Math.max(prevList.length, latestList.length) - kept;
+    const add = Math.max(0, latestList.length - prevList.length);
+    const remove = Math.max(0, prevList.length - latestList.length);
+
+    if (replaced >= 3 || (kept <= 1 && latestList.length >= 4)) {
+      return `应用市场截图对比显示变化明显：保留${kept}张，替换/新增变化位约${replaced}处（上期${prevList.length}张→本期${latestList.length}张）。`;
+    }
+    if (replaced >= 1 || add > 0 || remove > 0) {
+      return `应用市场截图对比显示中等变化：保留${kept}张，存在${replaced}处替换或数量变化（上期${prevList.length}张→本期${latestList.length}张）。`;
+    }
+    return `应用市场截图整体稳定：上期与本期均为${latestList.length}张，截图集合基本一致。`;
+  }
 
   const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
-    const matches = appInsights.filter((x) => x.competitor === name);
     const prevList = previous?.screenshotUrls || [];
     const latestList = latest?.screenshotUrls || [];
-    const hasAdded = latestList.length > prevList.length;
-    const hasReduced = latestList.length < prevList.length;
-
-    const conclusion = matches.length
-      ? matches.slice(0, 2).map((x) => x.conclusion).filter(Boolean).join("；")
-      : hasAdded
-      ? `应用市场本期截图由${prevList.length}张增加到${latestList.length}张，存在新增展示模块，建议按新增位点重点复核。`
-      : hasReduced
-      ? `应用市场本期截图由${prevList.length}张减少到${latestList.length}张，可能存在模块下线或抓取缺口，建议人工复核。`
-      : `应用市场上期/本期均为${latestList.length}张截图，当前未识别到可自动提取的结构性结论，建议结合截图人工判读。`;
+    const conclusion = buildMarketScreenshotConclusion(prevList, latestList);
 
     return {
       competitor: name,
