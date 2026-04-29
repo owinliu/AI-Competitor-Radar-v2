@@ -1029,12 +1029,10 @@ insights:
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - 无
+    prevEvidence: []
     currEvidence:
       - /evidence/小赢-app-0407-首页1.jpg
     evidence:
-      - 无
       - /evidence/小赢-app-0407-首页1.jpg
   - id: 小赢-客服-对话框1
     competitor: 小赢
@@ -1247,11 +1245,9 @@ insights:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
       - /evidence/小赢-留存促活运营-0323-借款弹窗.jpg
-    currEvidence:
-      - 无
+    currEvidence: []
     evidence:
       - /evidence/小赢-留存促活运营-0323-借款弹窗.jpg
-      - 无
   - id: 小赢-留存促活运营-春分活动
     competitor: 小赢
     dimension: 留存促活运营
@@ -1265,11 +1261,9 @@ insights:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
       - /evidence/小赢-留存促活运营-0323-春分活动.jpg
-    currEvidence:
-      - 无
+    currEvidence: []
     evidence:
       - /evidence/小赢-留存促活运营-0323-春分活动.jpg
-      - 无
   - id: 小赢-留存促活运营-春分落地页
     competitor: 小赢
     dimension: 留存促活运营
@@ -1283,11 +1277,9 @@ insights:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
       - /evidence/小赢-留存促活运营-0323-春分落地页.jpg
-    currEvidence:
-      - 无
+    currEvidence: []
     evidence:
       - /evidence/小赢-留存促活运营-0323-春分落地页.jpg
-      - 无
   - id: 小赢-留存促活运营-活动1
     competitor: 小赢
     dimension: 留存促活运营
@@ -1301,11 +1293,9 @@ insights:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
       - /evidence/小赢-留存促活运营-0323-活动1.jpg
-    currEvidence:
-      - 无
+    currEvidence: []
     evidence:
       - /evidence/小赢-留存促活运营-0323-活动1.jpg
-      - 无
   - id: 小赢-留存促活运营-活动2
     competitor: 小赢
     dimension: 留存促活运营
@@ -1353,12 +1343,10 @@ insights:
     confidence: 是（建议人工复核）
     actions:
       - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - 无
+    prevEvidence: []
     currEvidence:
       - /evidence/小赢-留存促活运营-0407-活动4.jpg
     evidence:
-      - 无
       - /evidence/小赢-留存促活运营-0407-活动4.jpg
   - id: 小赢-留存促活运营-活动5
     competitor: 小赢
@@ -1371,12 +1359,10 @@ insights:
     confidence: 是（建议人工复核）
     actions:
       - 按同位点持续追踪，缺口优先补拍。
-    prevEvidence:
-      - 无
+    prevEvidence: []
     currEvidence:
       - /evidence/小赢-留存促活运营-0407-活动5.jpg
     evidence:
-      - 无
       - /evidence/小赢-留存促活运营-0407-活动5.jpg
   - id: 小赢-留存促活运营-红包卡券
     competitor: 小赢
