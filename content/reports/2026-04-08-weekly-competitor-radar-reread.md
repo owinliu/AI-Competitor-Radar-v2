@@ -592,8 +592,8 @@ insights:
     period: 2026-W15
     page: 免息券1
     conclusion: 免息券活动持续强化，运营触达维持高频。
-    compare: 对照窗口：0323 vs 0407，活动权益与触发文案持续强化。
-    impact: 高
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），页面结构与活动机制基本一致，仅细微元素变化，判定为低变化。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -610,8 +610,8 @@ insights:
     period: 2026-W15
     page: 免息券2
     conclusion: 免息券2活动延续并增强触达表达。
-    compare: 对照窗口：0323 vs 0407，核心活动机制保留，转化文案更激进。
-    impact: 高
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），页面结构与活动机制基本一致，仅细微元素变化，判定为低变化。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -628,8 +628,8 @@ insights:
     period: 2026-W15
     page: 免息券3
     conclusion: 免息券3保持活动连续性，促活强度较高。
-    compare: 对照窗口：0323 vs 0407，活动框架稳定且强化引导。
-    impact: 高
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），页面结构与活动机制基本一致，仅细微元素变化，判定为低变化。
+    impact: 低
     confidence: 否
     actions:
       - 按同位点持续追踪，缺口优先补拍。
