@@ -277,11 +277,11 @@ export default function AppVersionUpdatesPage() {
         <h2 className="text-base font-semibold">证据明细表</h2>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[1200px] text-sm">
-            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">分析维度</th><th className="px-2 py-2">结论</th><th className="px-2 py-2">上期截图</th><th className="px-2 py-2">本期截图</th></tr></thead>
+            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">结论</th><th className="px-2 py-2">上期截图</th><th className="px-2 py-2">本期截图</th></tr></thead>
             <tbody>
               {evidenceRows.filter((r) => r.impact === "高").map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
-                  <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="w-[280px] max-w-[280px] px-2 py-2 text-sm leading-6">{r.conclusion}</td>
+                  <td className="whitespace-nowrap px-2 py-2 font-medium">{r.competitor}</td><td className="w-[280px] max-w-[280px] px-2 py-2 text-sm leading-6">{r.conclusion}</td>
                   <td className="min-w-[500px] px-2 py-2">
                     <div className="flex flex-wrap gap-2">
                       {r.prevList?.length ? r.prevList.map((src: string) => (
