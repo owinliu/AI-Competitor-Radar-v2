@@ -129,34 +129,34 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">五产品总览表（核心管理视图）</h2>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[1700px] border-collapse text-sm">
+          <table className="w-full border-collapse text-xs">
             <thead>
               <tr className="bg-slate-50 text-left">
-                <th className="border-b px-3 py-2 whitespace-nowrap min-w-[5em]">产品</th>
-                <th className="border-b px-3 py-2 whitespace-nowrap">截图变化数</th>
-                <th className="border-b px-3 py-2">主策略变化</th>
-                <th className="border-b px-3 py-2">APP</th>
-                <th className="border-b px-3 py-2">客服</th>
-                <th className="border-b px-3 py-2">消金</th>
-                <th className="border-b px-3 py-2">运营</th>
-                <th className="border-b px-3 py-2">风控</th>
-                <th className="border-b px-3 py-2">业务含义</th>
-                <th className="border-b px-3 py-2">一句对外总结</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">产品</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">截图变化数</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">主策略变化</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">APP</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">客服</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">消金</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">运营</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">风控</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">业务含义</th>
+                <th className="border-b px-2 py-2 whitespace-nowrap">一句对外总结</th>
               </tr>
             </thead>
             <tbody>
               {summaryRows.map((r) => (
                 <tr key={r.name} className="align-top">
-                  <td className="border-b px-3 py-2 font-medium whitespace-nowrap min-w-[5em]">{r.name}</td>
-                  <td className="border-b px-3 py-2 whitespace-nowrap">{r.coverage}</td>
-                  <td className="border-b px-3 py-2">{r.strategy}</td>
-                  <td className="border-b px-3 py-2">{r.app}</td>
-                  <td className="border-b px-3 py-2">{r.cs}</td>
-                  <td className="border-b px-3 py-2">{r.fin}</td>
-                  <td className="border-b px-3 py-2">{r.ops}</td>
-                  <td className="border-b px-3 py-2">{r.risk}</td>
-                  <td className="border-b px-3 py-2">{r.biz}</td>
-                  <td className="border-b px-3 py-2">{r.oneLine}</td>
+                  <td className="border-b px-2 py-2 font-medium whitespace-nowrap">{r.name}</td>
+                  <td className="border-b px-2 py-2 whitespace-nowrap">{r.coverage}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.strategy}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.app}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.cs}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.fin}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.ops}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.risk}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.biz}</td>
+                  <td className="border-b px-2 py-2 break-words leading-5">{r.oneLine}</td>
                 </tr>
               ))}
             </tbody>
