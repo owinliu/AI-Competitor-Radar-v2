@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { getReportBySlug } from "@/lib/reports";
 
 
 type ContentAnalysisItem = {
@@ -176,21 +177,19 @@ export default function AppVersionUpdatesPage() {
   ];
 
   const totalScreenshotCount = competitorPairs.reduce((sum, x) => sum + (x.latest?.screenshotUrls?.length || 0), 0);
-  const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
-    const noteDiff = compareNotes(latest?.releaseNotes, previous?.releaseNotes);
-    return {
-      competitor: name,
-      dimension: "APP",
-      pageSpot: "首页/借钱页",
-      conclusion: noteDiff[0] || "本期未识别到显著新增文案差异",
-      prev: previous?.screenshotUrls?.[0] || "",
-      latest: latest?.screenshotUrls?.[0] || "",
-      process: noteDiff.join("；"),
-      impact: noteDiff.length ? "高" : "中",
-      review: noteDiff.length ? "否" : "是",
-      changed: noteDiff.length > 0,
-    };
-  });
+  const latestReport = getReportBySlug("2026-04-08-weekly-competitor-radar-reread") || getReportBySlug("2026-04-07-weekly-competitor-radar-full-refresh");
+  const appInsights = (latestReport?.insights || []).filter((x) => x.dimension === "APP");
+
+  const evidenceRows = appInsights.map((x) => ({
+    competitor: x.competitor,
+    dimension: "APP",
+    pageSpot: x.page || "—",
+    conclusion: x.conclusion || "—",
+    prev: x.prevEvidence?.[0] || "",
+    latest: x.currEvidence?.[0] || "",
+    impact: x.impact,
+    review: String(x.confidence || "").includes("是") ? "是" : "否",
+  }));
 
   return (
     <div className="space-y-6">
