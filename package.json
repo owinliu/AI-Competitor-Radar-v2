@@ -11,7 +11,8 @@
     "report:scan-conflicts": "node scripts/scan-conflicts.mjs",
     "market:fetch": "node scripts/fetch-appstore-versions.mjs",
     "analyze:content": "node scripts/analyze-screenshot-content.mjs",
-    "snapshot:new": "node scripts/create-monitoring-snapshot.mjs"
+    "snapshot:new": "node scripts/create-monitoring-snapshot.mjs",
+    "evidence:refresh": "node scripts/build-evidence-pipeline.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

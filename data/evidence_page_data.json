@@ -1,0 +1,177 @@
+{
+  "generatedAt": "2026-04-29T12:24:17.098Z",
+  "bossConclusions": [
+    "主打信息由最新应用市场截图提取，聚焦额度/利率/免息/审批效率等高频卖点。",
+    "更新日志新增文案用于解释本期宣传变化，不再作为唯一结论来源。",
+    "证据明细表按上期/本期全量截图对比展示，结论与截图数量及文案变化一致。"
+  ],
+  "diffSummary": [
+    "奇富借条：本期截图由4张增至5张，新增展示位明显；更新文案要点：【新客免息】优化新手福利，新手借钱享优惠。",
+    "小赢：本期新增4张应用市场截图，缺少上期对照；重点文案：1、问题修复，功能稳定运行。",
+    "安逸花：本期新增5张应用市场截图，缺少上期对照；重点文案：【申请便捷】借款流程简捷，安全又省心。",
+    "度小满：本期截图由4张增至5张，新增展示位明显；更新文案要点：此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。。",
+    "分期乐：本期截图由4张增至5张，新增展示位明显；更新文案要点：此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。。"
+  ],
+  "productCards": [
+    {
+      "name": "奇富借条",
+      "iconUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1b/22/84/1b22841d-fbec-060b-3970-948ffec28a65/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/100x100bb.jpg",
+      "bullets": [
+        "申请便捷",
+        "【新客免息】优化新手福利，新手借钱享优惠"
+      ]
+    },
+    {
+      "name": "小赢",
+      "iconUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/b2/b5/38/b2b53879-32df-2550-eda9-4940c406ddb8/AppIcon-0-0-1x_U007emarketing-0-5-0-0-85-220.png/100x100bb.jpg",
+      "bullets": [
+        "1、问题修复，功能稳定运行"
+      ]
+    },
+    {
+      "name": "安逸花",
+      "iconUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/15/32/1d/15321d8c-a82d-10b5-8bbe-ef4b97cad770/AppIcon-0-0-1x_U007emarketing-0-6-0-0-85-220.png/100x100bb.jpg",
+      "bullets": [
+        "申请便捷",
+        "【申请便捷】借款流程简捷，安全又省心"
+      ]
+    },
+    {
+      "name": "度小满",
+      "iconUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e9/70/a1/e970a1c4-094b-bbda-77f0-201340f27c0b/AppIcon-0-0-1x_U007emarketing-0-6-0-0-85-220.png/100x100bb.jpg",
+      "bullets": [
+        "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。"
+      ]
+    },
+    {
+      "name": "分期乐",
+      "iconUrl": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5c/d3/82/5cd38291-12ce-0f4f-0804-0edb76a58d7e/AppIcon-1x_U007emarketing-0-6-0-0-85-220-0.png/100x100bb.jpg",
+      "bullets": [
+        "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。"
+      ]
+    }
+  ],
+  "logRows": [
+    {
+      "name": "奇富借条",
+      "latestVersion": "2.0.43",
+      "previousVersion": "2.0.42",
+      "updatedAt": "2026-04-20T02:01:47.000Z",
+      "noteDiff": [
+        "【新客免息】优化新手福利，新手借钱享优惠"
+      ]
+    },
+    {
+      "name": "小赢",
+      "latestVersion": "5.3.8",
+      "previousVersion": "5.3.7",
+      "updatedAt": "2026-04-15T01:46:04.000Z",
+      "noteDiff": [
+        "1、问题修复，功能稳定运行"
+      ]
+    },
+    {
+      "name": "安逸花",
+      "latestVersion": "4.0.36",
+      "previousVersion": "4.0.35",
+      "updatedAt": "2026-04-07T02:25:11.000Z",
+      "noteDiff": [
+        "【申请便捷】借款流程简捷，安全又省心"
+      ]
+    },
+    {
+      "name": "度小满",
+      "latestVersion": "11.2.5",
+      "previousVersion": "11.2.4",
+      "updatedAt": "2026-04-01T03:14:54.000Z",
+      "noteDiff": [
+        "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。"
+      ]
+    },
+    {
+      "name": "分期乐",
+      "latestVersion": "8.10.7",
+      "previousVersion": "8.10.6",
+      "updatedAt": "2026-03-31T06:29:46.000Z",
+      "noteDiff": [
+        "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。"
+      ]
+    }
+  ],
+  "evidenceRows": [
+    {
+      "competitor": "奇富借条",
+      "conclusion": "本期截图由4张增至5张，新增展示位明显；更新文案要点：【新客免息】优化新手福利，新手借钱享优惠。",
+      "prevList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/ac/fc/df/acfcdf6e-a1f5-85da-e7c6-9f47275f86fb/7604af4d-c7cd-4bc2-9633-3e45b72e1ecf_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe1.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/83/1d/a6/831da6ae-2a8a-2dfa-f32b-eb29e88d157c/d5bef574-dc35-4bf4-b100-7ad954973412_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe2.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/db/28/16/db2816d7-e509-8a5c-2820-5179f3acc26a/76937680-d6c1-4f0e-911f-2c7c9ae68f57_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe3.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/76/79/c3/7679c35d-b2a9-c15d-b481-8354a83a63c1/6540e6ec-ff54-427f-9f82-e6f3a753dab0_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe4.png/392x696bb.png"
+      ],
+      "latestList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/ac/fc/df/acfcdf6e-a1f5-85da-e7c6-9f47275f86fb/7604af4d-c7cd-4bc2-9633-3e45b72e1ecf_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe1.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/83/1d/a6/831da6ae-2a8a-2dfa-f32b-eb29e88d157c/d5bef574-dc35-4bf4-b100-7ad954973412_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe2.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/db/28/16/db2816d7-e509-8a5c-2820-5179f3acc26a/76937680-d6c1-4f0e-911f-2c7c9ae68f57_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe3.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/76/79/c3/7679c35d-b2a9-c15d-b481-8354a83a63c1/6540e6ec-ff54-427f-9f82-e6f3a753dab0_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe4.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8a/53/80/8a5380b5-278b-b733-4d33-2ebb1c4cd1c0/c875686d-ca7f-487d-b930-aa467a15a623_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe5.png/392x696bb.png"
+      ]
+    },
+    {
+      "competitor": "小赢",
+      "conclusion": "本期新增4张应用市场截图，缺少上期对照；重点文案：1、问题修复，功能稳定运行。",
+      "prevList": [],
+      "latestList": [
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0766cbc155f18445591ce4297f317344e01838e9c",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/034d05bcc731c464d9375a2db346645df17226b01",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0bb5ec4f4d0434193857d8ce583d80d07e93c979f",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0573b63456f9b42b392b34a6ae220edb700945424"
+      ]
+    },
+    {
+      "competitor": "安逸花",
+      "conclusion": "本期新增5张应用市场截图，缺少上期对照；重点文案：【申请便捷】借款流程简捷，安全又省心。",
+      "prevList": [],
+      "latestList": [
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0df36ab6392564340810e2254ba92e54d7a5b3aed",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/07f867bad448943e0b39bd6db4d27709a7318f902",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/09048b646fe3b49d8a08278b3b8e2be09848db1b8",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/087e644acc14740698fa8aa7eecbcb3ebfaf416ce",
+        "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0c268d218dc6c47c2ba0cc2e0e75011e72f2f7b80"
+      ]
+    },
+    {
+      "competitor": "度小满",
+      "conclusion": "本期截图由4张增至5张，新增展示位明显；更新文案要点：此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。。",
+      "prevList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/df/f7/3ddff79e-f5e7-bde3-efd3-7d1854f8f5bd/99e87800-623a-4033-b94a-d8af2e873c54_1242_x_2208-_U7530_U5f84_U961f_U5408_U4f5c.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8b/ec/14/8bec145b-cd7b-3239-f2d0-bebd024121b0/70cada03-fbd4-4744-85d0-d5a58349314b_1284_U002a2778-_U9996_U9875_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3f/53/06/3f530649-e2e8-66de-60d0-b6525e81e3c1/120d5c81-651a-41cd-ba0e-df0665299cbe_1284_U002a2778-_U4fe1_U8d37_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/fe/ed/14/feed1408-94cf-b544-fcfd-69243a94d4f9/600c06b0-aeb4-47c3-a648-44155b8215c1_1284_U002a2778-_U989d_U5ea6_U653e_U6b3e_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png"
+      ],
+      "latestList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/df/f7/3ddff79e-f5e7-bde3-efd3-7d1854f8f5bd/99e87800-623a-4033-b94a-d8af2e873c54_1242_x_2208-_U7530_U5f84_U961f_U5408_U4f5c.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/8b/ec/14/8bec145b-cd7b-3239-f2d0-bebd024121b0/70cada03-fbd4-4744-85d0-d5a58349314b_1284_U002a2778-_U9996_U9875_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3f/53/06/3f530649-e2e8-66de-60d0-b6525e81e3c1/120d5c81-651a-41cd-ba0e-df0665299cbe_1284_U002a2778-_U4fe1_U8d37_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/fe/ed/14/feed1408-94cf-b544-fcfd-69243a94d4f9/600c06b0-aeb4-47c3-a648-44155b8215c1_1284_U002a2778-_U989d_U5ea6_U653e_U6b3e_U589e_U52a0_U5e74_U9f84_U63d0_U793a_U5907_U4efd.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/12/dc/91/12dc91fc-dc82-5798-30fd-0f58448d4cf6/4fa04c93-0dc3-4f18-ad7b-432e0f1a5b6f_1242_x_2208-_U7406_U8d22.png/392x696bb.png"
+      ]
+    },
+    {
+      "competitor": "分期乐",
+      "conclusion": "本期截图由4张增至5张，新增展示位明显；更新文案要点：此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。。",
+      "prevList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/de/5b/3dde5bfb-06fd-bb42-fc50-08344bbd2ee7/26ef7c73-d112-46b0-bf4c-36c1b72ee740_00.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/72/2a/84/722a8450-0516-d881-4e7e-80fe76f238f1/29bb64f4-c8ee-44ee-9f10-79ed367ee46a_02.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/2a/3d/94/2a3d94fa-16aa-f479-3142-78a80ff25fe3/84ef56d9-28fa-4d4a-a7d0-11f791217ad2_04.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1b/ed/a6/1beda67d-54f1-798a-dc59-957266975a59/16cf7f24-08f8-4762-90ba-161ea0ee0640_06.png/392x696bb.png"
+      ],
+      "latestList": [
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/de/5b/3dde5bfb-06fd-bb42-fc50-08344bbd2ee7/26ef7c73-d112-46b0-bf4c-36c1b72ee740_00.jpg/392x696bb.jpg",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/72/2a/84/722a8450-0516-d881-4e7e-80fe76f238f1/29bb64f4-c8ee-44ee-9f10-79ed367ee46a_02.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/2a/3d/94/2a3d94fa-16aa-f479-3142-78a80ff25fe3/84ef56d9-28fa-4d4a-a7d0-11f791217ad2_04.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/1b/ed/a6/1beda67d-54f1-798a-dc59-957266975a59/16cf7f24-08f8-4762-90ba-161ea0ee0640_06.png/392x696bb.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6c/24/5a/6c245a32-da3c-033d-4fd8-11c78fb0930d/56660bfd-27b3-4d6c-9594-7249eb04ff75_08.png/392x696bb.png"
+      ]
+    }
+  ]
+}
