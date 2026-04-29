@@ -185,16 +185,22 @@ export default function AppVersionUpdatesPage() {
   const appInsights = (latestReport?.insights || []).filter((x) => x.dimension === "APP");
 
   const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
-    const match = appInsights.find((x) => x.competitor === name && String(x.page || "").includes("首页")) || appInsights.find((x) => x.competitor === name);
+    const matches = appInsights.filter((x) => x.competitor === name);
+    const pageSpot = matches.length ? matches.map((x) => x.page).filter(Boolean).slice(0, 3).join(" / ") : "首页/借钱页";
+    const conclusion = matches.length
+      ? matches.slice(0, 2).map((x) => x.conclusion).filter(Boolean).join("；")
+      : "基于上期/本期多张应用市场截图对比，当前未提取到结构性变化结论。";
+    const impact = matches.some((x) => x.impact === "高") ? "高" : matches.some((x) => x.impact === "中") ? "中" : "低";
+    const review = matches.some((x) => String(x.confidence || "").includes("是")) ? "是" : "否";
     return {
       competitor: name,
       dimension: "APP",
-      pageSpot: match?.page || "首页/借钱页",
-      conclusion: match?.conclusion || "—",
+      pageSpot,
+      conclusion,
       prevList: previous?.screenshotUrls || [],
       latestList: latest?.screenshotUrls || [],
-      impact: (match?.impact || "中") as "高" | "中" | "低",
-      review: String(match?.confidence || "").includes("是") ? "是" : "否",
+      impact: impact as "高" | "中" | "低",
+      review,
     };
   });
 
@@ -277,7 +283,7 @@ export default function AppVersionUpdatesPage() {
                 <tr key={r.competitor} className="border-b align-top">
                   <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="px-2 py-2">{r.conclusion}</td>
                   <td className="px-2 py-2">
-                    <div className="flex gap-2 overflow-x-auto">
+                    <div className="flex flex-wrap gap-2">
                       {r.prevList?.length ? r.prevList.map((src: string) => (
                         <a key={`${r.competitor}-prev-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
                           <img src={src} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
@@ -286,7 +292,7 @@ export default function AppVersionUpdatesPage() {
                     </div>
                   </td>
                   <td className="px-2 py-2">
-                    <div className="flex gap-2 overflow-x-auto">
+                    <div className="flex flex-wrap gap-2">
                       {r.latestList?.length ? r.latestList.map((src: string) => (
                         <a key={`${r.competitor}-latest-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
                           <img src={src} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
