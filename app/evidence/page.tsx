@@ -162,7 +162,7 @@ export default function AppVersionUpdatesPage() {
     return {
       ...item,
       iconUrl: latest?.iconUrl || "",
-      screenshots: (latest?.screenshotUrls || []).slice(0, 3),
+      screenshots: [],
     };
   });
 
@@ -191,8 +191,8 @@ export default function AppVersionUpdatesPage() {
       dimension: "APP",
       pageSpot: match?.page || "首页/借钱页",
       conclusion: match?.conclusion || "—",
-      prevList: (previous?.screenshotUrls || []).slice(0, 3),
-      latestList: (latest?.screenshotUrls || []).slice(0, 3),
+      prevList: previous?.screenshotUrls || [],
+      latestList: latest?.screenshotUrls || [],
       impact: (match?.impact || "中") as "高" | "中" | "低",
       review: String(match?.confidence || "").includes("是") ? "是" : "否",
     };
@@ -229,15 +229,7 @@ export default function AppVersionUpdatesPage() {
                 <p className="text-sm font-medium">{x.name}</p>
               </div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">{x.bullets.map((b) => <li key={`${x.name}-${b}`}>{b}</li>)}</ul>
-              {x.screenshots?.length ? (
-                <div className="mt-3 flex gap-2 overflow-x-auto">
-                  {x.screenshots.map((src: string) => (
-                    <a key={`${x.name}-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
-                      <img src={src} alt={`${x.name} 应用市场截图`} className="h-20 w-12 rounded border border-slate-200 object-cover" />
-                    </a>
-                  ))}
-                </div>
-              ) : null}
+
             </div>
           ))}
         </div>
