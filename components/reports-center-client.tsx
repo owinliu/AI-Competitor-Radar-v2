@@ -154,7 +154,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">全局筛选器</h2>
-        <div className="mt-3 grid gap-3 text-sm lg:grid-cols-4">
+        <div className="mt-3 grid gap-3 text-sm lg:grid-cols-3">
           <FilterGroup
             label="竞品"
             options={["全部", ...competitors]}
@@ -168,14 +168,8 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
             onChange={setDimension}
           />
           <FilterGroup
-            label="周期"
-            options={["全部", ...periodOptions]}
-            value={period}
-            onChange={setPeriod}
-          />
-          <FilterGroup
             label="变化等级"
-            options={["高", "全部", "中", "低"]}
+            options={["全部", "高", "中", "低"]}
             value={impact}
             onChange={setImpact}
           />
