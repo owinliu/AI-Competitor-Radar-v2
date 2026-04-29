@@ -97,12 +97,6 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       const highByDim = (d: string) => highRows.filter((r) => r.dimension === d);
       const neutral = (s: string) => (s || "").split("，")[0] || "—";
 
-      const app = neutral(firstConclusion(highByDim("APP")));
-      const cs = neutral(firstConclusion(highByDim("客服")));
-      const fin = neutral(firstConclusion(highByDim("消金")));
-      const ops = neutral(firstConclusion(highByDim("留存促活运营")));
-      const risk = neutral(firstConclusion(highByDim("风控")));
-
       const rewriteConclusion = (c: string) => {
         const s = neutral(c || "");
         if (/仅有\d{4}/.test(s) || /缺少\d{4}基线/.test(s)) {
@@ -111,6 +105,12 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
         }
         return s;
       };
+
+      const app = rewriteConclusion(firstConclusion(highByDim("APP")));
+      const cs = rewriteConclusion(firstConclusion(highByDim("客服")));
+      const fin = rewriteConclusion(firstConclusion(highByDim("消金")));
+      const ops = rewriteConclusion(firstConclusion(highByDim("留存促活运营")));
+      const risk = rewriteConclusion(firstConclusion(highByDim("风控")));
       const highConclusions = highRows.map((r) => rewriteConclusion(r.conclusion)).filter(Boolean);
       const strategy = highConclusions[0] || "本期未识别到可比高影响变化。";
       const biz = highConclusions.length > 1 ? highConclusions.slice(0, 2).join("；") : strategy;
