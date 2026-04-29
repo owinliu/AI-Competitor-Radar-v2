@@ -53,7 +53,7 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [period, setPeriod] = useState("全部");
-  const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("高");
+  const [changeScope, setChangeScope] = useState<"全部" | "高" | "中" | "低">("全部");
 
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerImages, setViewerImages] = useState<ViewerImage[]>([]);
@@ -124,16 +124,6 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
 
   return (
     <>
-      <section className="rounded-xl border bg-card p-5 space-y-4">
-        <div className="grid gap-3 md:grid-cols-[2fr_2fr_1fr_1fr]">
-          {group("竞品", competitors, competitor, setCompetitor)}
-          {group("维度", dimensions, dimension, setDimension)}
-          {group("周期", periods, period, setPeriod)}
-          <div className="md:text-right md:justify-self-end">
-            {group("变化等级", ["全部", "高", "中", "低"], changeScope, (v) => setChangeScope(v as "全部" | "高" | "中" | "低"))}
-          </div>
-        </div>
-      </section>
 
       <section className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
