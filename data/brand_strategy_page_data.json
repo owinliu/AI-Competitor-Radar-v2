@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-29T12:29:24.277Z",
+  "generatedAt": "2026-04-29T13:16:39.376Z",
   "range": "2026-04-21-001",
   "rows": [
     {
@@ -12,7 +12,7 @@
       "cta": "未识别到强转化文案。",
       "trust": "以应用市场官方页可见信息为准。",
       "status": "已抓取应用市场截图与日志",
-      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/ac/fc/df/acfcdf6e-a1f5-85da-e7c6-9f47275f86fb/7604af4d-c7cd-4bc2-9633-3e45b72e1ecf_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe1.png/392x696bb.png"
+      "screenshot": "/brand-screenshots/qifu-full.png"
     },
     {
       "brand": "小赢",
@@ -24,7 +24,7 @@
       "cta": "未识别到强转化文案。",
       "trust": "以应用市场官方页可见信息为准。",
       "status": "已抓取应用市场截图与日志",
-      "screenshot": "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0766cbc155f18445591ce4297f317344e01838e9c"
+      "screenshot": "/brand-screenshots/xiaoying-full.png"
     },
     {
       "brand": "安逸花",
@@ -36,7 +36,7 @@
       "cta": "未识别到强转化文案。",
       "trust": "以应用市场官方页可见信息为准。",
       "status": "已抓取应用市场截图与日志",
-      "screenshot": "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0df36ab6392564340810e2254ba92e54d7a5b3aed"
+      "screenshot": "/brand-screenshots/anyihua-full.png"
     },
     {
       "brand": "度小满",
@@ -48,7 +48,7 @@
       "cta": "未识别到强转化文案。",
       "trust": "以应用市场官方页可见信息为准。",
       "status": "已抓取应用市场截图与日志",
-      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/df/f7/3ddff79e-f5e7-bde3-efd3-7d1854f8f5bd/99e87800-623a-4033-b94a-d8af2e873c54_1242_x_2208-_U7530_U5f84_U961f_U5408_U4f5c.png/392x696bb.png"
+      "screenshot": "/brand-screenshots/duxiaoman-full.png"
     },
     {
       "brand": "分期乐",
@@ -60,7 +60,7 @@
       "cta": "未识别到强转化文案。",
       "trust": "以应用市场官方页可见信息为准。",
       "status": "已抓取应用市场截图与日志",
-      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/de/5b/3dde5bfb-06fd-bb42-fc50-08344bbd2ee7/26ef7c73-d112-46b0-bf4c-36c1b72ee740_00.jpg/392x696bb.jpg"
+      "screenshot": "/brand-screenshots/fenqile-full.png"
     }
   ],
   "bossConclusions": [

@@ -17,6 +17,13 @@ for(const [name,items] of grouped.entries()){
  const hasPrice=diff.some(x=>/(利率|额度|免息|年化)/.test(x));
  const hasSpeed=diff.some(x=>/(分钟|审批|放款|快速|立即)/.test(x));
  const positioning=hasPrice||hasSpeed?'偏转化导向（价格/效率信息更突出）':'偏品牌叙事导向（品牌与平台信息占比更高）';
+ const officialShots = {
+  '分期乐':'/brand-screenshots/fenqile-full.png',
+  '奇富借条':'/brand-screenshots/qifu-full.png',
+  '安逸花':'/brand-screenshots/anyihua-full.png',
+  '小赢':'/brand-screenshots/xiaoying-full.png',
+  '度小满':'/brand-screenshots/duxiaoman-full.png'
+ };
  compRows.push({
   brand:name,
   site:latest?.appStoreUrl||'#',
@@ -27,7 +34,7 @@ for(const [name,items] of grouped.entries()){
   cta:hasSpeed?'存在效率/转化导向表达。':'未识别到强转化文案。',
   trust:'以应用市场官方页可见信息为准。',
   status:'已抓取应用市场截图与日志',
-  screenshot:(latest?.screenshotUrls||[])[0]||''
+  screenshot: officialShots[name] || (latest?.screenshotUrls||[])[0] || ''
  })
 }
 const bossConclusions=[
