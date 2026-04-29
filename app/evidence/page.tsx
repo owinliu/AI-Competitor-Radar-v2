@@ -159,7 +159,11 @@ export default function AppVersionUpdatesPage() {
     { name: "分期乐", bullets: ["中国国家击剑队官方合作伙伴", "分期借钱", "分期购物", "专业分期借款借钱购物App"] },
   ].map((item) => {
     const latest = competitorPairs.find((x) => x.name === item.name)?.latest;
-    return { ...item, iconUrl: latest?.iconUrl || "" };
+    return {
+      ...item,
+      iconUrl: latest?.iconUrl || "",
+      screenshots: (latest?.screenshotUrls || []).slice(0, 3),
+    };
   });
 
   const bossConclusions = [
@@ -222,6 +226,15 @@ export default function AppVersionUpdatesPage() {
                 <p className="text-sm font-medium">{x.name}</p>
               </div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">{x.bullets.map((b) => <li key={`${x.name}-${b}`}>{b}</li>)}</ul>
+              {x.screenshots?.length ? (
+                <div className="mt-3 flex gap-2 overflow-x-auto">
+                  {x.screenshots.map((src: string) => (
+                    <a key={`${x.name}-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
+                      <img src={src} alt={`${x.name} 应用市场截图`} className="h-20 w-12 rounded border border-slate-200 object-cover" />
+                    </a>
+                  ))}
+                </div>
+              ) : null}
             </div>
           ))}
         </div>
