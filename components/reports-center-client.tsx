@@ -93,19 +93,23 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       const byDim = (d: string) => rows.filter((r) => r.dimension === d);
       const firstConclusion = (arr: Insight[]) => arr.find((x) => x.conclusion)?.conclusion || "—";
 
-      const app = firstConclusion(byDim("APP"));
-      const cs = firstConclusion(byDim("客服"));
-      const fin = firstConclusion(byDim("消金"));
-      const ops = firstConclusion(byDim("留存促活运营"));
-      const risk = firstConclusion(byDim("风控"));
+      const highRows = rows.filter((r) => r.impact === "高");
+      const highByDim = (d: string) => highRows.filter((r) => r.dimension === d);
+      const neutral = (s: string) => (s || "").split("，")[0] || "—";
 
-      const obvious = rows.filter((r) => r.impact !== "低").map((r) => r.conclusion).filter(Boolean);
-      const strategy = obvious[0] || app || ops || "—";
-      const biz = obvious.length > 1 ? obvious.slice(0, 2).join("；") : strategy;
+      const app = neutral(firstConclusion(highByDim("APP")));
+      const cs = neutral(firstConclusion(highByDim("客服")));
+      const fin = neutral(firstConclusion(highByDim("消金")));
+      const ops = neutral(firstConclusion(highByDim("留存促活运营")));
+      const risk = neutral(firstConclusion(highByDim("风控")));
 
-      const dimCounts = DIMS.map((d) => ({ d, c: rows.filter((r) => r.dimension === d && r.impact !== "低").length }));
+      const highConclusions = highRows.map((r) => neutral(r.conclusion)).filter(Boolean);
+      const strategy = highConclusions[0] || "—";
+      const biz = highConclusions.length > 1 ? highConclusions.slice(0, 2).join("；") : strategy;
+
+      const dimCounts = DIMS.map((d) => ({ d, c: highRows.filter((r) => r.dimension === d).length }));
       const top = dimCounts.sort((a, b) => b.c - a.c)[0];
-      const oneLine = top?.c ? `${name}本期以${dimLabel(top.d)}维度变化最明显。` : `${name}本期整体变化不明显。`;
+      const oneLine = top?.c ? `${name}本期高影响变化主要集中在${dimLabel(top.d)}维度。` : `${name}本期暂无高影响变化。`;
 
       return { name, coverage, strategy, app, cs, fin, ops, risk, biz, oneLine };
     });
