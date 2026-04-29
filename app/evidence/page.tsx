@@ -222,16 +222,6 @@ export default function AppVersionUpdatesPage() {
         </div>
       </section>
 
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">全局筛选器</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-5 text-sm">
-          <select className="rounded border px-2 py-2"><option>全部竞品</option></select>
-          <select className="rounded border px-2 py-2"><option>全部维度</option></select>
-          <select className="rounded border px-2 py-2"><option>高</option><option>中</option><option>低</option></select>
-          <select className="rounded border px-2 py-2"><option>全部变化</option><option>仅变化明显</option></select>
-          <select className="rounded border px-2 py-2"><option>全部</option><option>仅建议人工复核</option></select>
-        </div>
-      </section>
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">证据明细表</h2>
@@ -242,8 +232,8 @@ export default function AppVersionUpdatesPage() {
               {evidenceRows.filter((r) => r.impact === "高").map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
                   <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="px-2 py-2">{r.conclusion}</td>
-                  <td className="px-2 py-2">{r.prev ? <a href={r.prev} target="_blank" className="text-blue-600 underline">查看</a> : "—"}</td>
-                  <td className="px-2 py-2">{r.latest ? <a href={r.latest} target="_blank" className="text-blue-600 underline">查看</a> : "—"}</td>
+                  <td className="px-2 py-2">{r.prev ? <a href={r.prev} target="_blank"><img src={r.prev} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                  <td className="px-2 py-2">{r.latest ? <a href={r.latest} target="_blank"><img src={r.latest} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
                   <td className="px-2 py-2 text-xs text-muted-foreground">{r.changed ? (r.process || "—") : "—"}</td>
                   <td className="px-2 py-2">{r.impact}</td><td className="px-2 py-2">{r.review}</td>
                 </tr>
