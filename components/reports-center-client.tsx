@@ -129,7 +129,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">五产品总览表（核心管理视图）</h2>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full border-collapse text-xs">
+          <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="bg-slate-50 text-left">
                 <th className="border-b px-2 py-2 whitespace-nowrap">产品</th>
