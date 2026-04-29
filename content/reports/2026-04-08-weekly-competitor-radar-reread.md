@@ -1406,9 +1406,9 @@ insights:
     period: 2026-W15
     page: 保险
     conclusion: 保险页结构与核心权益基本一致，整体处于稳定状态。
-    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「保险」已一一配对，视觉差异幅度=0.0030。
     impact: 低
-    confidence: 是
+    confidence: 否
     actions:
       - 按同位点持续追踪，优先监控保险活动位是否出现新增运营条。
     prevEvidence:
@@ -1424,9 +1424,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱页主流程与服务入口保持稳定，未见明显结构改动。
-    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「借钱」已一一配对，视觉差异幅度=0.0019。
     impact: 低
-    confidence: 是
+    confidence: 否
     actions:
       - 保持周度巡检，重点关注借钱页中腰部活动插槽是否新增。
     prevEvidence:
@@ -1442,9 +1442,9 @@ insights:
     period: 2026-W15
     page: 我的
     conclusion: 我的页框架稳定，权益数值有小幅运营更新（卡券数量提升）。
-    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「我的」已一一配对，视觉差异幅度=0.0027。
     impact: 低
-    confidence: 是
+    confidence: 否
     actions:
       - 持续跟踪权益数字变化，判断是否进入活动期运营加码。
     prevEvidence:
@@ -1460,9 +1460,9 @@ insights:
     period: 2026-W15
     page: 理财
     conclusion: 理财页主框架稳定，产品与收益数字有轻微更新。
-    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「理财」已一一配对，视觉差异幅度=0.0063。
     impact: 低
-    confidence: 是
+    confidence: 否
     actions:
       - 跟踪理财首屏主推位，识别是否出现高激励活动替换。
     prevEvidence:
@@ -1478,9 +1478,9 @@ insights:
     period: 2026-W15
     page: 首页
     conclusion: 首页头图运营主题由品牌信息流切换为“王濛乘风2026”营销主题，活动露出显著增强。
-    compare: 对照窗口：0323 vs 0402。检测到同位点文件名未匹配（无法建立一一对照），该条暂标记为待复核，未纳入高变化结论。
-    impact: 低
-    confidence: 是
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「首页」已一一配对，视觉差异幅度=0.1248。
+    impact: 高
+    confidence: 否
     actions:
       - 重点跟踪活动主视觉对借钱入口点击与停留的影响。
     prevEvidence:
