@@ -186,21 +186,24 @@ export default function AppVersionUpdatesPage() {
 
   const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
     const matches = appInsights.filter((x) => x.competitor === name);
-    const pageSpot = matches.length ? matches.map((x) => x.page).filter(Boolean).slice(0, 3).join(" / ") : "首页/借钱页";
+    const prevList = previous?.screenshotUrls || [];
+    const latestList = latest?.screenshotUrls || [];
+    const hasAdded = latestList.length > prevList.length;
+    const hasReduced = latestList.length < prevList.length;
+
     const conclusion = matches.length
       ? matches.slice(0, 2).map((x) => x.conclusion).filter(Boolean).join("；")
-      : "基于上期/本期多张应用市场截图对比，当前未提取到结构性变化结论。";
-    const impact = matches.some((x) => x.impact === "高") ? "高" : matches.some((x) => x.impact === "中") ? "中" : "低";
-    const review = matches.some((x) => String(x.confidence || "").includes("是")) ? "是" : "否";
+      : hasAdded
+      ? `应用市场本期截图由${prevList.length}张增加到${latestList.length}张，存在新增展示模块，建议按新增位点重点复核。`
+      : hasReduced
+      ? `应用市场本期截图由${prevList.length}张减少到${latestList.length}张，可能存在模块下线或抓取缺口，建议人工复核。`
+      : `应用市场上期/本期均为${latestList.length}张截图，当前未识别到可自动提取的结构性结论，建议结合截图人工判读。`;
+
     return {
       competitor: name,
-      dimension: "APP",
-      pageSpot,
       conclusion,
-      prevList: previous?.screenshotUrls || [],
-      latestList: latest?.screenshotUrls || [],
-      impact: impact as "高" | "中" | "低",
-      review,
+      prevList,
+      latestList,
     };
   });
 
@@ -279,7 +282,7 @@ export default function AppVersionUpdatesPage() {
           <table className="w-full min-w-[1200px] text-sm">
             <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">结论</th><th className="px-2 py-2">上期截图</th><th className="px-2 py-2">本期截图</th></tr></thead>
             <tbody>
-              {evidenceRows.filter((r) => r.impact === "高").map((r) => (
+              {evidenceRows.map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
                   <td className="whitespace-nowrap px-2 py-2 font-medium">{r.competitor}</td><td className="w-[280px] max-w-[280px] px-2 py-2 text-sm leading-6">{r.conclusion}</td>
                   <td className="min-w-[500px] px-2 py-2">
