@@ -224,6 +224,37 @@ export default function AppVersionUpdatesPage() {
 
 
       <section className="rounded-xl border bg-card p-5">
+        <h2 className="text-base font-semibold">更新日志变化观察</h2>
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[1200px] text-sm">
+            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">最新版本</th><th className="px-2 py-2">上一版本</th><th className="px-2 py-2">更新时间</th><th className="px-2 py-2">新增日志要点</th><th className="px-2 py-2">观察</th></tr></thead>
+            <tbody>
+              {competitorPairs.map(({ name, latest, previous }) => {
+                const noteDiff = compareNotes(latest?.releaseNotes, previous?.releaseNotes);
+                const obs = noteDiff.length
+                  ? (noteDiff.some((x) => /(活动|优惠|券|免息|福利)/.test(x))
+                      ? "本期更新偏运营活动与转化触达。"
+                      : noteDiff.some((x) => /(修复|优化|稳定|性能)/.test(x))
+                      ? "本期更新偏体验优化与稳定性。"
+                      : "本期更新存在新增文案，建议结合截图复核影响等级。")
+                  : "未识别到显著新增日志文案。";
+                return (
+                  <tr key={`log-${name}`} className="border-b align-top">
+                    <td className="px-2 py-2 font-medium">{name}</td>
+                    <td className="px-2 py-2">{latest?.version || "—"}</td>
+                    <td className="px-2 py-2">{previous?.version || "—"}</td>
+                    <td className="px-2 py-2 text-xs text-muted-foreground">{fmtDate(latest?.currentVersionReleaseDate || latest?.capturedAt)}</td>
+                    <td className="px-2 py-2">{noteDiff.length ? <ul className="list-disc pl-4 text-xs text-muted-foreground">{noteDiff.slice(0,3).map((n) => <li key={`${name}-${n}`}>{n}</li>)}</ul> : "—"}</td>
+                    <td className="px-2 py-2 text-xs">{obs}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">证据明细表</h2>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[1200px] text-sm">
