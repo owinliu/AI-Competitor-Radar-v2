@@ -227,14 +227,13 @@ export default function AppVersionUpdatesPage() {
         <h2 className="text-base font-semibold">证据明细表</h2>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[1200px] text-sm">
-            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">分析维度</th><th className="px-2 py-2">页面位点</th><th className="px-2 py-2">结论</th><th className="px-2 py-2">上期截图</th><th className="px-2 py-2">本期截图</th><th className="px-2 py-2">对比过程</th><th className="px-2 py-2">影响等级</th><th className="px-2 py-2">是否建议人工复核</th></tr></thead>
+            <thead><tr className="border-b text-left text-muted-foreground"><th className="px-2 py-2">竞品</th><th className="px-2 py-2">分析维度</th><th className="px-2 py-2">页面位点</th><th className="px-2 py-2">结论</th><th className="px-2 py-2">上期截图</th><th className="px-2 py-2">本期截图</th><th className="px-2 py-2">影响等级</th><th className="px-2 py-2">是否建议人工复核</th></tr></thead>
             <tbody>
               {evidenceRows.filter((r) => r.impact === "高").map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
                   <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="px-2 py-2">{r.conclusion}</td>
                   <td className="px-2 py-2">{r.prev ? <a href={r.prev} target="_blank"><img src={r.prev} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
                   <td className="px-2 py-2">{r.latest ? <a href={r.latest} target="_blank"><img src={r.latest} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
-                  <td className="px-2 py-2 text-xs text-muted-foreground">{r.changed ? (r.process || "—") : "—"}</td>
                   <td className="px-2 py-2">{r.impact}</td><td className="px-2 py-2">{r.review}</td>
                 </tr>
               ))}
