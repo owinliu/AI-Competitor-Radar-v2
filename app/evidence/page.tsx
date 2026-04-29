@@ -156,7 +156,10 @@ export default function AppVersionUpdatesPage() {
     { name: "安逸花", bullets: ["额度最高20万", "正规持牌金融机构旗下产品", "快速放款", "申请便捷"] },
     { name: "度小满", bullets: ["最高额度200000", "年化利率7.29%起", "借1万元1天利息2元起", "面向22~55周岁非学生用户提供借款服务"] },
     { name: "分期乐", bullets: ["中国国家击剑队官方合作伙伴", "分期借钱", "分期购物", "专业分期借款借钱购物App"] },
-  ];
+  ].map((item) => {
+    const latest = competitorPairs.find((x) => x.name === item.name)?.latest;
+    return { ...item, iconUrl: latest?.iconUrl || "" };
+  });
 
   const bossConclusions = [
     "行业竞争重点继续前移至入口效率与触达效率。",
@@ -215,7 +218,10 @@ export default function AppVersionUpdatesPage() {
         <div className="mt-3 grid gap-3 md:grid-cols-3 xl:grid-cols-5">
           {productBullets.map((x) => (
             <div key={x.name} className="rounded-lg border p-3">
-              <p className="text-sm font-medium">{x.name}</p>
+              <div className="flex items-center gap-2">
+                {x.iconUrl ? <img src={x.iconUrl} alt={`${x.name} 图标`} className="h-8 w-8 rounded-lg border border-slate-200" /> : null}
+                <p className="text-sm font-medium">{x.name}</p>
+              </div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">{x.bullets.map((b) => <li key={`${x.name}-${b}`}>{b}</li>)}</ul>
             </div>
           ))}
