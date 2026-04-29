@@ -270,7 +270,7 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
                           const idx = allImgs.findIndex((i) => i.src === img.src);
                           return (
                             <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                              <img src={withBasePath(img.src)} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                              <img src={withBasePath(img.src)} alt={img.src} className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
                             </button>
                           );
                         }) : <span className="text-xs text-muted-foreground">无</span>}
@@ -282,7 +282,7 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
                           const idx = allImgs.findIndex((i) => i.src === img.src);
                           return (
                             <button key={img.src} onClick={() => openViewer(allImgs, idx)} className="rounded border p-1 hover:bg-slate-50" type="button">
-                              <img src={withBasePath(img.src)} alt={img.src} className="h-24 w-16 rounded object-cover" />
+                              <img src={withBasePath(img.src)} alt={img.src} className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
                             </button>
                           );
                         }) : <span className="text-xs text-muted-foreground">无</span>}
