@@ -281,21 +281,21 @@ export default function AppVersionUpdatesPage() {
             <tbody>
               {evidenceRows.filter((r) => r.impact === "高").map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
-                  <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="px-2 py-2">{r.conclusion}</td>
-                  <td className="px-2 py-2">
+                  <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="w-[280px] max-w-[280px] px-2 py-2 text-sm leading-6">{r.conclusion}</td>
+                  <td className="min-w-[500px] px-2 py-2">
                     <div className="flex flex-wrap gap-2">
                       {r.prevList?.length ? r.prevList.map((src: string) => (
                         <a key={`${r.competitor}-prev-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
-                          <img src={src} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
+                          <img src={src} alt="上期截图" className="h-[220px] w-[150px] rounded-md border border-slate-300 object-cover" />
                         </a>
                       )) : "—"}
                     </div>
                   </td>
-                  <td className="px-2 py-2">
+                  <td className="min-w-[500px] px-2 py-2">
                     <div className="flex flex-wrap gap-2">
                       {r.latestList?.length ? r.latestList.map((src: string) => (
                         <a key={`${r.competitor}-latest-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
-                          <img src={src} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
+                          <img src={src} alt="本期截图" className="h-[220px] w-[150px] rounded-md border border-slate-300 object-cover" />
                         </a>
                       )) : "—"}
                     </div>
