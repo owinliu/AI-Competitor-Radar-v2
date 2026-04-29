@@ -34,9 +34,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱页中部权益卡由“限时降息”切换为“添加银行卡借款快人一步”，转化前置信号明显。
-    compare: 对照窗口：0323 vs 0402，借款主流程保持稳定，但中腰部卡位从减息权益改为绑卡引导，首借路径更短。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -52,9 +52,9 @@ insights:
     period: 2026-W15
     page: 我的页
     conclusion: 我的页账户主结构稳定，权益呈现有小幅调整（优惠券与福利位变动）。
-    compare: 对照窗口：0323 vs 0402，入口框架一致，属于轻度运营层更新。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -70,9 +70,9 @@ insights:
     period: 2026-W15
     page: 消息页
     conclusion: 消息页活动触达文案更新，并新增“开启消息通知”横幅，召回触达有增强。
-    compare: 对照窗口：0323 vs 0402，首条活动从补贴导向切到季节营销，且增加系统通知开关。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -88,9 +88,9 @@ insights:
     period: 2026-W15
     page: 购物推荐页
     conclusion: 购物推荐页商品池与主推主题有更新，但页面框架保持稳定。
-    compare: 对照窗口：0323 vs 0402，属于内容换新而非结构改版。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -106,9 +106,9 @@ insights:
     period: 2026-W15
     page: 购物页 买吖超市
     conclusion: 买吖超市页以货盘与活动内容迭代为主，交易入口结构稳定。
-    compare: 对照窗口：0323 vs 0402，未见关键交互路径变化。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -124,9 +124,9 @@ insights:
     period: 2026-W15
     page: 首页
     conclusion: 首页核心运营重心由提额导向转为“限时降息+购物返利+新人免息”，策略变化明显。
-    compare: 对照窗口：0323 vs 0402，顶部tab与中腰部主卡位均有切换，从“提额/爆款”转向“返利/免息/商城导流”。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -142,9 +142,9 @@ insights:
     period: 2026-W15
     page: im半浮层
     conclusion: IM半浮层会话历史展示拉长，连续服务承接更强。
-    compare: 对照窗口：0323 vs 0402，入口形态基本一致，但0402展示更多历史轮次与时间节点。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -160,9 +160,9 @@ insights:
     period: 2026-W15
     page: 服务大厅
     conclusion: 服务大厅结构与入口布局基本一致，未见明显改版。
-    compare: 对照窗口：0323 vs 0402，分类分层与功能入口保持稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -178,9 +178,9 @@ insights:
     period: 2026-W15
     page: plus活动
     conclusion: PLUS服务页在0402新增“开通送50元超市金”与内容权益横幅，会员价值表达从金融权益扩展为复合权益。
-    compare: 对照窗口：0323 plus活动 vs 0402 plus活动，核心会员框架保持，但中上部新增活动条与内容权益，开通动机增强。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，重点关注活动条对开通转化的影响。
     prevEvidence:
@@ -196,9 +196,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -214,9 +214,9 @@ insights:
     period: 2026-W15
     page: 减息金活动
     conclusion: 减息金活动主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -232,9 +232,9 @@ insights:
     period: 2026-W15
     page: 减息金活动2
     conclusion: 减息金活动2主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -250,9 +250,9 @@ insights:
     period: 2026-W15
     page: 额度中心
     conclusion: 额度中心主链路总体稳定，局部信息层有更新。
-    compare: 对照窗口：0323 vs 0402，结构稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -268,9 +268,9 @@ insights:
     period: 2026-W15
     page: 活动落地页
     conclusion: 活动落地页玩法与奖池展示基本一致，本期未见明显结构变化。
-    compare: 对照窗口：0323 vs 0402，页面框架和核心交互保持稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -322,9 +322,9 @@ insights:
     period: 2026-W15
     page: 我的页1
     conclusion: 我的页1账户框架稳定，权益/券包展示有轻微更新。
-    compare: 对照窗口：0323 vs 0407，结构一致，属运营文案级变更。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -340,9 +340,9 @@ insights:
     period: 2026-W15
     page: 我的页2
     conclusion: 我的页2版式稳定，内容位小幅迭代。
-    compare: 对照窗口：0323 vs 0407，未见关键交互变化。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -646,9 +646,9 @@ insights:
     period: 2026-W15
     page: 我的页1
     conclusion: 我的页1结构稳定，权益与内容位有轻微更新。
-    compare: 对照窗口：0323 vs 0407，账户框架与主导航一致，主要为内容迭代。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -808,9 +808,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱页核心结构稳定，额度与按钮路径保持一致。
-    compare: 对照窗口：0323 vs 0407，未见关键结构变化。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -952,9 +952,9 @@ insights:
     period: 2026-W15
     page: 我的页1
     conclusion: 我的页1结构稳定，入口布局未见明显变化。
-    compare: 对照窗口：0323 vs 0407，内容位轻微更新。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -970,9 +970,9 @@ insights:
     period: 2026-W15
     page: 我的页2
     conclusion: 我的页2结构稳定，功能宫格保持一致。
-    compare: 对照窗口：0323 vs 0407，未见关键路径变化。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1006,9 +1006,9 @@ insights:
     period: 2026-W15
     page: 首页
     conclusion: 首页主结构基本延续，首屏权益状态与浮层提示有轻微变化。
-    compare: 对照窗口：0323 vs 0407，主卡位与导航一致，主要是状态文案和浮层变化。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1024,9 +1024,9 @@ insights:
     period: 2026-W15
     page: 首页1
     conclusion: 首页1与历史首页位点对齐后，结构未见显著新增。
-    compare: 对照窗口：0323首页 vs 0407首页1，属于同位点延续。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence: []
@@ -1238,9 +1238,9 @@ insights:
     period: 2026-W15
     page: 借款弹窗
     conclusion: 借款弹窗0407缺图，当前无法判断结构变化。
-    compare: 仅有0323，需补拍0407同位点。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1254,9 +1254,9 @@ insights:
     period: 2026-W15
     page: 春分活动
     conclusion: 春分活动0407缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1270,9 +1270,9 @@ insights:
     period: 2026-W15
     page: 春分落地页
     conclusion: 春分落地页0407缺图，无法跨期判断。
-    compare: 仅有0323，需补拍0407同位点。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1286,9 +1286,9 @@ insights:
     period: 2026-W15
     page: 活动1
     conclusion: 活动1在0407缺图，暂无法判定变化。
-    compare: 仅有0323，需补拍0407同位点。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 是（建议人工复核）
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1338,9 +1338,9 @@ insights:
     period: 2026-W15
     page: 活动4
     conclusion: 活动4仅有0407，缺少0323基线。
-    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），该模块在新日期新增出现，判定为高变化。
-    impact: 高
-    confidence: 是（建议人工复核）
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence: []
@@ -1354,9 +1354,9 @@ insights:
     period: 2026-W15
     page: 活动5
     conclusion: 活动5仅有0407，缺少0323基线。
-    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），该模块在新日期新增出现，判定为高变化。
-    impact: 高
-    confidence: 是（建议人工复核）
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence: []
@@ -1388,9 +1388,9 @@ insights:
     period: 2026-W15
     page: 风险查询
     conclusion: 风控查询页面结构稳定，主流程与关键按钮保持一致。
-    compare: 对照窗口：0323 vs 0407，仅提示文案有轻微变化。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，缺口优先补拍。
     prevEvidence:
@@ -1406,9 +1406,9 @@ insights:
     period: 2026-W15
     page: 保险
     conclusion: 保险页结构与核心权益基本一致，整体处于稳定状态。
-    compare: 对照窗口：0323 vs 0402，分类入口与主权益卡保持一致，未见关键路径变化。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 按同位点持续追踪，优先监控保险活动位是否出现新增运营条。
     prevEvidence:
@@ -1424,9 +1424,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱页主流程与服务入口保持稳定，未见明显结构改动。
-    compare: 对照窗口：0323 vs 0402，额度卡、借款服务与攻略区块基本一致。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 保持周度巡检，重点关注借钱页中腰部活动插槽是否新增。
     prevEvidence:
@@ -1442,9 +1442,9 @@ insights:
     period: 2026-W15
     page: 我的
     conclusion: 我的页框架稳定，权益数值有小幅运营更新（卡券数量提升）。
-    compare: 对照窗口：0323 vs 0402，信息架构一致，主要变化为券包与标签文案。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 持续跟踪权益数字变化，判断是否进入活动期运营加码。
     prevEvidence:
@@ -1460,9 +1460,9 @@ insights:
     period: 2026-W15
     page: 理财
     conclusion: 理财页主框架稳定，产品与收益数字有轻微更新。
-    compare: 对照窗口：0323 vs 0402，理财券与核心推荐位保留，属于内容迭代。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 跟踪理财首屏主推位，识别是否出现高激励活动替换。
     prevEvidence:
@@ -1478,9 +1478,9 @@ insights:
     period: 2026-W15
     page: 首页
     conclusion: 首页头图运营主题由品牌信息流切换为“王濛乘风2026”营销主题，活动露出显著增强。
-    compare: 对照窗口：0323 vs 0402，顶部视觉与首屏运营位完成主题切换，借钱主卡结构保持不变。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。检测到同位点文件名未匹配（无法建立一一对照），该条暂标记为待复核，未纳入高变化结论。
+    impact: 低
+    confidence: 是
     actions:
       - 重点跟踪活动主视觉对借钱入口点击与停留的影响。
     prevEvidence:
@@ -1496,9 +1496,9 @@ insights:
     period: 2026-W15
     page: 对话页
     conclusion: 客服对话页保持问答结构稳定，知识库问句与快捷入口有更新。
-    compare: 对照窗口：0323 vs 0407，主体版式一致，问题池和底部快捷标签调整。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 持续观察客服问题模板变化，评估对转化路径引导效果。
     prevEvidence:
@@ -1514,9 +1514,9 @@ insights:
     period: 2026-W15
     page: 对话页初始
     conclusion: 对话页初始态整体稳定，底部推荐标签有替换。
-    compare: 对照窗口：0323 vs 0407，空会话页结构一致，底部推荐词从咨询类切到交易/审核类。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 关注首屏问题词包是否进一步引导至借钱/降息类任务。
     prevEvidence:
@@ -1532,9 +1532,9 @@ insights:
     period: 2026-W15
     page: 消息中心
     conclusion: 消息中心页面布局稳定，问题清单与自助服务入口组合有调整。
-    compare: 对照窗口：0323 vs 0407，蓝色头部与模块分区一致，条目内容更新。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 中
-    confidence: 否
+    confidence: 是
     actions:
       - 跟踪客服场景词变化，识别催化借款动作的触达策略。
     prevEvidence:
@@ -1550,9 +1550,9 @@ insights:
     period: 2026-W15
     page: 消息中心2
     conclusion: 消息中心二级页结构稳定，业务分类与文案保持一致。
-    compare: 对照窗口：0323 vs 0407，版式近乎一致，属于轻度维护更新。
+    compare: 对照窗口：0323 vs 0407。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 与消息中心联动观察，避免重复位点造成结论冗余。
     prevEvidence:
@@ -1568,9 +1568,9 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 消金借钱页产品参数与流程说明保持一致，未见结构变更。
-    compare: 对照窗口：0323 vs 0402，额度卡、条款区与申请按钮均稳定。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 保持同位点跟踪，重点监控借款权益区是否出现活动加码。
     prevEvidence:
@@ -1586,9 +1586,9 @@ insights:
     period: 2026-W15
     page: 额度页
     conclusion: 额度页核心信息架构与操作路径保持稳定。
-    compare: 对照窗口：0323 vs 0402，额度、期限、规则与CTA位置一致。
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
     impact: 低
-    confidence: 否
+    confidence: 是
     actions:
       - 持续关注额度页是否新增运营提示或权益入口。
     prevEvidence:
@@ -1604,9 +1604,9 @@ insights:
     period: 2026-W15
     page: 活动落地页
     conclusion: 运营活动从“利息优惠券”落地页升级为“乘风2026”主题活动，活动氛围与奖励弹层显著增强。
-    compare: 对照窗口：0323 vs 0402，活动主视觉、奖励机制展示和弹窗触达均明显强化。
-    impact: 高
-    confidence: 否
+    compare: 对照窗口：0323 vs 0402。同位点未自动匹配成功（文件名/位点不一致），暂标待复核。
+    impact: 中
+    confidence: 是
     actions:
       - 重点跟踪活动弹窗与奖励浮层对点击率与留存的拉动效果。
     prevEvidence:
