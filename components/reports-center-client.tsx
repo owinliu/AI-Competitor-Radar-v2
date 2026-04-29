@@ -178,11 +178,11 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">明细证据表</h2>
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full min-w-[1400px] border-collapse text-sm">
+        <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
+          <table className="w-full min-w-[1900px] border-collapse text-sm text-slate-800">
             <thead>
-              <tr className="bg-slate-50 text-left">
-                <th className="border-b px-2 py-2">竞品</th><th className="border-b px-2 py-2">分析维度</th><th className="border-b px-2 py-2">页面位点</th><th className="border-b px-2 py-2">结论</th><th className="border-b px-2 py-2">上期截图</th><th className="border-b px-2 py-2">本期截图</th><th className="border-b px-2 py-2">对比过程</th><th className="border-b px-2 py-2">影响等级</th><th className="border-b px-2 py-2">是否建议人工复核</th>
+              <tr className="bg-slate-100 text-left text-base font-semibold text-slate-700">
+                <th className="border-b border-slate-200 px-5 py-4">竞品</th><th className="border-b border-slate-200 px-5 py-4">分析维度</th><th className="border-b border-slate-200 px-5 py-4">页面位点</th><th className="border-b border-slate-200 px-5 py-4">结论</th><th className="border-b border-slate-200 px-5 py-4">上期截图</th><th className="border-b border-slate-200 px-5 py-4">本期截图</th><th className="border-b border-slate-200 px-5 py-4">对比过程（仅变化明显时展示）</th><th className="border-b border-slate-200 px-5 py-4">影响等级</th><th className="border-b border-slate-200 px-5 py-4">是否建议人工复核</th>
               </tr>
             </thead>
             <tbody>
@@ -191,15 +191,15 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
                 const review = String(r.confidence || "").includes("是") ? "是" : "否";
                 return (
                   <tr key={r.id} className="align-top">
-                    <td className="border-b px-2 py-2">{r.competitor}</td>
-                    <td className="border-b px-2 py-2">{dimLabel(r.dimension)}</td>
-                    <td className="border-b px-2 py-2">{r.page || "—"}</td>
-                    <td className="border-b px-2 py-2">{r.conclusion || "—"}</td>
-                    <td className="border-b px-2 py-2">{r.prevEvidence?.[0] ? <a target="_blank" href={r.prevEvidence[0]} className="text-blue-600 underline">查看</a> : "—"}</td>
-                    <td className="border-b px-2 py-2">{r.currEvidence?.[0] ? <a target="_blank" href={r.currEvidence[0]} className="text-blue-600 underline">查看</a> : "—"}</td>
-                    <td className="border-b px-2 py-2">{changed ? (r.compare || "—") : "—"}</td>
-                    <td className="border-b px-2 py-2">{r.impact}</td>
-                    <td className="border-b px-2 py-2">{review}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.competitor}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{dimLabel(r.dimension)}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.page || "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 leading-relaxed">{r.conclusion || "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5">{r.prevEvidence?.[0] ? <a target="_blank" href={r.prevEvidence[0]}><img src={r.prevEvidence[0]} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5">{r.currEvidence?.[0] ? <a target="_blank" href={r.currEvidence[0]}><img src={r.currEvidence[0]} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 leading-relaxed">{changed ? (r.compare || "—") : "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.impact}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{review}</td>
                   </tr>
                 );
               })}
