@@ -19,7 +19,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="grid min-h-screen grid-cols-[280px_1fr]">
-        <aside className="flex min-h-screen flex-col border-r border-[#e5edf5] bg-white px-5 py-6">
+        <aside className="sticky top-0 flex h-screen flex-col overflow-y-auto border-r border-[#e5edf5] bg-white px-5 py-6">
           <div className="mb-8 flex items-center gap-3 px-2">
             <img src={`${basePath}/radar-logo.svg`} alt="AI Competitor Radar" className="h-12 w-12 object-contain" />
             <div className="leading-tight">
