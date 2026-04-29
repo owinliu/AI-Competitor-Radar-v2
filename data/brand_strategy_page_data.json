@@ -1,0 +1,78 @@
+{
+  "generatedAt": "2026-04-29T12:29:24.277Z",
+  "range": "2026-04-21-001",
+  "rows": [
+    {
+      "brand": "奇富借条",
+      "site": "https://apps.apple.com/cn/app/%E5%A5%87%E5%AF%8C%E5%80%9F%E6%9D%A1-%E5%8E%9F360%E5%80%9F%E6%9D%A1-%E6%89%8B%E6%9C%BA%E4%BF%A1%E7%94%A8%E8%B4%B7%E6%AC%BE%E5%B0%8F%E9%A2%9D%E5%80%9F%E9%92%B1%E5%B9%B3%E5%8F%B0/id1178856715?uo=4",
+      "positioning": "偏转化导向（价格/效率信息更突出）",
+      "heroCopy": "【新客免息】优化新手福利，新手借钱享优惠",
+      "featureShowcase": "功能展示以应用市场截图可见信息为准。",
+      "pricing": "日志/截图中存在额度或利率相关表达。",
+      "cta": "未识别到强转化文案。",
+      "trust": "以应用市场官方页可见信息为准。",
+      "status": "已抓取应用市场截图与日志",
+      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/ac/fc/df/acfcdf6e-a1f5-85da-e7c6-9f47275f86fb/7604af4d-c7cd-4bc2-9633-3e45b72e1ecf_apple-_U975e_U5168_U9762_U5c4f_Uff1a1242x2208-_U56fe1.png/392x696bb.png"
+    },
+    {
+      "brand": "小赢",
+      "site": "https://m.app.mi.com/detailapi/432142",
+      "positioning": "偏品牌叙事导向（品牌与平台信息占比更高）",
+      "heroCopy": "1、问题修复，功能稳定运行",
+      "featureShowcase": "功能展示以应用市场截图可见信息为准。",
+      "pricing": "未识别到明确价格型表达。",
+      "cta": "未识别到强转化文案。",
+      "trust": "以应用市场官方页可见信息为准。",
+      "status": "已抓取应用市场截图与日志",
+      "screenshot": "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0766cbc155f18445591ce4297f317344e01838e9c"
+    },
+    {
+      "brand": "安逸花",
+      "site": "https://m.app.mi.com/detailapi/329292",
+      "positioning": "偏品牌叙事导向（品牌与平台信息占比更高）",
+      "heroCopy": "【申请便捷】借款流程简捷，安全又省心",
+      "featureShowcase": "功能展示以应用市场截图可见信息为准。",
+      "pricing": "未识别到明确价格型表达。",
+      "cta": "未识别到强转化文案。",
+      "trust": "以应用市场官方页可见信息为准。",
+      "status": "已抓取应用市场截图与日志",
+      "screenshot": "https://file.market.xiaomi.com/thumbnail/jpeg/l395/AppStore/0df36ab6392564340810e2254ba92e54d7a5b3aed"
+    },
+    {
+      "brand": "度小满",
+      "site": "https://apps.apple.com/cn/app/%E5%BA%A6%E5%B0%8F%E6%BB%A1%E9%87%91%E8%9E%8D-%E4%BF%A1%E7%94%A8%E5%88%86%E6%9C%9F%E8%B4%B7%E6%AC%BE%E5%B9%B3%E5%8F%B0/id1521217278?uo=4",
+      "positioning": "偏品牌叙事导向（品牌与平台信息占比更高）",
+      "heroCopy": "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。",
+      "featureShowcase": "功能展示以应用市场截图可见信息为准。",
+      "pricing": "未识别到明确价格型表达。",
+      "cta": "未识别到强转化文案。",
+      "trust": "以应用市场官方页可见信息为准。",
+      "status": "已抓取应用市场截图与日志",
+      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/df/f7/3ddff79e-f5e7-bde3-efd3-7d1854f8f5bd/99e87800-623a-4033-b94a-d8af2e873c54_1242_x_2208-_U7530_U5f84_U961f_U5408_U4f5c.png/392x696bb.png"
+    },
+    {
+      "brand": "分期乐",
+      "site": "https://apps.apple.com/cn/app/%E5%88%86%E6%9C%9F%E4%B9%90/id906611031?uo=4",
+      "positioning": "偏品牌叙事导向（品牌与平台信息占比更高）",
+      "heroCopy": "此次的 Apple 更新将会改善该 App 的功能。 未包括任何新功能。",
+      "featureShowcase": "功能展示以应用市场截图可见信息为准。",
+      "pricing": "未识别到明确价格型表达。",
+      "cta": "未识别到强转化文案。",
+      "trust": "以应用市场官方页可见信息为准。",
+      "status": "已抓取应用市场截图与日志",
+      "screenshot": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3d/de/5b/3dde5bfb-06fd-bb42-fc50-08344bbd2ee7/26ef7c73-d112-46b0-bf4c-36c1b72ee740_00.jpg/392x696bb.jpg"
+    }
+  ],
+  "bossConclusions": [
+    "本页结论仅基于应用市场截图与可提取文本（更新日志）生成。",
+    "当截图与日志同时出现额度/利率/审批速度表达时，判为转化导向增强。",
+    "当可提取价格与效率表达较少时，判为品牌叙事占比更高。"
+  ],
+  "diffSummary": [
+    "奇富借条：偏转化导向（价格/效率信息更突出）",
+    "小赢：偏品牌叙事导向（品牌与平台信息占比更高）",
+    "安逸花：偏品牌叙事导向（品牌与平台信息占比更高）",
+    "度小满：偏品牌叙事导向（品牌与平台信息占比更高）",
+    "分期乐：偏品牌叙事导向（品牌与平台信息占比更高）"
+  ]
+}
