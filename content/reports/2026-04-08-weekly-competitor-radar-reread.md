@@ -1338,8 +1338,8 @@ insights:
     period: 2026-W15
     page: 活动4
     conclusion: 活动4仅有0407，缺少0323基线。
-    compare: 仅有0407，需补拍0323同位点。
-    impact: 中
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），该模块在新日期新增出现，判定为高变化。
+    impact: 高
     confidence: 是（建议人工复核）
     actions:
       - 按同位点持续追踪，缺口优先补拍。
@@ -1354,8 +1354,8 @@ insights:
     period: 2026-W15
     page: 活动5
     conclusion: 活动5仅有0407，缺少0323基线。
-    compare: 仅有0407，需补拍0323同位点。
-    impact: 中
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），该模块在新日期新增出现，判定为高变化。
+    impact: 高
     confidence: 是（建议人工复核）
     actions:
       - 按同位点持续追踪，缺口优先补拍。
