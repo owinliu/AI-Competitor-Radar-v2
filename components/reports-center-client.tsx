@@ -19,6 +19,15 @@ function dimLabel(d: string) {
   return d === "留存促活运营" ? "运营" : d;
 }
 
+function withBasePath(url: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  if (!url) return url;
+  if (/^https?:\/\//.test(url)) return url;
+  if (url.startsWith(basePath + "/")) return url;
+  if (url.startsWith("/")) return `${basePath}${url}`;
+  return `${basePath}/${url}`;
+}
+
 function FilterGroup({
   label,
   options,
@@ -195,8 +204,8 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
                     <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{dimLabel(r.dimension)}</td>
                     <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.page || "—"}</td>
                     <td className="border-b border-slate-200 px-5 py-5 leading-relaxed">{r.conclusion || "—"}</td>
-                    <td className="border-b border-slate-200 px-5 py-5">{r.prevEvidence?.[0] ? <a target="_blank" href={r.prevEvidence[0]}><img src={r.prevEvidence[0]} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
-                    <td className="border-b border-slate-200 px-5 py-5">{r.currEvidence?.[0] ? <a target="_blank" href={r.currEvidence[0]}><img src={r.currEvidence[0]} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5">{r.prevEvidence?.[0] ? <a target="_blank" href={withBasePath(r.prevEvidence[0])}><img src={withBasePath(r.prevEvidence[0])} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                    <td className="border-b border-slate-200 px-5 py-5">{r.currEvidence?.[0] ? <a target="_blank" href={withBasePath(r.currEvidence[0])}><img src={withBasePath(r.currEvidence[0])} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
                     <td className="border-b border-slate-200 px-5 py-5 leading-relaxed">{changed ? (r.compare || "—") : "—"}</td>
                     <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.impact}</td>
                     <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{review}</td>
