@@ -62,6 +62,16 @@ function loadSnapshots(): any[] {
   }
 }
 
+function loadMarketConclusions(): Record<string, string> {
+  const p = path.join(process.cwd(), "data", "evidence_market_conclusions.json");
+  if (!fs.existsSync(p)) return {};
+  try {
+    return JSON.parse(fs.readFileSync(p, "utf8")) || {};
+  } catch {
+    return {};
+  }
+}
+
 function toTime(s?: string) {
   if (!s) return 0;
   const t = new Date(s).getTime();
@@ -130,6 +140,7 @@ export default function AppVersionUpdatesPage() {
   const contentAnalysis = loadContentAnalysis();
   const snapshots = loadSnapshots();
   const latestSnap = snapshots[snapshots.length - 1];
+  const marketConclusions = loadMarketConclusions();
   const competitorOptions = Array.from(new Set(rows.map((r) => r.competitor)));
   const filtered = rows;
 
@@ -203,7 +214,7 @@ export default function AppVersionUpdatesPage() {
   const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
     const prevList = previous?.screenshotUrls || [];
     const latestList = latest?.screenshotUrls || [];
-    const conclusion = buildMarketScreenshotConclusion(prevList, latestList);
+    const conclusion = marketConclusions[name] || buildMarketScreenshotConclusion(prevList, latestList);
 
     return {
       competitor: name,
