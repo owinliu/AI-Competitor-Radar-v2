@@ -1406,7 +1406,7 @@ insights:
     period: 2026-W15
     page: 保险
     conclusion: 保险页结构与核心权益基本一致，整体处于稳定状态。
-    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「保险」已一一配对完成。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「保险」一一配对，视觉差异幅度=0.0030。
     impact: 低
     confidence: 否
     actions:
@@ -1424,7 +1424,7 @@ insights:
     period: 2026-W15
     page: 借钱
     conclusion: 借钱页主流程与服务入口保持稳定，未见明显结构改动。
-    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「借钱」已一一配对完成。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「借钱」一一配对，视觉差异幅度=0.0019。
     impact: 低
     confidence: 否
     actions:
@@ -1442,7 +1442,7 @@ insights:
     period: 2026-W15
     page: 我的
     conclusion: 我的页框架稳定，权益数值有小幅运营更新（卡券数量提升）。
-    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「我的」已一一配对完成。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「我的」一一配对，视觉差异幅度=0.0027。
     impact: 低
     confidence: 否
     actions:
@@ -1460,7 +1460,7 @@ insights:
     period: 2026-W15
     page: 理财
     conclusion: 理财页主框架稳定，产品与收益数字有轻微更新。
-    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「理财」已一一配对完成。
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「理财」一一配对，视觉差异幅度=0.0063。
     impact: 低
     confidence: 否
     actions:
@@ -1496,7 +1496,7 @@ insights:
     period: 2026-W15
     page: 对话页
     conclusion: 客服对话页保持问答结构稳定，知识库问句与快捷入口有更新。
-    compare: 对照窗口：0323 vs 0407，主体版式一致，问题池和底部快捷标签调整。
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），同位点「对话页」一一配对，视觉差异幅度=0.0691。
     impact: 中
     confidence: 否
     actions:
@@ -1514,8 +1514,8 @@ insights:
     period: 2026-W15
     page: 对话页初始
     conclusion: 对话页初始态整体稳定，底部推荐标签有替换。
-    compare: 对照窗口：0323 vs 0407，空会话页结构一致，底部推荐词从咨询类切到交易/审核类。
-    impact: 中
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），同位点「对话页初始」一一配对，视觉差异幅度=0.0049。
+    impact: 低
     confidence: 否
     actions:
       - 关注首屏问题词包是否进一步引导至借钱/降息类任务。
@@ -1532,8 +1532,8 @@ insights:
     period: 2026-W15
     page: 消息中心
     conclusion: 消息中心页面布局稳定，问题清单与自助服务入口组合有调整。
-    compare: 对照窗口：0323 vs 0407，蓝色头部与模块分区一致，条目内容更新。
-    impact: 中
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），同位点「消息中心」一一配对，视觉差异幅度=0.0208。
+    impact: 低
     confidence: 否
     actions:
       - 跟踪客服场景词变化，识别催化借款动作的触达策略。
@@ -1550,7 +1550,7 @@ insights:
     period: 2026-W15
     page: 消息中心2
     conclusion: 消息中心二级页结构稳定，业务分类与文案保持一致。
-    compare: 对照窗口：0323 vs 0407，版式近乎一致，属于轻度维护更新。
+    compare: 对照窗口：0323 vs 0407（忽略状态栏时间），同位点「消息中心2」一一配对，视觉差异幅度=0.0014。
     impact: 低
     confidence: 否
     actions:
@@ -1604,8 +1604,8 @@ insights:
     period: 2026-W15
     page: 活动落地页
     conclusion: 运营活动从“利息优惠券”落地页升级为“乘风2026”主题活动，活动氛围与奖励弹层显著增强。
-    compare: 对照窗口：0323 vs 0402，活动主视觉、奖励机制展示和弹窗触达均明显强化。
-    impact: 高
+    compare: 对照窗口：0323 vs 0402（忽略状态栏时间），同位点「活动落地页」一一配对，视觉差异幅度=0.0000。
+    impact: 低
     confidence: 否
     actions:
       - 重点跟踪活动弹窗与奖励浮层对点击率与留存的拉动效果。
