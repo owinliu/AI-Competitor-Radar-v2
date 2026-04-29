@@ -1484,12 +1484,12 @@ insights:
     actions:
       - 重点跟踪活动主视觉对借钱入口点击与停留的影响。
     prevEvidence:
-      - /evidence/度小满-app-0323-首页.jpg
+      - /evidence/度小满-app-0323-首页-A.jpg
     currEvidence:
-      - /evidence/度小满-app-0402-首页.jpg
+      - /evidence/度小满-app-0402-首页-A.jpg
     evidence:
-      - /evidence/度小满-app-0323-首页.jpg
-      - /evidence/度小满-app-0402-首页.jpg
+      - /evidence/度小满-app-0323-首页-A.jpg
+      - /evidence/度小满-app-0402-首页-A.jpg
   - id: 度小满-客服-对话页
     competitor: 度小满
     dimension: 客服
