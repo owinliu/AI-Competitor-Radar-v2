@@ -125,7 +125,6 @@ export default function ReportInsightPanel({ insights, showStrategyOverview = tr
   return (
     <>
       <section className="rounded-xl border bg-card p-5 space-y-4">
-        <h2 className="text-lg font-semibold">全局筛选</h2>
         <div className="grid gap-3 md:grid-cols-[2fr_2fr_1fr_1fr]">
           {group("竞品", competitors, competitor, setCompetitor)}
           {group("维度", dimensions, dimension, setDimension)}

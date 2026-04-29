@@ -162,8 +162,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">全局筛选器</h2>
-        <div className="mt-3 grid gap-3 text-sm lg:grid-cols-3">
+        <div className="grid gap-3 text-sm lg:grid-cols-3">
           <FilterGroup
             label="竞品"
             options={["全部", ...competitors]}
