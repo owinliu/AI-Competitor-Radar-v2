@@ -184,16 +184,19 @@ export default function AppVersionUpdatesPage() {
   const latestReport = getReportBySlug("2026-04-08-weekly-competitor-radar-reread") || getReportBySlug("2026-04-07-weekly-competitor-radar-full-refresh");
   const appInsights = (latestReport?.insights || []).filter((x) => x.dimension === "APP");
 
-  const evidenceRows = appInsights.map((x) => ({
-    competitor: x.competitor,
-    dimension: "APP",
-    pageSpot: x.page || "—",
-    conclusion: x.conclusion || "—",
-    prev: x.prevEvidence?.[0] || "",
-    latest: x.currEvidence?.[0] || "",
-    impact: x.impact,
-    review: String(x.confidence || "").includes("是") ? "是" : "否",
-  }));
+  const evidenceRows = competitorPairs.map(({ name, latest, previous }) => {
+    const match = appInsights.find((x) => x.competitor === name && String(x.page || "").includes("首页")) || appInsights.find((x) => x.competitor === name);
+    return {
+      competitor: name,
+      dimension: "APP",
+      pageSpot: match?.page || "首页/借钱页",
+      conclusion: match?.conclusion || "—",
+      prevList: (previous?.screenshotUrls || []).slice(0, 3),
+      latestList: (latest?.screenshotUrls || []).slice(0, 3),
+      impact: (match?.impact || "中") as "高" | "中" | "低",
+      review: String(match?.confidence || "").includes("是") ? "是" : "否",
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -281,8 +284,24 @@ export default function AppVersionUpdatesPage() {
               {evidenceRows.filter((r) => r.impact === "高").map((r) => (
                 <tr key={r.competitor} className="border-b align-top">
                   <td className="px-2 py-2 font-medium">{r.competitor}</td><td className="px-2 py-2">{r.dimension}</td><td className="px-2 py-2">{r.pageSpot}</td><td className="px-2 py-2">{r.conclusion}</td>
-                  <td className="px-2 py-2">{r.prev ? <a href={r.prev} target="_blank"><img src={r.prev} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
-                  <td className="px-2 py-2">{r.latest ? <a href={r.latest} target="_blank"><img src={r.latest} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
+                  <td className="px-2 py-2">
+                    <div className="flex gap-2 overflow-x-auto">
+                      {r.prevList?.length ? r.prevList.map((src: string) => (
+                        <a key={`${r.competitor}-prev-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
+                          <img src={src} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
+                        </a>
+                      )) : "—"}
+                    </div>
+                  </td>
+                  <td className="px-2 py-2">
+                    <div className="flex gap-2 overflow-x-auto">
+                      {r.latestList?.length ? r.latestList.map((src: string) => (
+                        <a key={`${r.competitor}-latest-${src}`} href={src} target="_blank" rel="noreferrer" className="shrink-0">
+                          <img src={src} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" />
+                        </a>
+                      )) : "—"}
+                    </div>
+                  </td>
                   <td className="px-2 py-2">{r.impact}</td><td className="px-2 py-2">{r.review}</td>
                 </tr>
               ))}
