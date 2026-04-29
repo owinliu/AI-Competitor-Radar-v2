@@ -88,8 +88,7 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
   const summaryRows = useMemo(() => {
     return competitors.map((name) => {
       const rows = insights.filter((i) => i.competitor === name);
-      const comparable = rows.filter((r) => (r.prevEvidence?.length || 0) > 0 || (r.currEvidence?.length || 0) > 0).length;
-      const coverage = String(comparable);
+      const coverage = String(rows.length);
 
       const byDim = (d: string) => rows.filter((r) => r.dimension === d);
       const firstConclusion = (arr: Insight[]) => arr.find((x) => x.conclusion)?.conclusion || "—";
@@ -100,9 +99,9 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
       const ops = firstConclusion(byDim("留存促活运营"));
       const risk = firstConclusion(byDim("风控"));
 
-      const allHigh = rows.filter((r) => r.impact === "高").map((r) => r.conclusion).filter(Boolean);
-      const strategy = allHigh[0] || app || ops || "—";
-      const biz = allHigh.length > 1 ? allHigh.slice(0, 2).join("；") : strategy;
+      const obvious = rows.filter((r) => r.impact !== "低").map((r) => r.conclusion).filter(Boolean);
+      const strategy = obvious[0] || app || ops || "—";
+      const biz = obvious.length > 1 ? obvious.slice(0, 2).join("；") : strategy;
 
       const dimCounts = DIMS.map((d) => ({ d, c: rows.filter((r) => r.dimension === d && r.impact !== "低").length }));
       const top = dimCounts.sort((a, b) => b.c - a.c)[0];
