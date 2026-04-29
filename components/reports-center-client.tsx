@@ -19,6 +19,44 @@ function dimLabel(d: string) {
   return d === "留存促活运营" ? "运营" : d;
 }
 
+function FilterGroup({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  return (
+    <div>
+      <p className="mb-2 text-xs font-medium text-slate-500">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => {
+          const active = value === opt;
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => onChange(opt)}
+              className={[
+                "h-8 min-w-[48px] px-3 text-sm border transition-colors",
+                active
+                  ? "border-blue-600 bg-blue-600 text-white"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-slate-400",
+              ].join(" ")}
+            >
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function ReportsCenterClient({ reports }: { reports: Report[] }) {
   const [period, setPeriod] = useState("全部");
   const [competitor, setCompetitor] = useState("全部");
@@ -116,19 +154,31 @@ export default function ReportsCenterClient({ reports }: { reports: Report[] }) 
 
       <section className="rounded-xl border bg-card p-5">
         <h2 className="text-base font-semibold">全局筛选器</h2>
-        <div className="mt-3 grid gap-3 md:grid-cols-4 text-sm">
-          <select value={competitor} onChange={(e) => setCompetitor(e.target.value)} className="rounded border px-2 py-2">
-            <option>全部</option>{competitors.map((c) => <option key={c}>{c}</option>)}
-          </select>
-          <select value={dimension} onChange={(e) => setDimension(e.target.value)} className="rounded border px-2 py-2">
-            <option>全部</option><option>APP</option><option>客服</option><option>消金</option><option>运营</option><option>风控</option>
-          </select>
-          <select value={period} onChange={(e) => setPeriod(e.target.value)} className="rounded border px-2 py-2">
-            <option>全部</option>{periodOptions.map((p) => <option key={p}>{p}</option>)}
-          </select>
-          <select value={impact} onChange={(e) => setImpact(e.target.value)} className="rounded border px-2 py-2">
-            <option>高</option><option>全部</option><option>中</option><option>低</option>
-          </select>
+        <div className="mt-3 grid gap-3 text-sm lg:grid-cols-4">
+          <FilterGroup
+            label="竞品"
+            options={["全部", ...competitors]}
+            value={competitor}
+            onChange={setCompetitor}
+          />
+          <FilterGroup
+            label="维度"
+            options={["全部", "APP", "客服", "消金", "运营", "风控"]}
+            value={dimension}
+            onChange={setDimension}
+          />
+          <FilterGroup
+            label="周期"
+            options={["全部", ...periodOptions]}
+            value={period}
+            onChange={setPeriod}
+          />
+          <FilterGroup
+            label="变化等级"
+            options={["高", "全部", "中", "低"]}
+            value={impact}
+            onChange={setImpact}
+          />
         </div>
       </section>
 
