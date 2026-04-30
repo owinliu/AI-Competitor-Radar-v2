@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-21T11:07:13.067Z",
+  "generatedAt": "2026-04-21T11:33:16.074Z",
   "engine": "tesseract-eng",
   "items": [
     {
@@ -14,8 +14,8 @@
         "体验稳定导向"
       ],
       "newWords": [],
-      "latestOcrSnippet": "aie aS Rie205 RPS RHR om ae ABA mone 300 BBM (7) e 2 sepeine avon akon NAP SE OK Eo oa mESOXRS MBPSSRN 5 Pe MR i205 B22 meter",
-      "previousOcrSnippet": "aie aS Rie205 RPS RHR om ae ABA mone 300 BBM (7) e 2 sepeine avon akon NAP SE OK Eo oa mESOXRS MBPSSRN 5 Pe MR i205 B22 meter"
+      "latestOcrSnippet": "额度 aS 最 高 20 万 快捷 申请 灵活 还 款 oat as 夯 奇 富 借条 mone 300 最 高 可 借 额 度 (元 ) ® 3 28 28 8. 小 微 用 户 专 享 OK Eo 一 到 最 长 50 天 免 息 新 用 户 专 享 特权 5 Pe 额度 最 高 20 万 超 2 亿 人 者 在 使 用",
+      "previousOcrSnippet": "额度 aS 最 高 20 万 快捷 申请 灵活 还 款 oat as 夯 奇 富 借条 mone 300 最 高 可 借 额 度 (元 ) ® 3 28 28 8. 小 微 用 户 专 享 OK Eo 一 到 最 长 50 天 免 息 新 用 户 专 享 特权 5 Pe 额度 最 高 20 万 超 2 亿 人 者 在 使 用"
     },
     {
       "competitor": "小赢",
@@ -23,22 +23,21 @@
       "previousVersion": "5.3.7",
       "screenshotCount": 4,
       "focus": [
+        "转化导向",
         "体验稳定导向"
       ],
       "newWords": [
         "somme",
-        "rrlbaa",
+        "美股",
+        "公司",
         "200",
         "te",
         "000",
-        "rawe",
-        "ores",
-        "rass",
-        "heh",
-        "omm",
-        "ee"
+        "额度",
+        "申请",
+        "审批"
       ],
-      "latestOcrSnippet": "Somme \\ RRLBAA = 200. Te) @ 000, a Rawe ORES © RASS HEH omm—EE —_",
+      "latestOcrSnippet": "Somme \\ 美股 上 市 公司 = 200. Te) @ 000 a 最 高 额度 @ 线 上 申请 © 最 快 5 分 钟 审批 © 期 限 灵 活 —_",
       "previousOcrSnippet": ""
     },
     {
@@ -51,24 +50,28 @@
         "体验稳定导向"
       ],
       "newWords": [
-        "oss",
-        "osant",
-        "lis",
-        "tod",
-        "rea",
-        "emsrsmminter",
-        "rrr",
+        "osu",
+        "gas",
+        "额度",
+        "安全",
+        "正规",
+        "金融",
+        "旗下",
+        "产品",
+        "快速",
+        "放款",
         "mers",
         "toate",
-        "swarfa",
-        "iniiz",
-        "fas",
-        "apmreaen",
-        "raa",
-        "ane",
-        "brr"
+        "专业",
+        "贷款",
+        "平台",
+        "借款",
+        "安逸",
+        "申请",
+        "便捷",
+        "手机"
       ],
-      "latestOcrSnippet": "Oss Osant Lis tod Rea EMSRSMMINTER RRR mers toate SwARFa RRR iniiz Fas apmREAeN Raa ane BRR",
+      "latestOcrSnippet": "Osu Gas 额度 最 高 2 0 0 i] 安全 可 靠 正规 持 牌 金融 机 构 旗下 产品 快速 放款 mers toate 专业 贷款 平台 借款 就 找 安逸 花 申请 便捷 手机 号 + 身份 信息 在 线 申请 灵活 分 期 PRG 随 借 随 用",
       "previousOcrSnippet": ""
     },
     {
@@ -77,12 +80,13 @@
       "previousVersion": "11.2.4",
       "screenshotCount": 5,
       "focus": [
+        "转化导向",
         "服务触达导向",
         "体验稳定导向"
       ],
       "newWords": [],
-      "latestOcrSnippet": "| = ™» Ry er oy 2 ry ek an | ae l . Cr lap afi Taher AY BNBRRPRBRRABSARFER HHI 22~SS RHEE IR RIBS 2015% 2018 RUBBER —- SABA HN BH \\ BE (70) 200,000 T FEAT 2% (MBIA B27 aa ROM KER EA",
-      "previousOcrSnippet": "| = ™» Ry er oy 2 ry ek an | ae l . Cr lap afi Taher AY BNBRRPRBRRABSARFER HHI 22~SS RHEE IR RIBS 2015% 2018 RUBBER —- SABA HN BH \\ BE (70) 200,000 T FEAT 2% (MBIA B27 aa ROM KER EA"
+      "latestOcrSnippet": "| ‘ Ney | » y Pe give g e) 二 ey ae N At lA \\ tr lg ii Tenariha 度 丈 满 预 祝 中 | 国 国 家 田径 队 国 梦 巴黎 面向 22~55 周 岁 非 学 生 用 户 提供 借款 服务 2015 年 2018 年 成 立 百度 金融 一 更 名 度 小 满 最 \\ 高 \\ 额 \\ 度 (元 ) 200,000 灵活 i 年 化 利率 7.29% 起 借 1 万 元 1 天 利息 2 元 起 es Fe em ",
+      "previousOcrSnippet": "| ‘ Ney | » y Pe give g e) 二 ey ae N At lA \\ tr lg ii Tenariha 度 丈 满 预 祝 中 | 国 国 家 田径 队 国 梦 巴黎 面向 22~55 周 岁 非 学 生 用 户 提供 借款 服务 2015 年 2018 年 成 立 百度 金融 一 更 名 度 小 满 最 \\ 高 \\ 额 \\ 度 (元 ) 200,000 灵活 i 年 化 利率 7.29% 起 借 1 万 元 1 天 利息 2 元 起 es Fe em "
     },
     {
       "competitor": "分期乐",
@@ -90,11 +94,12 @@
       "previousVersion": "8.10.6",
       "screenshotCount": 5,
       "focus": [
+        "转化导向",
         "体验稳定导向"
       ],
       "newWords": [],
-      "latestOcrSnippet": "FEB | > PamRte PHREREMARAAHEKE PBREF FEHR RS MHSHSE W J Diese | DY EAMES RM MApp Alar ne nN GRACE, ERAETAGT INA",
-      "previousOcrSnippet": "FEB | > PamRte PHREREMARAAHEKE PBREF FEHR RS MHSHSE W J Diese | DY EAMES RM MApp Alar ne nN GRACE, ERAETAGT INA"
+      "latestOcrSnippet": "PE | 2) 中 国 国家 击剑 队 中 国 国家 击剑 队 官方 合作 伙伴 分 期 乐 携手 中 国 国家 击剑 队 支持 每 一 个 拼搏 的 梦想 5 SRS! | Suse | aed 40; Neate W . wee? 分 期 借 钱 | 分 期 购物 专业 分 期 借款 借 钱 购物 App alten TACA 2 * 根 据 相关 法 律 法 规 ， 在 校 学 生 无 法 申请 INR SOREL ee ee Pee wane Sat",
+      "previousOcrSnippet": "PE | 2) 中 国 国家 击剑 队 中 国 国家 击剑 队 官方 合作 伙伴 分 期 乐 携手 中 国 国家 击剑 队 支持 每 一 个 拼搏 的 梦想 5 SRS! | Suse | aed 40; Neate W . wee? 分 期 借 钱 | 分 期 购物 专业 分 期 借款 借 钱 购物 App alten TACA 2 * 根 据 相关 法 律 法 规 ， 在 校 学 生 无 法 申请 INR SOREL ee ee Pee wane Sat"
     }
   ]
 }

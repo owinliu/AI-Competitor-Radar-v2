@@ -32,7 +32,7 @@ async function download(url, filepath) {
 function runTesseract(imagePath) {
   const outBase = imagePath + ".ocr";
   try {
-    execFileSync("tesseract", [imagePath, outBase, "-l", "eng", "--psm", "6"], { stdio: "ignore" });
+    execFileSync("tesseract", [imagePath, outBase, "-l", "chi_sim+eng", "--psm", "6"], { stdio: "ignore" });
     const txtPath = outBase + ".txt";
     const txt = fs.existsSync(txtPath) ? fs.readFileSync(txtPath, "utf8") : "";
     return txt;

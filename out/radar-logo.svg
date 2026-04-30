@@ -1,0 +1,21 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(32 32) rotate(90) scale(30)">
+      <stop offset="0" stop-color="#0B1A2A"/>
+      <stop offset="1" stop-color="#18D3A7"/>
+    </radialGradient>
+    <linearGradient id="g2" x1="12" y1="10" x2="54" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8E6BFF"/>
+      <stop offset="1" stop-color="#58F0D6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#g1)" stroke="url(#g2)" stroke-width="2"/>
+  <circle cx="32" cy="32" r="23" stroke="#7FD7FF" stroke-opacity="0.35"/>
+  <circle cx="32" cy="32" r="16" stroke="#7FD7FF" stroke-opacity="0.3"/>
+  <circle cx="32" cy="32" r="9" stroke="#7FD7FF" stroke-opacity="0.25"/>
+  <path d="M32 32L51 20A22 22 0 0 1 52 44L32 32Z" fill="#74F6D8" fill-opacity="0.8" stroke="#D8FFF5" stroke-width="1"/>
+  <circle cx="32" cy="32" r="4" fill="white"/>
+  <circle cx="22" cy="19" r="1.8" fill="white"/>
+  <circle cx="19" cy="43" r="1.8" fill="white"/>
+  <circle cx="44" cy="46" r="1.8" fill="white"/>
+</svg>
