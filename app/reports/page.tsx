@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getAllReports, getReportBySlug } from "@/lib/reports";
 import ReportsCenterClient from "@/components/reports-center-client";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
+import { TimelineSummary } from "@/components/timeline-summary-client";
 
 const TIMELINES = [
   { key: "0323-0402", label: "0323 → 0402" },
@@ -45,11 +46,26 @@ export default function ReportsPage() {
             <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} defaultValue="0323-0402" />
           </Suspense>
         </div>
-        <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：2026-W15（0408重读）</p>
-          <p>覆盖样本：5家产品 / APP</p>
-          <p>数据说明：来源于明细证据表截图分析。</p>
-        </div>
+        <Suspense fallback={null}>
+          <TimelineSummary
+            data={{
+              "0323-0402": {
+                period: "2026-W15（0408重读）",
+                sample: "5家产品 / APP",
+                ratio: "来源于明细证据表截图分析",
+                summary: "本轮以可比位点重读为主，结论聚焦高置信变化项。",
+                bullets: ["变化主要集中在运营与APP维度。", "客服多为承接体验优化，结构改动有限。"],
+              },
+              "0323-0428": {
+                period: "0323 → 0428",
+                sample: "5家产品 / APP+客服+消金+运营",
+                ratio: "风控维度缺口较大",
+                summary: "0428 对比 0323：整体框架延续，新增变化主要来自运营活动位和局部消金位点扩展。",
+                bullets: ["度小满运营位点由1增至4，活动触达显著增强。", "安逸花与小赢运营位点同步扩容，活动主题更密集。", "奇富借条消金位点由4增至6，借贷相关表达更丰富。"],
+              },
+            }}
+          />
+        </Suspense>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border p-4">
             <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>

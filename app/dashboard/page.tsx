@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
 import DashboardProductFocusClient from "@/components/dashboard-product-focus-client";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
+import { TimelineSummary } from "@/components/timeline-summary-client";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -141,14 +142,26 @@ export default function DashboardPage() {
             <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} defaultValue={selectedTimeline} />
           </Suspense>
         </div>
-        <p className="mt-3 text-sm text-[#334155]">
-          本期竞品整体呈现“转化前置 + 触达增强”趋势，建议优先关注高影响变化项与可执行动作。
-        </p>
-        <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：{selectedTimelineLabel}（报告日期：{latestMeta?.date || "-"}）</p>
-          <p>覆盖样本：{competitorCount}家竞品 / {latestInsights.length}条变化</p>
-          <p>可判断占比：{validRatio}%</p>
-        </div>
+        <Suspense fallback={null}>
+          <TimelineSummary
+            data={{
+              "0323-0402": {
+                period: `${selectedTimelineLabel}（报告日期：${latestMeta?.date || "-"}）`,
+                sample: `${competitorCount}家竞品 / ${latestInsights.length}条变化`,
+                ratio: `${validRatio}%`,
+                summary: "本期竞品整体呈现“转化前置 + 触达增强”趋势，建议优先关注高影响变化项与可执行动作。",
+                bullets: ["小赢运营维度占比高，活动触达频率密集。", "分期乐与安逸花借贷入口表达持续前置。"],
+              },
+              "0323-0428": {
+                period: "0323 → 0428",
+                sample: "5家竞品 / 关键位点对比（APP/客服/消金/运营）",
+                ratio: "风控证据不足（仅小赢有样本）",
+                summary: "0428对比0323显示：结构性大改不多，但运营触达和消金表达增强更明显。",
+                bullets: ["运营位点新增最明显：度小满1→4、安逸花3→5、小赢5→6。", "APP多为稳态迭代，变化集中在文案、活动层和入口呈现。", "消金维度以奇富借条增强最明显（4→6），其余多为同位点更新。"],
+              },
+            }}
+          />
+        </Suspense>
 
         <div className="mt-5 grid gap-4 lg:grid-cols-3">
           <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
