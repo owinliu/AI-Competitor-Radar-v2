@@ -3,8 +3,6 @@ import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
 import { TimelineSummary } from "@/components/timeline-summary-client";
 import DashboardTimelineCardsClient from "@/components/dashboard-timeline-cards-client";
-import Dashboard0428EvidenceClient from "@/components/dashboard-0428-evidence-client";
-import recompare0428Data from "@/data/recompare_0323_0428_dashboard.json";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -135,38 +133,6 @@ export default function DashboardPage() {
   const validCount = latestInsights.filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || "")).length;
   const validRatio = Math.round((validCount / (latestInsights.length || 1)) * 100);
 
-  const recompareRows = (recompare0428Data as any).rows || [];
-  const recompareCards = [
-    {
-      title: "关键结论1（高）",
-      desc: "APP 高影响变化集中在分期乐与安逸花，前台转化导向更前置。",
-      bullets: ["分期乐首页/借钱/消息页出现明显导向切换。", "安逸花首页由借款首屏转向内容+借款并列结构。"],
-      action: "优先复盘首页与借钱页的卡位迁移对转化的影响",
-    },
-    {
-      title: "关键结论2（高）",
-      desc: "运营新增位是 0428 窗口最密集的变化源。",
-      bullets: ["安逸花新增马上绿洲/马上小镇/智慧养鸡/英才学堂。", "度小满新增代言人活动弹窗、落地页与奖励浮层。"],
-      action: "优先拆新增活动位与主链路之间的承接关系",
-    },
-    {
-      title: "关键结论3（中）",
-      desc: "其余大部分位点属于稳态微调，需避免把命名差异误判为产品改版。",
-      bullets: ["98行中高影响17行、建议复核18行。", "单边新增/缺失位点已单独打上复核标记。"],
-      action: "后续继续补齐同位点命名与缺图复核",
-    },
-  ];
-  const recompareCompetitors = Array.from(new Set(recompareRows.map((x: any) => x.competitor))) as string[];
-  const recompareItems = recompareCompetitors.map((competitor) => {
-    const rows = recompareRows.filter((x: any) => x.competitor === competitor);
-    return {
-      competitor,
-      count: rows.length,
-      values: DIMENSIONS.map((dimension) => ({ dimension, count: rows.filter((x: any) => x.dimension === dimension).length })),
-      highlights: rows.filter((x: any) => x.impact === "高").slice(0, 4).map((x: any) => `${dimLabel(x.dimension)} · ${x.page}：${x.conclusion}`),
-    };
-  });
-
   return (
     <div className="space-y-6">
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
@@ -188,10 +154,10 @@ export default function DashboardPage() {
               },
               "0323-0428": {
                 period: "0323 → 0428",
-                sample: "180张全量截图 / 98行对比位点（含单边新增或缺失）",
-                ratio: "高影响17行 / 建议复核18行",
-                summary: "0428 对比 0323：本轮以全量截图重排出的 98 行明细证据表为准，只从证据反推五维结论。",
-                bullets: ["高影响集中在分期乐 APP 转化前置、安逸花与度小满新增运营承接位、奇富借条新增富能计划页。", "大部分 APP/消金/客服位点仍属稳态微调，主链路未改。", "单边新增或缺失位点统一标记人工复核，避免把命名变化误判成产品改版。"],
+                sample: "5家竞品 / 关键位点对比（APP/客服/消金/运营）",
+                ratio: "风控证据不足（仅小赢有样本）",
+                summary: "0428对比0323显示：结构性大改不多，但运营触达和消金表达增强更明显。",
+                bullets: ["运营位点新增最明显：度小满1→4、安逸花3→5、小赢5→6。", "APP多为稳态迭代，变化集中在文案、活动层和入口呈现。", "消金维度以奇富借条增强最明显（4→6），其余多为同位点更新。"],
               },
             }}
           />
@@ -209,8 +175,15 @@ export default function DashboardPage() {
                 items: compHeat.map((item) => ({ competitor: item.competitor, count: item.count, values: breakdown.find((x) => x.competitor === item.competitor)?.values || [], highlights: latest.insights.filter((x) => x.competitor === item.competitor).slice(0, 4).map((x) => `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`) })),
               },
               "0323-0428": {
-                cards: recompareCards,
-                items: recompareItems,
+                cards: [
+                  { title: "关键结论1（高）", desc: "运营位点新增是0428窗口最显著变化。", bullets: ["度小满运营位点由1增至4。", "安逸花运营位点由3增至5。"], action: "优先复盘新增活动位的转化承接" },
+                  { title: "关键结论2（高）", desc: "APP主链路整体稳态，表达层迭代增强。", bullets: ["多数产品APP截图数量持平。", "变化集中在文案、活动层、入口呈现。"], action: "建立稳态页的表达更新监控" },
+                  { title: "关键结论3（中）", desc: "消金与客服呈局部优化，风控证据不足。", bullets: ["奇富借条消金位点4增至6。", "风控仅小赢有样本，跨品结论受限。"], action: "补齐风控位点截图后再做强结论" },
+                ],
+                items: [
+                  { competitor: "度小满金融", count: 16, values: [{ dimension: "APP", count: 6 }, { dimension: "风控", count: 0 }, { dimension: "客服", count: 4 }, { dimension: "消金", count: 2 }, { dimension: "留存促活运营", count: 4 }], highlights: ["运营 · 活动落地页：由1张增至4张，活动触达增强", "APP · 借钱页：结构延续，文案表达更新"] },
+                  { competitor: "安逸花", count: 19, values: [{ dimension: "APP", count: 3 }, { dimension: "风控", count: 0 }, { dimension: "客服", count: 5 }, { dimension: "消金", count: 6 }, { dimension: "留存促活运营", count: 5 }], highlights: ["运营 · 活动位：由3张增至5张，新增主题页", "客服 · 对话页：承接路径延续优化"] },
+                ],
               },
             }}
           />
@@ -240,10 +213,6 @@ export default function DashboardPage() {
           </ul>
         </div>
       </section>
-
-      <Suspense fallback={null}>
-        <Dashboard0428EvidenceClient data={recompare0428Data as any} />
-      </Suspense>
     </div>
   );
 }
