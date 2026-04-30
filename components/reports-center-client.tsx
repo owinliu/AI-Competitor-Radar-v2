@@ -66,7 +66,7 @@ function FilterGroup({
   );
 }
 
-export default function ReportsCenterClient({ reports, timelineKey = "0323-0402" }: { reports: Report[]; timelineKey?: string }) {
+export default function ReportsCenterClient({ reports, timelineKey = "0323-0402", override0428Insights = [] }: { reports: Report[]; timelineKey?: string; override0428Insights?: Insight[] }) {
   const is0428 = timelineKey === "0323-0428";
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
@@ -76,7 +76,10 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
     const hit = reports.find((r) => (r.period || "").replace(/\s/g, "") === timelineKey);
     return hit || reports[0];
   }, [reports, timelineKey]);
-  const insights = detailReport?.insights || [];
+  const insights = useMemo(() => {
+    if (is0428 && override0428Insights.length) return override0428Insights;
+    return detailReport?.insights || [];
+  }, [is0428, override0428Insights, detailReport]);
 
   useEffect(() => {
     setCompetitor("全部");
