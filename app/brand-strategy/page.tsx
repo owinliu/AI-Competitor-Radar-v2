@@ -77,14 +77,12 @@ export default function BrandStrategyPage() {
       </section>
 
       <section className="rounded-xl border bg-card p-6">
-        <h2 className="text-lg font-semibold">截图样本</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {rows.map((r) => (
-            <figure key={`${r.brand}-shot`} className="overflow-hidden rounded-lg border bg-background">
-              {r.screenshot ? <img src={withBasePath(r.screenshot)} alt={`${r.brand} 截图`} className="w-full object-contain bg-slate-50" /> : <div className="h-40 grid place-items-center text-xs text-muted-foreground">无截图</div>}
-              <figcaption className="border-t px-3 py-2 text-xs text-muted-foreground">{r.brand}</figcaption>
-            </figure>
-          ))}
+        <h2 className="text-lg font-semibold">页面整页截图（自动采集）</h2>
+        <div className="mt-4">
+          <figure className="overflow-hidden rounded-lg border bg-background">
+            <img src={withBasePath('/brand-screenshots/brand-strategy-fullpage.png')} alt="品牌策略页整页截图" className="w-full object-contain bg-slate-50" />
+            <figcaption className="border-t px-3 py-2 text-xs text-muted-foreground">来源：/brand-strategy 页面整页自动截图</figcaption>
+          </figure>
         </div>
       </section>
     </div>
