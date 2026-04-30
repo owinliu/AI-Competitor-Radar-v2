@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
-import DashboardProductFocusClient from "@/components/dashboard-product-focus-client";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
 import { TimelineSummary } from "@/components/timeline-summary-client";
+import DashboardTimelineCardsClient from "@/components/dashboard-timeline-cards-client";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -163,55 +163,31 @@ export default function DashboardPage() {
           />
         </Suspense>
 
-        <div className="mt-5 grid gap-4 lg:grid-cols-3">
-          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">关键结论1（高）</h3>
-            <p className="mt-2 text-sm text-[#334155]">运营触达是本期最密集变化位点。</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-              <li>小赢运营维度占比最高（9条）。</li>
-              <li>度小满活动主题切换，触达表达增强。</li>
-            </ul>
-            <p className="mt-2 text-sm text-[#334155]">建议动作：复盘“活动位→借钱页”转化链路。</p>
-          </div>
-
-          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">关键结论2（高）</h3>
-            <p className="mt-2 text-sm text-[#334155]">APP层持续借贷入口前置，转化导向增强。</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-              <li>分期乐借钱页从“降息”转向“绑卡快借”。</li>
-              <li>安逸花首页改为“内容/社区+借款并列”。</li>
-            </ul>
-            <p className="mt-2 text-sm text-[#334155]">建议动作：评估我方首页借款入口层级与首屏点击率。</p>
-          </div>
-
-          <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">关键结论3（中）</h3>
-            <p className="mt-2 text-sm text-[#334155]">客服侧以承接效率优化为主，结构改版少。</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#64748d]">
-              <li>分期乐IM历史会话展示拉长。</li>
-              <li>度小满对话页结构稳定，推荐问句有更新。</li>
-            </ul>
-            <p className="mt-2 text-sm text-[#334155]">建议动作：对标首轮解决率与会话承接路径。</p>
-          </div>
-        </div>
-      </section>
-
-
-      <section className="rounded-md border border-[#e5edf5] bg-white p-5">
-        <h2 className="text-base font-semibold text-[#061b31]">产品变动排序（本期）</h2>
-        <p className="mt-1 text-xs text-[#64748d]">左侧选择竞品，右侧同步展示该竞品的维度构成与关键变化。</p>
-        <DashboardProductFocusClient
-          items={compHeat.map((item) => ({
-            competitor: item.competitor,
-            count: item.count,
-            values: breakdown.find((x) => x.competitor === item.competitor)?.values || [],
-            highlights: (latest.insights
-              .filter((x) => x.competitor === item.competitor)
-              .filter((x) => !/无法判断|缺图|待复核|无法跨期/.test(x.conclusion || ""))
-              .slice(0, 4)
-              .map((x) => `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`)),
-          }))}
-        />
+        <Suspense fallback={null}>
+          <DashboardTimelineCardsClient
+            data={{
+              "0323-0402": {
+                cards: [
+                  { title: "关键结论1（高）", desc: "运营触达是本期最密集变化位点。", bullets: ["小赢运营维度占比最高。", "度小满活动主题切换，触达表达增强。"], action: "复盘活动位到借钱页转化链路" },
+                  { title: "关键结论2（高）", desc: "APP层持续借贷入口前置。", bullets: ["分期乐借钱页权益卡更新。", "安逸花首页借款表达前置。"], action: "评估首页借款入口层级" },
+                  { title: "关键结论3（中）", desc: "客服侧以承接效率优化为主。", bullets: ["分期乐IM会话承接增强。", "度小满对话页结构稳定微调。"], action: "对标首轮解决率与承接路径" },
+                ],
+                items: compHeat.map((item) => ({ competitor: item.competitor, count: item.count, values: breakdown.find((x) => x.competitor === item.competitor)?.values || [], highlights: latest.insights.filter((x) => x.competitor === item.competitor).slice(0, 4).map((x) => `${dimLabel(x.dimension)} · ${x.page || "未标注页面"}：${x.conclusion}`) })),
+              },
+              "0323-0428": {
+                cards: [
+                  { title: "关键结论1（高）", desc: "运营位点新增是0428窗口最显著变化。", bullets: ["度小满运营位点由1增至4。", "安逸花运营位点由3增至5。"], action: "优先复盘新增活动位的转化承接" },
+                  { title: "关键结论2（高）", desc: "APP主链路整体稳态，表达层迭代增强。", bullets: ["多数产品APP截图数量持平。", "变化集中在文案、活动层、入口呈现。"], action: "建立稳态页的表达更新监控" },
+                  { title: "关键结论3（中）", desc: "消金与客服呈局部优化，风控证据不足。", bullets: ["奇富借条消金位点4增至6。", "风控仅小赢有样本，跨品结论受限。"], action: "补齐风控位点截图后再做强结论" },
+                ],
+                items: [
+                  { competitor: "度小满金融", count: 16, values: [{ dimension: "APP", count: 6 }, { dimension: "风控", count: 0 }, { dimension: "客服", count: 4 }, { dimension: "消金", count: 2 }, { dimension: "留存促活运营", count: 4 }], highlights: ["运营 · 活动落地页：由1张增至4张，活动触达增强", "APP · 借钱页：结构延续，文案表达更新"] },
+                  { competitor: "安逸花", count: 19, values: [{ dimension: "APP", count: 3 }, { dimension: "风控", count: 0 }, { dimension: "客服", count: 5 }, { dimension: "消金", count: 6 }, { dimension: "留存促活运营", count: 5 }], highlights: ["运营 · 活动位：由3张增至5张，新增主题页", "客服 · 对话页：承接路径延续优化"] },
+                ],
+              },
+            }}
+          />
+        </Suspense>
       </section>
 
 

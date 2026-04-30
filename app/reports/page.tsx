@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { getAllReports, getReportBySlug } from "@/lib/reports";
-import ReportsCenterClient from "@/components/reports-center-client";
+import ReportsTimelineClient from "@/components/reports-timeline-client";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
 import { TimelineSummary } from "@/components/timeline-summary-client";
 
@@ -24,7 +24,7 @@ export default function ReportsPage() {
     };
   });
 
-  const base = reports[0]?.insights || [];
+  const base = reports[0]?.insights || []; // 0323-0402 默认基准
   const byDim = ["APP", "客服", "消金", "留存促活运营", "风控"].map((d) => ({ dim: d, c: base.filter((x) => x.dimension === d && x.impact !== "低").length }));
   const topDim = byDim.sort((a, b) => b.c - a.c)[0];
   const byComp = Array.from(new Set(base.map((x) => x.competitor))).map((c) => ({
@@ -84,7 +84,9 @@ export default function ReportsPage() {
         </div>
       </section>
 
-      <ReportsCenterClient reports={reports} />
+      <Suspense fallback={null}>
+        <ReportsTimelineClient reports={reports} />
+      </Suspense>
     </div>
   );
 }
