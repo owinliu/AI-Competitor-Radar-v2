@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import evidenceDataJson from "@/data/evidence_page_data.json";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
 
@@ -25,15 +26,9 @@ const TIMELINES = [
   { key: "0323-0428", label: "0323 → 0428" },
 ] as const;
 
-export default function AppVersionUpdatesPage({
-  searchParams,
-}: {
-  searchParams?: { timeline?: string };
-}) {
+export default function AppVersionUpdatesPage() {
   const data = loadEvidenceData();
-  const selectedTimeline = TIMELINES.some((x) => x.key === searchParams?.timeline)
-    ? (searchParams?.timeline as string)
-    : "0323-0402";
+  const selectedTimeline = "0323-0402";
   const selectedTimelineLabel = TIMELINES.find((x) => x.key === selectedTimeline)?.label || "0323 → 0402";
   const totalScreenshotCount = data.evidenceRows.reduce((n, r) => n + (r.latestList?.length || 0), 0);
 
@@ -42,16 +37,16 @@ export default function AppVersionUpdatesPage({
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
         <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
-          <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} value={selectedTimeline} />
+          <Suspense fallback={null}>
+            <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} value={selectedTimeline} />
+          </Suspense>
         </div>
         <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
           <p>时间范围：{selectedTimelineLabel}</p>
           <p>覆盖样本：5家产品 / APP</p>
           <p>数据说明：来源于app截图共（{totalScreenshotCount}张），部分一级页面。</p>
         </div>
-        {selectedTimeline === "0323-0428" ? (
-          <p className="mt-2 text-xs text-amber-700">提示：0323→0428 数据已预留切换位，当前待你导入该时间线结论后将自动替换展示。</p>
-        ) : null}
+
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border p-4">
             <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
