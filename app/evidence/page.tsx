@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import evidenceDataJson from "@/data/evidence_page_data.json";
 
 type EvidenceData = {
   bossConclusions: string[];
@@ -10,9 +9,7 @@ type EvidenceData = {
 };
 
 function loadEvidenceData(): EvidenceData {
-  const p = path.join(process.cwd(), "data", "evidence_page_data.json");
-  if (!fs.existsSync(p)) return { bossConclusions: [], diffSummary: [], productCards: [], logRows: [], evidenceRows: [] };
-  try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch { return { bossConclusions: [], diffSummary: [], productCards: [], logRows: [], evidenceRows: [] }; }
+  return (evidenceDataJson as EvidenceData) || { bossConclusions: [], diffSummary: [], productCards: [], logRows: [], evidenceRows: [] };
 }
 
 function fmtDate(s?: string) {

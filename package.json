@@ -13,7 +13,8 @@
     "analyze:content": "node scripts/analyze-screenshot-content.mjs",
     "snapshot:new": "node scripts/create-monitoring-snapshot.mjs",
     "evidence:refresh": "node scripts/build-evidence-pipeline.mjs",
-    "brand:refresh": "node scripts/build-brand-strategy-pipeline.mjs"
+    "brand:refresh": "node scripts/build-brand-strategy-pipeline.mjs",
+    "validate:sources": "node scripts/validate-source-boundaries.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

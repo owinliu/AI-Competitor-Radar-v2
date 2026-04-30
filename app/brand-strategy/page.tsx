@@ -43,8 +43,8 @@ export default function BrandStrategyPage() {
         <h2 className="text-2xl font-semibold text-[#061b31]">本轮关键结论与差异总结</h2>
         <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
           <p>时间范围：{data.range || "本期"}</p>
-          <p>覆盖样本：{rows.length}家品牌官网/应用市场</p>
-          <p>数据说明：基于截图与页面可提取文本自动生成。</p>
+          <p>覆盖样本：{rows.length}家品牌官网</p>
+          <p>数据说明：仅基于品牌官网资料与官网整页截图提取生成。</p>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
