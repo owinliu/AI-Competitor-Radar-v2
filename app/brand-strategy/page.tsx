@@ -49,7 +49,7 @@ export default function BrandStrategyPage() {
           <p>数据说明：基于截图与页面可提取文本自动生成。</p>
         </div>
 
-        <div className="mt-5 grid gap-4">
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div className="rounded-md border border-[#e5edf5] bg-[#fafcff] p-4">
             <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
             <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-[#64748d]">{data.bossConclusions.map((x) => <li key={x}>{x}</li>)}</ul>
