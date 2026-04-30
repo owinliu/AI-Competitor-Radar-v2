@@ -67,6 +67,7 @@ function FilterGroup({
 }
 
 export default function ReportsCenterClient({ reports, timelineKey = "0323-0402" }: { reports: Report[]; timelineKey?: string }) {
+  const is0428 = timelineKey === "0323-0428";
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [impact, setImpact] = useState("高");
@@ -137,45 +138,54 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">五产品总览表（核心管理视图）</h2>
-        <div className="mt-3 overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              <tr className="bg-slate-50 text-left">
-                <th className="border-b px-2 py-2 whitespace-nowrap">产品</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">截图变化数</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">主策略变化</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">APP</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">客服</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">消金</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">运营</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">风控</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">业务含义</th>
-                <th className="border-b px-2 py-2 whitespace-nowrap">一句对外总结</th>
-              </tr>
-            </thead>
-            <tbody>
-              {summaryRows.map((r) => (
-                <tr key={r.name} className="align-top">
-                  <td className="border-b px-2 py-2 font-medium whitespace-nowrap">{r.name}</td>
-                  <td className="border-b px-2 py-2 whitespace-nowrap">{r.coverage}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.strategy}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.app}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.cs}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.fin}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.ops}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.risk}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.biz}</td>
-                  <td className="border-b px-2 py-2 break-words leading-5">{r.oneLine}</td>
+      {!is0428 && (
+        <section className="rounded-xl border bg-card p-5">
+          <h2 className="text-base font-semibold">五产品总览表（核心管理视图）</h2>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-slate-50 text-left">
+                  <th className="border-b px-2 py-2 whitespace-nowrap">产品</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">截图变化数</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">主策略变化</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">APP</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">客服</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">消金</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">运营</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">风控</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">业务含义</th>
+                  <th className="border-b px-2 py-2 whitespace-nowrap">一句对外总结</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+              </thead>
+              <tbody>
+                {summaryRows.map((r) => (
+                  <tr key={r.name} className="align-top">
+                    <td className="border-b px-2 py-2 font-medium whitespace-nowrap">{r.name}</td>
+                    <td className="border-b px-2 py-2 whitespace-nowrap">{r.coverage}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.strategy}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.app}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.cs}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.fin}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.ops}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.risk}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.biz}</td>
+                    <td className="border-b px-2 py-2 break-words leading-5">{r.oneLine}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       <section className="rounded-xl border bg-card p-5">
+        {is0428 && (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+            <div>当前默认：<span className="font-semibold text-slate-900">高影响</span></div>
+            <div>输入口径：180张全量截图，输出 98 行位点</div>
+            <div>当前筛选结果：<span className="font-semibold text-slate-900">{filteredRows.length}</span> 行</div>
+          </div>
+        )}
         <div className="grid gap-3 text-sm lg:grid-cols-3">
           <FilterGroup
             label="竞品"
@@ -199,7 +209,17 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
       </section>
 
       <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-base font-semibold">明细证据表</h2>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-base font-semibold">明细证据表</h2>
+            {is0428 && (
+              <p className="mt-1 text-sm text-slate-500">字段固定：竞品｜分析维度｜页面位点｜结论｜上期截图｜本期截图｜对比过程（仅明显变化时展示）｜影响等级｜是否人工复核</p>
+            )}
+          </div>
+          {is0428 && (
+            <div className="text-sm text-slate-500">默认展示规则：先看高影响，再按竞品 / 维度 / 变化等级筛选</div>
+          )}
+        </div>
         <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
           <table className="w-full min-w-[1900px] border-collapse text-sm text-slate-800">
             <thead>
@@ -209,7 +229,7 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
             </thead>
             <tbody>
               {filteredRows.map((r) => {
-                const changed = /变化|新增|增强|切换|调整|升级/.test(`${r.conclusion}${r.compare}`);
+                const changed = /变化|新增|增强|切换|调整|升级|前置|替换|扩展|新增露出/.test(`${r.conclusion}${r.compare}`);
                 const review = String(r.confidence || "").includes("是") ? "是" : "否";
                 return (
                   <tr key={r.id} className="align-top">
@@ -220,8 +240,18 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
                     <td className="border-b border-slate-200 px-5 py-5">{r.prevEvidence?.[0] ? <a target="_blank" href={withBasePath(r.prevEvidence[0])}><img src={withBasePath(r.prevEvidence[0])} alt="上期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
                     <td className="border-b border-slate-200 px-5 py-5">{r.currEvidence?.[0] ? <a target="_blank" href={withBasePath(r.currEvidence[0])}><img src={withBasePath(r.currEvidence[0])} alt="本期截图" className="h-[180px] w-[120px] rounded-md border border-slate-300 object-cover" /></a> : "—"}</td>
                     <td className="border-b border-slate-200 px-5 py-5 leading-relaxed">{changed ? (r.compare || "—") : "—"}</td>
-                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{r.impact}</td>
-                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">{review}</td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">
+                      <span className={[
+                        "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
+                        r.impact === "高" ? "bg-rose-100 text-rose-700" : r.impact === "中" ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-700",
+                      ].join(" ")}>{r.impact}</span>
+                    </td>
+                    <td className="border-b border-slate-200 px-5 py-5 whitespace-nowrap">
+                      <span className={[
+                        "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
+                        review === "是" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-700",
+                      ].join(" ")}>{review}</span>
+                    </td>
                   </tr>
                 );
               })}
