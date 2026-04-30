@@ -1,8 +1,10 @@
 import { Suspense } from "react";
-import { getAllReports, getReportBySlug } from "@/lib/reports";
+import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
 import ReportsTimelineClient from "@/components/reports-timeline-client";
+import ReportsTopInsightsClient from "@/components/reports-top-insights-client";
 import { TimelineSwitcher } from "@/components/timeline-switcher";
 import { TimelineSummary } from "@/components/timeline-summary-client";
+import recompare0428Data from "@/data/recompare_0323_0428_reports.json";
 
 const TIMELINES = [
   { key: "0323-0402", label: "0323 → 0402" },
@@ -13,30 +15,36 @@ export default function ReportsPage() {
   const metas = getAllReports();
   const reports = metas.map((m) => {
     const d = getReportBySlug(m.slug);
+    const normalizedPeriod = (m.period || "").replace(/\s/g, "");
+    const override0428 = normalizedPeriod === "0323→0428";
     return {
       slug: m.slug,
       title: m.title,
       date: m.date,
       period: m.period,
-      competitors: m.competitors,
-      dimensions: m.dimensions,
-      insights: d?.insights || [],
+      competitors: override0428 ? (recompare0428Data as any).meta.competitors : m.competitors,
+      dimensions: override0428 ? (recompare0428Data as any).meta.dimensions : m.dimensions,
+      insights: override0428 ? (recompare0428Data as any).insights : (d?.insights || []),
     };
   });
 
   const baseReport = reports.find((r) => (r.period || "").replace(/\s/g, "") === "0323→0402") || reports[0];
-  const base = baseReport?.insights || []; // 固定使用 0323-0402 基准，避免被新时间线覆盖
-  const byDim = ["APP", "客服", "消金", "留存促活运营", "风控"].map((d) => ({ dim: d, c: base.filter((x) => x.dimension === d && x.impact !== "低").length }));
+  const base = (baseReport?.insights || []) as Insight[];
+  const byDim = ["APP", "客服", "消金", "留存促活运营", "风控"].map((d) => ({ dim: d, c: base.filter((x: Insight) => x.dimension === d && x.impact !== "低").length }));
   const topDim = byDim.sort((a, b) => b.c - a.c)[0];
-  const byComp = Array.from(new Set(base.map((x) => x.competitor))).map((c) => ({
+  const byComp = Array.from(new Set(base.map((x: Insight) => x.competitor))).map((c) => ({
     c,
-    rows: base.filter((x) => x.competitor === c),
-    obvious: base.filter((x) => x.competitor === c && x.impact !== "低"),
+    rows: base.filter((x: Insight) => x.competitor === c),
+    obvious: base.filter((x: Insight) => x.competitor === c && x.impact !== "低"),
   }));
   const diffSummary = byComp.map(({ c, obvious, rows }) => {
     const pick = (obvious[0] || rows[0])?.conclusion || "本期变化不明显";
     return `${c}：${pick}`;
   });
+
+  const report0428Rows = ((recompare0428Data as any).insights || []) as any[];
+  const report0428High = report0428Rows.filter((x) => x.impact === "高");
+  const report0428Review = report0428Rows.filter((x) => String(x.confidence || "").includes("是"));
 
   return (
     <div className="space-y-6">
@@ -59,30 +67,22 @@ export default function ReportsPage() {
               },
               "0323-0428": {
                 period: "0323 → 0428",
-                sample: "5家产品 / APP+客服+消金+运营",
-                ratio: "风控维度缺口较大",
-                summary: "0428 对比 0323：整体框架延续，新增变化主要来自运营活动位和局部消金位点扩展。",
-                bullets: ["度小满运营位点由1增至4，活动触达显著增强。", "安逸花与小赢运营位点同步扩容，活动主题更密集。", "奇富借条消金位点由4增至6，借贷相关表达更丰富。"],
+                sample: "180张全量截图 / 98行对比位点",
+                ratio: `高影响${report0428High.length}行 / 建议复核${report0428Review.length}行`,
+                summary: "只基于 0323 与 0428 全量截图反推结论：高影响集中在新增活动承接位、首页导向切换与消金新增页。",
+                bullets: ["安逸花新增马上绿洲/马上小镇/英才学堂/智慧养鸡，多为0428新增活动承接位。", "分期乐首页、借钱、消息页出现动作级导向切换，转化前置更明显。", "奇富借条新增富能计划页，度小满新增代言人活动弹窗/落地页/奖励浮层。"],
               },
             }}
           />
         </Suspense>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">本轮关键结论</h3>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#334155]">
-              <li>从明细截图对比看，本轮变化主要集中在{topDim?.dim === "留存促活运营" ? "运营" : topDim?.dim}维度。</li>
-              <li>各产品变化以首屏文案与活动位替换为主，结构性改版相对有限。</li>
-              <li>业务上呈现“转化信息前置 + 活动触达增强”的共同趋势。</li>
-            </ul>
-          </div>
-          <div className="rounded-lg border p-4">
-            <h3 className="text-base font-semibold text-[#061b31]">差异总结</h3>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#334155]">
-              {diffSummary.map((x) => <li key={x}>{x}</li>)}
-            </ul>
-          </div>
-        </div>
+        <Suspense fallback={null}>
+          <ReportsTopInsightsClient
+            baseTopDim={topDim?.dim || "APP"}
+            baseDiffSummary={diffSummary}
+            report0428HighCount={report0428High.length}
+            report0428ReviewCount={report0428Review.length}
+          />
+        </Suspense>
       </section>
 
       <Suspense fallback={null}>

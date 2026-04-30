@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Insight } from "@/lib/reports";
 
 type Report = {
@@ -76,6 +76,12 @@ export default function ReportsCenterClient({ reports, timelineKey = "0323-0402"
     return hit || reports[0];
   }, [reports, timelineKey]);
   const insights = detailReport?.insights || [];
+
+  useEffect(() => {
+    setCompetitor("全部");
+    setDimension("全部");
+    setImpact("高");
+  }, [timelineKey]);
 
   const competitors = useMemo(
     () => Array.from(new Set(insights.map((i) => i.competitor))).filter(Boolean),
