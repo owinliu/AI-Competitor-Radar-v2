@@ -1,5 +1,6 @@
 import { getAllReports, getReportBySlug, type Insight } from "@/lib/reports";
 import DashboardProductFocusClient from "@/components/dashboard-product-focus-client";
+import { TimelineSwitcher } from "@/components/timeline-switcher";
 
 const DIMENSIONS = ["APP", "风控", "客服", "消金", "留存促活运营"] as const;
 
@@ -99,7 +100,16 @@ function buildProductDimensionTrends(reports: ReturnType<typeof getAllReports>) 
   });
 }
 
-export default function DashboardPage() {
+const TIMELINES = [
+  { key: "0323-0402", label: "0323 → 0402" },
+  { key: "0323-0428", label: "0323 → 0428" },
+] as const;
+
+export default function DashboardPage({
+  searchParams,
+}: {
+  searchParams?: { timeline?: string };
+}) {
   const reports = getAllReports();
   const latestMeta = reports[0];
   const latest = latestMeta ? getReportBySlug(latestMeta.slug) : null;
@@ -113,6 +123,11 @@ export default function DashboardPage() {
     );
   }
 
+  const selectedTimeline = TIMELINES.some((x) => x.key === searchParams?.timeline)
+    ? (searchParams?.timeline as string)
+    : "0323-0402";
+  const selectedTimelineLabel = TIMELINES.find((x) => x.key === selectedTimeline)?.label || "0323 → 0402";
+
   const latestInsights = latest.insights;
   const compHeat = countByCompetitor(latestInsights);
   const breakdown = competitorDimensionBreakdown(latestInsights);
@@ -125,12 +140,15 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
-        <h1 className="text-2xl font-semibold text-[#061b31]">本期结论总览</h1>
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-2xl font-semibold text-[#061b31]">本期结论总览</h1>
+          <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} value={selectedTimeline} />
+        </div>
         <p className="mt-3 text-sm text-[#334155]">
           本期竞品整体呈现“转化前置 + 触达增强”趋势，建议优先关注高影响变化项与可执行动作。
         </p>
         <div className="mt-4 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：{latestMeta?.date || "-"}</p>
+          <p>时间范围：{selectedTimelineLabel}（报告日期：{latestMeta?.date || "-"}）</p>
           <p>覆盖样本：{competitorCount}家竞品 / {latestInsights.length}条变化</p>
           <p>可判断占比：{validRatio}%</p>
         </div>
