@@ -1,6 +1,4 @@
-import { Suspense } from "react";
 import evidenceDataJson from "@/data/evidence_page_data.json";
-import { TimelineSwitcher } from "@/components/timeline-switcher";
 
 type EvidenceData = {
   bossConclusions: string[];
@@ -21,28 +19,16 @@ function fmtDate(s?: string) {
   return d.toLocaleString("zh-CN", { hour12: false });
 }
 
-const TIMELINES = [
-  { key: "0323-0402", label: "0323 → 0402" },
-  { key: "0323-0428", label: "0323 → 0428" },
-] as const;
-
 export default function AppVersionUpdatesPage() {
   const data = loadEvidenceData();
-  const selectedTimeline = "0323-0402";
-  const selectedTimelineLabel = TIMELINES.find((x) => x.key === selectedTimeline)?.label || "0323 → 0402";
   const totalScreenshotCount = data.evidenceRows.reduce((n, r) => n + (r.latestList?.length || 0), 0);
 
   return (
     <div className="space-y-6">
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
-        <div className="flex items-center justify-between gap-3">
-          <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
-          <Suspense fallback={null}>
-            <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} value={selectedTimeline} />
-          </Suspense>
-        </div>
+        <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
         <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
-          <p>时间范围：{selectedTimelineLabel}</p>
+          <p>时间范围：0323 → 0402</p>
           <p>覆盖样本：5家产品 / APP</p>
           <p>数据说明：来源于app截图共（{totalScreenshotCount}张），部分一级页面。</p>
         </div>

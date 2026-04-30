@@ -1,5 +1,12 @@
+import { Suspense } from "react";
 import { getAllReports, getReportBySlug } from "@/lib/reports";
 import ReportsCenterClient from "@/components/reports-center-client";
+import { TimelineSwitcher } from "@/components/timeline-switcher";
+
+const TIMELINES = [
+  { key: "0323-0402", label: "0323 → 0402" },
+  { key: "0323-0428", label: "0323 → 0428" },
+] as const;
 
 export default function ReportsPage() {
   const metas = getAllReports();
@@ -32,7 +39,12 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-md border border-[#e5edf5] bg-white p-6">
-        <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-2xl font-semibold text-[#061b31]">详细追踪分析｜本轮关键结论总览</h1>
+          <Suspense fallback={null}>
+            <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} defaultValue="0323-0402" />
+          </Suspense>
+        </div>
         <div className="mt-3 grid gap-2 text-xs text-[#64748d] md:grid-cols-3">
           <p>时间范围：2026-W15（0408重读）</p>
           <p>覆盖样本：5家产品 / APP</p>

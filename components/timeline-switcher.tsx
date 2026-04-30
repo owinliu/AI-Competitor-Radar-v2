@@ -9,14 +9,16 @@ export type TimelineOption = {
 
 export function TimelineSwitcher({
   options,
-  value,
+  defaultValue,
 }: {
   options: TimelineOption[];
-  value: string;
+  defaultValue: string;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const current = searchParams.get("timeline") || defaultValue;
 
   const onChange = (next: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -29,7 +31,7 @@ export function TimelineSwitcher({
       <span className="text-sm text-[#64748d]">时间线</span>
       <select
         className="rounded-md border border-[#dbe7f3] bg-white px-3 py-1.5 text-sm text-[#0f172a]"
-        value={value}
+        value={current}
         onChange={(e) => onChange(e.target.value)}
       >
         {options.map((opt) => (

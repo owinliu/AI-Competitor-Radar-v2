@@ -138,7 +138,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-semibold text-[#061b31]">本期结论总览</h1>
           <Suspense fallback={null}>
-            <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} value={selectedTimeline} />
+            <TimelineSwitcher options={TIMELINES as unknown as { key: string; label: string }[]} defaultValue={selectedTimeline} />
           </Suspense>
         </div>
         <p className="mt-3 text-sm text-[#334155]">
