@@ -13,20 +13,32 @@ const TIMELINES = [
 
 export default function ReportsPage() {
   const metas = getAllReports();
-  const reports = metas.map((m) => {
-    const d = getReportBySlug(m.slug);
-    const normalizedPeriod = (m.period || "").replace(/\s/g, "");
-    const override0428 = normalizedPeriod === "0323→0428";
-    return {
-      slug: m.slug,
-      title: m.title,
-      date: m.date,
-      period: m.period,
-      competitors: override0428 ? (recompare0428Data as any).meta.competitors : m.competitors,
-      dimensions: override0428 ? (recompare0428Data as any).meta.dimensions : m.dimensions,
-      insights: override0428 ? (recompare0428Data as any).insights : (d?.insights || []),
-    };
-  });
+  const baseReports = metas
+    .filter((m) => (m.period || "").replace(/\s/g, "") !== "0323→0428")
+    .map((m) => {
+      const d = getReportBySlug(m.slug);
+      return {
+        slug: m.slug,
+        title: m.title,
+        date: m.date,
+        period: m.period,
+        competitors: m.competitors,
+        dimensions: m.dimensions,
+        insights: d?.insights || [],
+      };
+    });
+
+  const recompare0428Report = {
+    slug: "recompare-0323-0428-local-only",
+    title: "0323→0428 明细证据表（本地截图重建）",
+    date: "2026-04-30",
+    period: "0323→0428",
+    competitors: (recompare0428Data as any).meta.competitors,
+    dimensions: (recompare0428Data as any).meta.dimensions,
+    insights: (recompare0428Data as any).insights || [],
+  };
+
+  const reports = [...baseReports, recompare0428Report];
 
   const baseReport = reports.find((r) => (r.period || "").replace(/\s/g, "") === "0323→0402") || reports[0];
   const base = (baseReport?.insights || []) as Insight[];
@@ -69,8 +81,8 @@ export default function ReportsPage() {
                 period: "0323 → 0428",
                 sample: "180张全量截图 / 98行对比位点",
                 ratio: `高影响${report0428High.length}行 / 建议复核${report0428Review.length}行`,
-                summary: "只基于 0323 与 0428 全量截图反推结论：高影响集中在新增活动承接位、首页导向切换与消金新增页。",
-                bullets: ["安逸花新增马上绿洲/马上小镇/英才学堂/智慧养鸡，多为0428新增活动承接位。", "分期乐首页、借钱、消息页出现动作级导向切换，转化前置更明显。", "奇富借条新增富能计划页，度小满新增代言人活动弹窗/落地页/奖励浮层。"],
+                summary: "本页 0323→0428 的明细证据表仅来自本地 0323 与 0428 截图重建，不再复用旧 report 数据。",
+                bullets: ["上期截图只允许 0323，本期截图只允许 0428。", "对比文案统一按 0323 vs 0428 输出。", "旧的 0402 / 0407 / 0408 明细证据已从这条时间线移除。"],
               },
             }}
           />
