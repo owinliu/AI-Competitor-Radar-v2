@@ -79,15 +79,8 @@ export default function BrandStrategyPage() {
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {rows.map((r) => (
             <figure key={`${r.brand}-shot`} className="overflow-hidden rounded-lg border bg-background">
-              <figcaption className="border-b px-3 py-2 text-xs text-muted-foreground">
-                <div className="font-medium text-foreground">{r.brand}</div>
-                <a href={r.site} target="_blank" rel="noreferrer" className="underline-offset-2 hover:underline">{r.site}</a>
-              </figcaption>
-              {r.screenshot ? (
-                <div className="h-56 bg-slate-50">
-                  <img src={withBasePath(r.screenshot)} alt={`${r.brand} 截图`} className="h-full w-full object-cover object-top" />
-                </div>
-              ) : <div className="h-40 grid place-items-center text-xs text-muted-foreground">无截图</div>}
+              {r.screenshot ? <img src={withBasePath(r.screenshot)} alt={`${r.brand} 截图`} className="w-full object-contain bg-slate-50" /> : <div className="h-40 grid place-items-center text-xs text-muted-foreground">无截图</div>}
+              <figcaption className="border-t px-3 py-2 text-xs text-muted-foreground">{r.brand}</figcaption>
             </figure>
           ))}
         </div>
