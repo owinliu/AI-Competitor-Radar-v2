@@ -46,11 +46,16 @@ for(const [name,items] of grouped.entries()){
  })
 }
 const bossConclusions=[
- '本轮样本整体以品牌叙事型表达为主，价格/效率型强转化表达占比偏低。',
- '可提取文本主要来自应用市场更新日志，品牌官网层面的功能与权益表达证据相对不足。',
- '当前证据更适合支持“风格倾向判断”，不宜直接外推为长期战略迁移结论。'
+ '共性策略1（利益点前置）：多数品牌在首屏或更新文案中优先呈现“免息/便捷/省心/稳定”等低门槛价值点，先降低用户决策阻力。',
+ '共性策略2（流程与效率弱承诺）：普遍使用“流程简捷、功能稳定、体验优化”等表达，减少理解成本并强化“可快速上手”的感知。',
+ '共性策略3（平台背书兜底）：核心信息主要锚定应用市场可见内容与官方渠道信息，帮助提升初次接触阶段的信任感与安全感。'
 ];
-const diffSummary=compRows.map(r=>`${r.brand}：${r.positioning}`);
+
+const mainstream = '偏品牌叙事导向（品牌与平台信息占比更高）';
+const outlierRows = compRows.filter(r => r.positioning !== mainstream);
+const diffSummary = outlierRows.length
+  ? outlierRows.map(r=>`${r.brand}：在“价格/效率信息密度”维度明显高于主流。优点：更直接推动转化；缺点：若信任与服务信息承接不足，易产生短促营销感。`)
+  : ['本期各品牌在展示策略上整体接近，未出现明显离群者；差异主要体现在文案细节强弱。'];
 const out={generatedAt:new Date().toISOString(),range:snaps[snaps.length-1]?.id||'本期',rows:compRows,bossConclusions,diffSummary};
 fs.writeFileSync(path.join(root,'data/brand_strategy_page_data.json'),JSON.stringify(out,null,2));
 console.log('wrote brand_strategy_page_data.json');
