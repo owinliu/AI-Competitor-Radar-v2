@@ -2,6 +2,12 @@ import fs from 'fs';
 import path from 'path';
 const root=process.cwd();
 const timeline=JSON.parse(fs.readFileSync(path.join(root,'data/app-version-timeline.json'),'utf8'));
+
+function fileExistsUnderPublic(webPath=''){
+  if(!webPath || /^https?:\/\//.test(webPath)) return false;
+  const normalized = webPath.startsWith('/') ? webPath.slice(1) : webPath;
+  return fs.existsSync(path.join(root,'public',normalized));
+}
 const snapsPath=path.join(root,'data/monitoring-snapshots.json');
 const snaps=fs.existsSync(snapsPath)?(JSON.parse(fs.readFileSync(snapsPath,'utf8')).snapshots||[]):[];
 
@@ -24,6 +30,8 @@ for(const [name,items] of grouped.entries()){
   '小赢':'/brand-screenshots/xiaoying-full.png',
   '度小满':'/brand-screenshots/duxiaoman-full.png'
  };
+ const preferredShot = officialShots[name] || (latest?.screenshotUrls||[])[0] || '';
+ const screenshotOk = fileExistsUnderPublic(preferredShot);
  compRows.push({
   brand:name,
   site:latest?.appStoreUrl||'#',
@@ -33,14 +41,14 @@ for(const [name,items] of grouped.entries()){
   pricing:hasPrice?'日志/截图中存在额度或利率相关表达。':'未识别到明确价格型表达。',
   cta:hasSpeed?'存在效率/转化导向表达。':'未识别到强转化文案。',
   trust:'以应用市场官方页可见信息为准。',
-  status:'已抓取应用市场截图与日志',
-  screenshot: officialShots[name] || (latest?.screenshotUrls||[])[0] || ''
+  status:screenshotOk?'已抓取应用市场截图与日志':'缺少截图（请核对 public/brand-screenshots）',
+  screenshot: screenshotOk ? preferredShot : ''
  })
 }
 const bossConclusions=[
- '本页结论仅基于应用市场截图与可提取文本（更新日志）生成。',
- '当截图与日志同时出现额度/利率/审批速度表达时，判为转化导向增强。',
- '当可提取价格与效率表达较少时，判为品牌叙事占比更高。'
+ '本轮样本整体以品牌叙事型表达为主，价格/效率型强转化表达占比偏低。',
+ '可提取文本主要来自应用市场更新日志，品牌官网层面的功能与权益表达证据相对不足。',
+ '当前证据更适合支持“风格倾向判断”，不宜直接外推为长期战略迁移结论。'
 ];
 const diffSummary=compRows.map(r=>`${r.brand}：${r.positioning}`);
 const out={generatedAt:new Date().toISOString(),range:snaps[snaps.length-1]?.id||'本期',rows:compRows,bossConclusions,diffSummary};
