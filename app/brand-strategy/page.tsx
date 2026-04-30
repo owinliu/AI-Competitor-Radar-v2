@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import pageData from "@/data/brand_strategy_page_data.json";
 
 type Row = {
   brand: string;
@@ -23,9 +22,8 @@ type PageData = {
 };
 
 function loadData(): PageData {
-  const p = path.join(process.cwd(), "data", "brand_strategy_page_data.json");
-  if (!fs.existsSync(p)) return { generatedAt: "", range: "本期", rows: [], bossConclusions: [], diffSummary: [] };
-  try { return JSON.parse(fs.readFileSync(p, "utf8")); } catch { return { generatedAt: "", range: "本期", rows: [], bossConclusions: [], diffSummary: [] }; }
+  const fallback = { generatedAt: "", range: "本期", rows: [], bossConclusions: [], diffSummary: [] };
+  return (pageData as PageData) || fallback;
 }
 
 function withBasePath(src?: string): string {
