@@ -66,18 +66,15 @@ function FilterGroup({
   );
 }
 
-export default function ReportsCenterClient({ reports }: { reports: Report[] }) {
-  const [period, setPeriod] = useState("全部");
+export default function ReportsCenterClient({ reports, timelineKey = "0323-0402" }: { reports: Report[]; timelineKey?: string }) {
   const [competitor, setCompetitor] = useState("全部");
   const [dimension, setDimension] = useState("全部");
   const [impact, setImpact] = useState("高");
 
-  const periodOptions = useMemo(
-    () => Array.from(new Set(reports.map((r) => r.period).filter(Boolean) as string[])),
-    [reports]
-  );
-
-  const detailReport = period === "全部" ? reports[0] : reports.find((r) => r.period === period) || reports[0];
+  const detailReport = useMemo(() => {
+    const hit = reports.find((r) => (r.period || "").replace(/\s/g, "") === timelineKey);
+    return hit || reports[0];
+  }, [reports, timelineKey]);
   const insights = detailReport?.insights || [];
 
   const competitors = useMemo(

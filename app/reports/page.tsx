@@ -24,7 +24,8 @@ export default function ReportsPage() {
     };
   });
 
-  const base = reports[0]?.insights || []; // 0323-0402 默认基准
+  const baseReport = reports.find((r) => (r.period || "").replace(/\s/g, "") === "0323→0402") || reports[0];
+  const base = baseReport?.insights || []; // 固定使用 0323-0402 基准，避免被新时间线覆盖
   const byDim = ["APP", "客服", "消金", "留存促活运营", "风控"].map((d) => ({ dim: d, c: base.filter((x) => x.dimension === d && x.impact !== "低").length }));
   const topDim = byDim.sort((a, b) => b.c - a.c)[0];
   const byComp = Array.from(new Set(base.map((x) => x.competitor))).map((c) => ({
